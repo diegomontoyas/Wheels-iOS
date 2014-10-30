@@ -14,9 +14,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool
+    {
         // Override point for customization after application launch.
+        
+        FBLoginView.self
+        FBProfilePictureView.self
+        
+        UIApplication.sharedApplication().idleTimerDisabled = true
+        //UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(30)
+        
         return true
+    }
+    
+    func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void)
+    {
+        
+    }
+    
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: NSString?, annotation: AnyObject) -> Bool
+    {
+        var wasHandled:Bool = FBAppCall.handleOpenURL(url, sourceApplication: sourceApplication)
+        return wasHandled
     }
 
     func applicationWillResignActive(application: UIApplication) {

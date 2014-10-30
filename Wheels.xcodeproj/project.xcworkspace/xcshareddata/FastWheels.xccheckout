@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>6E9FBA90-6E6A-4C2F-B666-A83635BF57C2</string>
+	<key>IDESourceControlProjectName</key>
+	<string>FastWheels</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>7B8C06D72F054B0BF01E4A6A33E834CEEE29FE1D</key>
+		<string>https://bitbucket.org/diegomontoyas/fastwheels.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>FastWheels.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>7B8C06D72F054B0BF01E4A6A33E834CEEE29FE1D</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://bitbucket.org/diegomontoyas/fastwheels.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>7B8C06D72F054B0BF01E4A6A33E834CEEE29FE1D</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>7B8C06D72F054B0BF01E4A6A33E834CEEE29FE1D</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Wheels</string>
+		</dict>
+	</array>
+</dict>
+</plist>
