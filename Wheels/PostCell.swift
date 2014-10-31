@@ -13,7 +13,8 @@ class PostCell: UITableViewCell
     @IBOutlet var label: UILabel!
     @IBOutlet var textField: UITextView!
     @IBOutlet var timeLabel: UILabel!
-    @IBOutlet var fullBanner: UIView!
+    @IBOutlet var background: UIView!
+    @IBOutlet var fullCarBanner: UILabel!
     
     var full:Bool = false
     {
@@ -21,7 +22,11 @@ class PostCell: UITableViewCell
         {
             if full
             {
-                fullBanner.hidden = false
+                fullCarBanner.hidden = false
+            }
+            else
+            {
+                fullCarBanner.hidden = true
             }
         }
     }

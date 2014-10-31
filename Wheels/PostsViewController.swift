@@ -83,16 +83,18 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             
             for rawPost in postsJSON
             {
-                var message = rawPost["message"] as String
-                var comments = rawPost["comments"]? as FBGraphObject?
+                var comments = [Comment]()
+                
+                var messageJSON = rawPost["message"] as String
+                var commentsJSON = rawPost["comments"]? as FBGraphObject?
                 
                 var keywords = keywordsTextField.text.componentsSeparatedByString(" ")
                 var containsKewords = false
-                var containsTime = message.contains(timeTextField.text) || timeTextField.text.isEmpty
+                var containsTime = messageJSON.contains(timeTextField.text) || timeTextField.text.isEmpty
                 
                 for word in keywords
                 {
-                    if message.contains(word)
+                    if messageJSON.contains(word)
                     {
                         containsKewords = true
                         break
@@ -101,18 +103,20 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 
                 var full = false
                 
-                if let actualComments = comments
+                if let actualCommentsJSON = commentsJSON
                 {
-                    var dataJSON = actualComments["data"] as Array<AnyObject>
+                    var dataJSON = actualCommentsJSON["data"] as Array<AnyObject>
                     
-                    for comment in dataJSON
+                    for commentJSON in dataJSON
                     {
-                        var messageComment = comment["message"] as String
+                        var messageComment = commentJSON["message"] as String
+                        
+                        var comment = Comment(comment: messageComment)
+                        comments.append(comment)
                         
                         if messageComment.contains("lleno")
                         {
                             full = true
-                            break
                         }
                     }
                 }
@@ -124,7 +128,8 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     var senderID = from["id"] as String
                     var time = rawPost["created_time"] as String
                     
-                    var post = Post(senderName: senderName, senderID: senderID, post: message, time:convertFacebookTimeStringToNSDate(time), full:full)
+                    var post = Post(senderName: senderName, senderID: senderID, post: messageJSON, time:convertFacebookTimeStringToNSDate(time), full:full)
+                    post.comments = comments
                     
                     if !posts.contains(post)
                     {
@@ -172,7 +177,7 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 dispatch_async(dispatch_get_main_queue()) {
                     self.reCheckDeletingRecentPosts(false)
                 }
-                NSThread.sleepForTimeInterval(30)
+                NSThread.sleepForTimeInterval(20)
             }
         }
     }
@@ -197,7 +202,7 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 var ngObject = result["og_object"] as FBGraphObject
                 var profilePageID = ngObject["id"] as String
                 
-                var facebookURL = NSURL(string:"fb://profile/" + profilePageID)!
+                var facebookURL = NSURL(string:"fb://profile/" + profilePageID)
                 
                 
                 if UIApplication.sharedApplication().canOpenURL(facebookURL)
@@ -206,7 +211,7 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 }
                 else
                 {
-                    UIApplication.sharedApplication().openURL( NSURL(string:"http://facebook.com/")! )
+                    UIApplication.sharedApplication().openURL( NSURL(string:"http://facebook.com/") )
                 }
             }
         })
@@ -221,31 +226,77 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return date!
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int
     {
         return posts.count
     }
     
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        var post = posts[section]
+
+        return post.comments.count + 1
+    }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        var post = posts[indexPath.row]
+        var post = posts[indexPath.section]
         
-        var cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as PostCell
-        cell.textField.text = post.post
-        cell.label.text = post.senderName
-        cell.full = post.full
+        var cell: PostCell
         
-        var df = NSDateFormatter()
-        df.dateFormat = "MMMM dd hh:mm a"
-        
-        var dateString = df.stringFromDate(post.time!)
-        
-        cell.timeLabel.text = dateString
+        if indexPath.row == 0
+        {
+            cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as PostCell
+            cell.textField.text = post.post
+            cell.label.text = post.senderName
+            cell.full = post.full
+            
+            if post.full
+            {
+                //var fullLabel = UILabel(frame: CGRectMake(0, cell.frame.height-10, cell.frame.width, 10))
+                //fullLabel.layer.backgroundColor =
+                
+                //cell.background.addSubview(fullLabel)
+            }
+            
+            var df = NSDateFormatter()
+            df.dateFormat = "MMMM dd hh:mm a"
+            
+            var dateString = df.stringFromDate(post.time!)
+            
+            cell.timeLabel.text = dateString
+        }
+        else
+        {
+            var comment = post.comments[indexPath.row-1]
+            
+            cell = tableView.dequeueReusableCellWithIdentifier("CommentCell") as PostCell
+            cell.textField.text = comment.comment
+        }
         
         //cell.background.layer.borderColor = UIColor.lightGrayColor().CGColor
         //cell.background.layer.borderWidth = 0.2;
         
         return cell
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
+    {
+        var height:CGFloat = 0
+        var post = posts[indexPath.section]
+        
+        if (indexPath.row == 0)
+        {
+            height = 146
+        }
+        else
+        {
+            var comment = post.comments[indexPath.row-1]
+            
+            height = 64
+        }
+        
+        return height
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)

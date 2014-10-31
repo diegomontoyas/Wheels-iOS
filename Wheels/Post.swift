@@ -14,6 +14,7 @@ class Post: Equatable
     var senderID = ""
     var post = ""
     var time: NSDate?
+    var comments = [Comment]()
     var full = false
     
     init(senderName:String, senderID:String, post:String, time:NSDate, full:Bool)
