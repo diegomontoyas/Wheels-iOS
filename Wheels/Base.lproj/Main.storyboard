@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Nvo-rv-Jz9">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Nvo-rv-Jz9">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -123,9 +124,6 @@
                                                             <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                            <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                                <rect key="frame" x="12" y="46" width="352" height="66"/>
-                                                            </variation>
                                                         </textView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10:30 AM" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3LV-Qi-2CN">
                                                             <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
@@ -144,8 +142,7 @@
                                                                     <exclude reference="U4P-7s-Xcg"/>
                                                                 </mask>
                                                             </variation>
-                                                            <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                                <rect key="frame" x="12" y="33" width="156" height="21"/>
+                                                            <variation key="heightClass=regular-widthClass=compact">
                                                                 <mask key="constraints">
                                                                     <include reference="Css-iT-nck"/>
                                                                     <include reference="U4P-7s-Xcg"/>
@@ -165,8 +162,7 @@
                                                                     <exclude reference="xmi-LU-qN9"/>
                                                                 </mask>
                                                             </variation>
-                                                            <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                                <rect key="frame" x="12" y="12" width="352" height="21"/>
+                                                            <variation key="heightClass=regular-widthClass=compact">
                                                                 <mask key="constraints">
                                                                     <include reference="xmi-LU-qN9"/>
                                                                 </mask>
@@ -225,23 +221,22 @@
                                                             <exclude reference="Khn-JY-e7q"/>
                                                         </mask>
                                                         <mask key="constraints">
+                                                            <exclude reference="LEe-j6-ufg"/>
+                                                            <exclude reference="ajy-U5-U9a"/>
+                                                            <exclude reference="6jM-4n-Gth"/>
+                                                            <exclude reference="mnH-uI-YbO"/>
+                                                            <exclude reference="o14-Cb-79y"/>
                                                             <exclude reference="1sX-lB-lko"/>
                                                             <exclude reference="A0z-pr-eKF"/>
                                                             <exclude reference="Or1-wc-g4U"/>
-                                                            <exclude reference="LEe-j6-ufg"/>
-                                                            <exclude reference="ajy-U5-U9a"/>
                                                             <exclude reference="7Bh-IV-EFh"/>
                                                             <exclude reference="Bt9-Gs-c7x"/>
                                                             <exclude reference="HN2-o3-ms1"/>
                                                             <exclude reference="IXv-1u-PwS"/>
                                                             <exclude reference="JQR-op-YZZ"/>
-                                                            <exclude reference="6jM-4n-Gth"/>
-                                                            <exclude reference="mnH-uI-YbO"/>
-                                                            <exclude reference="o14-Cb-79y"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="0.0" y="14" width="368" height="118"/>
+                                                    <variation key="heightClass=regular-widthClass=compact">
                                                         <mask key="subviews">
                                                             <include reference="j8L-g2-2Pi"/>
                                                             <include reference="3LV-Qi-2CN"/>
@@ -249,19 +244,19 @@
                                                             <include reference="Khn-JY-e7q"/>
                                                         </mask>
                                                         <mask key="constraints">
+                                                            <include reference="LEe-j6-ufg"/>
+                                                            <include reference="ajy-U5-U9a"/>
+                                                            <include reference="6jM-4n-Gth"/>
+                                                            <include reference="mnH-uI-YbO"/>
+                                                            <include reference="o14-Cb-79y"/>
                                                             <include reference="1sX-lB-lko"/>
                                                             <include reference="A0z-pr-eKF"/>
                                                             <include reference="Or1-wc-g4U"/>
-                                                            <include reference="LEe-j6-ufg"/>
-                                                            <include reference="ajy-U5-U9a"/>
                                                             <include reference="7Bh-IV-EFh"/>
                                                             <include reference="Bt9-Gs-c7x"/>
                                                             <include reference="HN2-o3-ms1"/>
                                                             <exclude reference="IXv-1u-PwS"/>
                                                             <include reference="JQR-op-YZZ"/>
-                                                            <include reference="6jM-4n-Gth"/>
-                                                            <include reference="mnH-uI-YbO"/>
-                                                            <include reference="o14-Cb-79y"/>
                                                         </mask>
                                                     </variation>
                                                 </view>

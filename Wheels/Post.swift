@@ -10,6 +10,7 @@ import Foundation
 
 class Post: Equatable
 {
+    var ID = ""
     var senderName = ""
     var senderID = ""
     var post = ""
@@ -17,8 +18,9 @@ class Post: Equatable
     var comments = [Comment]()
     var full = false
     
-    init(senderName:String, senderID:String, post:String, time:NSDate, full:Bool)
+    init(ID:String, senderName:String, senderID:String, post:String, time:NSDate, full:Bool)
     {
+        self.ID = ID
         self.senderName = senderName
         self.senderID = senderID
         self.post = post

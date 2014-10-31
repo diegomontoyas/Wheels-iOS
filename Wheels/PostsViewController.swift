@@ -24,6 +24,13 @@ extension Array
     }
 }
 
+func synced(lock: AnyObject, closure: () -> ())
+{
+    objc_sync_enter(lock)
+    closure()
+    objc_sync_exit(lock)
+}
+
 class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate
 {
     @IBOutlet var timeTextField: UITextField!
@@ -31,6 +38,8 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBOutlet var tableView: UITableView!
     
     var posts = [Post]()
+    var postsDictionary = [String:Post]()
+    var currentlyChecking = false
     
     let queue = NSOperationQueue()
     var checking = false
@@ -61,20 +70,30 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func reCheckDeletingRecentPosts(deletingRecentPosts:Bool)
     {
-        FBRequestConnection.startWithGraphPath("429208293784763/feed", completionHandler: { (connection: FBRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
+        objc_sync_enter(currentlyChecking)
+        
+        if !currentlyChecking
+        {
+            currentlyChecking = true
             
-            if deletingRecentPosts
-            {
-                self.posts = []
-            }
-            
-            self.receivedFacebookPostsInfoWithConnection(connection, result: result, error: error)
-        })
+            FBRequestConnection.startWithGraphPath("429208293784763/feed?limit=50", completionHandler: { (connection: FBRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
+                
+                self.receivedFacebookPostsInfoWithConnection(connection, result: result, error: error, deleteRecentPosts:deletingRecentPosts)
+            })
+        }
+        
+        objc_sync_exit(currentlyChecking)
     }
     
-    func receivedFacebookPostsInfoWithConnection(connection: FBRequestConnection!, result: AnyObject!, error: NSError!)
+    func receivedFacebookPostsInfoWithConnection(connection: FBRequestConnection!, result: AnyObject!, error: NSError!, deleteRecentPosts:Bool)
     {
         println("receiving...")
+        
+        if deleteRecentPosts
+        {
+            self.posts = []
+            self.postsDictionary = [:]
+        }
         
         if (error == nil)
         {
@@ -85,58 +104,78 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             {
                 var comments = [Comment]()
                 
-                var messageJSON = rawPost["message"] as String
-                var commentsJSON = rawPost["comments"]? as FBGraphObject?
+                var possibleMessageJSON = rawPost["message"] as String?
                 
-                var keywords = keywordsTextField.text.componentsSeparatedByString(" ")
-                var containsKewords = false
-                var containsTime = messageJSON.contains(timeTextField.text) || timeTextField.text.isEmpty
-                
-                for word in keywords
+                if let messageJSON = possibleMessageJSON
                 {
-                    if messageJSON.contains(word)
-                    {
-                        containsKewords = true
-                        break
-                    }
-                }
-                
-                var full = false
-                
-                if let actualCommentsJSON = commentsJSON
-                {
-                    var dataJSON = actualCommentsJSON["data"] as Array<AnyObject>
+                    var possibleCommentsJSON = rawPost["comments"]? as FBGraphObject?
+                    var postID = rawPost["id"] as String
                     
-                    for commentJSON in dataJSON
+                    var keywords = keywordsTextField.text.componentsSeparatedByString(" ")
+                    var containsKewords = false
+                    var containsTime = messageJSON.contains(timeTextField.text) || timeTextField.text.isEmpty
+                    
+                    for word in keywords
                     {
-                        var messageComment = commentJSON["message"] as String
-                        
-                        var comment = Comment(comment: messageComment)
-                        comments.append(comment)
-                        
-                        if messageComment.contains("lleno")
+                        if messageJSON.contains(word)
                         {
-                            full = true
+                            containsKewords = true
+                            break
+                        }
+                    }
+                    
+                    var full = false
+                    
+                    if let commentsJSON = possibleCommentsJSON
+                    {
+                        var dataJSON = commentsJSON["data"] as Array<AnyObject>
+                        
+                        for commentJSON in dataJSON
+                        {
+                            var messageCommentJSON = commentJSON["message"] as String
+                            
+                            var comment = Comment(comment: messageCommentJSON)
+                            comments.append(comment)
+                            
+                            if messageCommentJSON.contains("lleno") || messageCommentJSON.contains("llena")
+                                || ( messageCommentJSON.contains("no") && (messageCommentJSON.contains("quedan") || messageCommentJSON.contains("hay") || messageCommentJSON.contains("tengo")) && messageCommentJSON.contains("cupos") )
+                            {
+                                full = true
+                            }
+                        }
+                    }
+                    
+                    if containsTime && (containsKewords || keywords[0] == "")
+                    {
+                        if let existingPost = postsDictionary[postID]
+                        {
+                            existingPost.comments = comments
+                            existingPost.full = full
+                        }
+                        else
+                        {
+                            var from = rawPost["from"] as FBGraphObject
+                            var senderName = from["name"] as String
+                            var senderID = from["id"] as String
+                            var time = rawPost["created_time"] as String
+                            
+                            var post = Post(ID:postID, senderName: senderName, senderID: senderID, post: messageJSON, time:convertFacebookTimeStringToNSDate(time), full:full)
+                            
+                            post.comments = comments
+                            posts.insert(post, atIndex: 0)
+                            postsDictionary[postID] = post
+                            newPosts = true
                         }
                     }
                 }
-                
-                if containsTime && (containsKewords || keywords[0] == "")
-                {
-                    var from = rawPost["from"] as FBGraphObject
-                    var senderName = from["name"] as String
-                    var senderID = from["id"] as String
-                    var time = rawPost["created_time"] as String
+            }
+            
+            if deleteRecentPosts
+            {
+                posts.sort({ (postA:Post, postB:Post) -> Bool in
                     
-                    var post = Post(senderName: senderName, senderID: senderID, post: messageJSON, time:convertFacebookTimeStringToNSDate(time), full:full)
-                    post.comments = comments
-                    
-                    if !posts.contains(post)
-                    {
-                        posts.insert(post, atIndex: 0)
-                        newPosts = true
-                    }
-                }
+                    return postA.time?.compare(postB.time!) == NSComparisonResult.OrderedDescending
+                })
             }
             
             if newPosts
@@ -149,6 +188,10 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 self.tableView.reloadData()
             }
         }
+        
+        objc_sync_enter(currentlyChecking)
+        
+        objc_sync_exit(currentlyChecking)
     }
     
     func vibrate()
@@ -170,14 +213,17 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func start()
     {
+        self.reCheckDeletingRecentPosts(true)
+        
         queue.addOperationWithBlock()
         {
             while true
             {
+                NSThread.sleepForTimeInterval(20)
+                
                 dispatch_async(dispatch_get_main_queue()) {
                     self.reCheckDeletingRecentPosts(false)
                 }
-                NSThread.sleepForTimeInterval(20)
             }
         }
     }
@@ -205,13 +251,13 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 var facebookURL = NSURL(string:"fb://profile/" + profilePageID)
                 
                 
-                if UIApplication.sharedApplication().canOpenURL(facebookURL)
+                if UIApplication.sharedApplication().canOpenURL(facebookURL!)
                 {
-                    UIApplication.sharedApplication().openURL(facebookURL)
+                    UIApplication.sharedApplication().openURL(facebookURL!)
                 }
                 else
                 {
-                    UIApplication.sharedApplication().openURL( NSURL(string:"http://facebook.com/") )
+                    UIApplication.sharedApplication().openURL( NSURL(string:"http://facebook.com/")! )
                 }
             }
         })
@@ -251,14 +297,6 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             cell.label.text = post.senderName
             cell.full = post.full
             
-            if post.full
-            {
-                //var fullLabel = UILabel(frame: CGRectMake(0, cell.frame.height-10, cell.frame.width, 10))
-                //fullLabel.layer.backgroundColor =
-                
-                //cell.background.addSubview(fullLabel)
-            }
-            
             var df = NSDateFormatter()
             df.dateFormat = "MMMM dd hh:mm a"
             
@@ -272,6 +310,7 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             
             cell = tableView.dequeueReusableCellWithIdentifier("CommentCell") as PostCell
             cell.textField.text = comment.comment
+            cell.userInteractionEnabled = false
         }
         
         //cell.background.layer.borderColor = UIColor.lightGrayColor().CGColor
@@ -301,7 +340,7 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        var post = posts[indexPath.row]
+        var post = posts[indexPath.section]
         
         goToProfilePageOfPersonWithID(post.senderID)
     }
