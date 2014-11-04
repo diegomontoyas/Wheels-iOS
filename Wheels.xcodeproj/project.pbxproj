@@ -15,10 +15,16 @@
 		F114E12119F9C75E00259ED5 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F114E12019F9C75E00259ED5 /* PostCell.swift */; };
 		F1224C591A0282D300AB3A7B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1224C581A0282D300AB3A7B /* LoginViewController.swift */; };
 		F1224C5B1A02830300AB3A7B /* System.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1224C5A1A02830300AB3A7B /* System.swift */; };
+		F13530761A06CD8A0024406D /* PushNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13530751A06CD8A0024406D /* PushNavigationViewController.swift */; };
 		F156CBDE19F9CA290028BDA0 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F156CBDD19F9CA290028BDA0 /* FacebookSDK.framework */; };
 		F156CBE119F9D2D20028BDA0 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = F156CBE019F9D2D20028BDA0 /* Post.swift */; };
 		F1955C641A0323B200BEECC1 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1955C631A0323B200BEECC1 /* Comment.swift */; };
+		F1955C661A045BA100BEECC1 /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1955C651A045BA100BEECC1 /* FilterCell.swift */; };
 		F1A1DF721A01AF1C003B1D2E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1A1DF701A01AF1B003B1D2E /* Main.storyboard */; };
+		F1B32CCA1A067FC600974B3E /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B32CC91A067FC600974B3E /* PostViewController.swift */; };
+		F1B32CCC1A06AD0300974B3E /* MainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B32CCB1A06AD0300974B3E /* MainPageViewController.swift */; };
+		F1BF81AB1A08707300CACDEE /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BF81AA1A08707300CACDEE /* MainViewController.swift */; };
+		F1BF81AD1A087A5100CACDEE /* PostsTopBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BF81AC1A087A5100CACDEE /* PostsTopBarViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,11 +50,17 @@
 		F114E12019F9C75E00259ED5 /* PostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		F1224C581A0282D300AB3A7B /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F1224C5A1A02830300AB3A7B /* System.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = System.swift; sourceTree = "<group>"; };
+		F13530751A06CD8A0024406D /* PushNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushNavigationViewController.swift; sourceTree = "<group>"; };
 		F156CBDD19F9CA290028BDA0 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		F156CBDF19F9CC030028BDA0 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		F156CBE019F9D2D20028BDA0 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		F1955C631A0323B200BEECC1 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		F1955C651A045BA100BEECC1 /* FilterCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
 		F1A1DF711A01AF1C003B1D2E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		F1B32CC91A067FC600974B3E /* PostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
+		F1B32CCB1A06AD0300974B3E /* MainPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainPageViewController.swift; sourceTree = "<group>"; };
+		F1BF81AA1A08707300CACDEE /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		F1BF81AC1A087A5100CACDEE /* PostsTopBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsTopBarViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,18 +103,15 @@
 		F114E0FB19F9C52500259ED5 /* Wheels */ = {
 			isa = PBXGroup;
 			children = (
+				F1B32CC71A05CB3200974B3E /* Model */,
+				F1B32CC61A05CB0D00974B3E /* Views */,
+				F1B32CC51A05CB0300974B3E /* Controllers */,
 				F114E0FE19F9C52500259ED5 /* AppDelegate.swift */,
-				F114E12019F9C75E00259ED5 /* PostCell.swift */,
-				F1224C581A0282D300AB3A7B /* LoginViewController.swift */,
-				F114E10019F9C52500259ED5 /* PostsViewController.swift */,
-				F1224C5A1A02830300AB3A7B /* System.swift */,
 				F1A1DF701A01AF1B003B1D2E /* Main.storyboard */,
 				F114E10519F9C52500259ED5 /* Images.xcassets */,
 				F114E10719F9C52500259ED5 /* LaunchScreen.xib */,
 				F114E0FC19F9C52500259ED5 /* Supporting Files */,
 				F156CBDF19F9CC030028BDA0 /* Bridging-Header.h */,
-				F156CBE019F9D2D20028BDA0 /* Post.swift */,
-				F1955C631A0323B200BEECC1 /* Comment.swift */,
 			);
 			path = Wheels;
 			sourceTree = "<group>";
@@ -131,6 +140,39 @@
 				F114E11319F9C52600259ED5 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F1B32CC51A05CB0300974B3E /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				F1224C581A0282D300AB3A7B /* LoginViewController.swift */,
+				F114E10019F9C52500259ED5 /* PostsViewController.swift */,
+				F1B32CC91A067FC600974B3E /* PostViewController.swift */,
+				F1B32CCB1A06AD0300974B3E /* MainPageViewController.swift */,
+				F13530751A06CD8A0024406D /* PushNavigationViewController.swift */,
+				F1BF81AA1A08707300CACDEE /* MainViewController.swift */,
+				F1BF81AC1A087A5100CACDEE /* PostsTopBarViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		F1B32CC61A05CB0D00974B3E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F114E12019F9C75E00259ED5 /* PostCell.swift */,
+				F1955C651A045BA100BEECC1 /* FilterCell.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		F1B32CC71A05CB3200974B3E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F1224C5A1A02830300AB3A7B /* System.swift */,
+				F156CBE019F9D2D20028BDA0 /* Post.swift */,
+				F1955C631A0323B200BEECC1 /* Comment.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -240,9 +282,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				F114E10119F9C52500259ED5 /* PostsViewController.swift in Sources */,
+				F13530761A06CD8A0024406D /* PushNavigationViewController.swift in Sources */,
+				F1B32CCC1A06AD0300974B3E /* MainPageViewController.swift in Sources */,
+				F1BF81AB1A08707300CACDEE /* MainViewController.swift in Sources */,
+				F1955C661A045BA100BEECC1 /* FilterCell.swift in Sources */,
 				F114E0FF19F9C52500259ED5 /* AppDelegate.swift in Sources */,
+				F1B32CCA1A067FC600974B3E /* PostViewController.swift in Sources */,
 				F114E12119F9C75E00259ED5 /* PostCell.swift in Sources */,
 				F1955C641A0323B200BEECC1 /* Comment.swift in Sources */,
+				F1BF81AD1A087A5100CACDEE /* PostsTopBarViewController.swift in Sources */,
 				F1224C591A0282D300AB3A7B /* LoginViewController.swift in Sources */,
 				F1224C5B1A02830300AB3A7B /* System.swift in Sources */,
 				F156CBE119F9D2D20028BDA0 /* Post.swift in Sources */,
@@ -375,7 +423,7 @@
 					"$(PROJECT_DIR)/Wheels",
 				);
 				INFOPLIST_FILE = Wheels/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = Wheels;
@@ -395,7 +443,7 @@
 					"$(PROJECT_DIR)/Wheels",
 				);
 				INFOPLIST_FILE = Wheels/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = Wheels;

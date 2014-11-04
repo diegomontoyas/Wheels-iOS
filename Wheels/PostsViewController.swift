@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import AudioToolbox
 
 extension String
 {
@@ -31,18 +30,15 @@ func synced(lock: AnyObject, closure: () -> ())
     objc_sync_exit(lock)
 }
 
-class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate
+let kWheelsGroupID = "429208293784763"
+
+class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, PostsDelegate
 {
     @IBOutlet var timeTextField: UITextField!
-    @IBOutlet var keywordsTextField: UITextField!
     @IBOutlet var tableView: UITableView!
-    
-    var posts = [Post]()
-    var postsDictionary = [String:Post]()
-    var currentlyChecking = false
-    
-    let queue = NSOperationQueue()
-    var checking = false
+    @IBOutlet var grabber: UIView!
+ 
+    var index:Int? = nil
     
     override func viewDidLoad()
     {
@@ -51,242 +47,52 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         tableView.delegate = self
         tableView.dataSource = self
         
-        keywordsTextField.delegate = self
-        timeTextField.delegate = self
+        system.postsDelegate = self
+        
+        //timeTextField.delegate = self
         
         tableView.tableFooterView = UIView(frame: CGRectZero)
         
         navigationController?.setNavigationBarHidden(true, animated: false)
+        
+        grabber.layer.cornerRadius = 20
+        view.bringSubviewToFront(grabber)
     }
     
     override func viewDidAppear(animated: Bool)
     {
+        super.viewDidAppear(animated)
+        
         if let indexPath = tableView.indexPathForSelectedRow()
         {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
-        start()
+        system.start()
     }
     
-    func reCheckDeletingRecentPosts(deletingRecentPosts:Bool)
+    
+    func systemDidReceiveNewPosts()
     {
-        objc_sync_enter(currentlyChecking)
-        
-        if !currentlyChecking
-        {
-            currentlyChecking = true
-            
-            FBRequestConnection.startWithGraphPath("429208293784763/feed?limit=50", completionHandler: { (connection: FBRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
-                
-                self.receivedFacebookPostsInfoWithConnection(connection, result: result, error: error, deleteRecentPosts:deletingRecentPosts)
-            })
-        }
-        
-        objc_sync_exit(currentlyChecking)
+        tableView.reloadData()
     }
     
-    func receivedFacebookPostsInfoWithConnection(connection: FBRequestConnection!, result: AnyObject!, error: NSError!, deleteRecentPosts:Bool)
-    {
-        println("receiving...")
-        
-        if deleteRecentPosts
-        {
-            self.posts = []
-            self.postsDictionary = [:]
-        }
-        
-        if (error == nil)
-        {
-            var postsJSON = result["data"] as Array<AnyObject>
-            var newPosts = false
-            
-            for rawPost in postsJSON
-            {
-                var comments = [Comment]()
-                
-                var possibleMessageJSON = rawPost["message"] as String?
-                
-                if let messageJSON = possibleMessageJSON
-                {
-                    var possibleCommentsJSON = rawPost["comments"]? as FBGraphObject?
-                    var postID = rawPost["id"] as String
-                    
-                    var keywords = keywordsTextField.text.componentsSeparatedByString(" ")
-                    var containsKewords = false
-                    var containsTime = messageJSON.contains(timeTextField.text) || timeTextField.text.isEmpty
-                    
-                    for word in keywords
-                    {
-                        if messageJSON.contains(word)
-                        {
-                            containsKewords = true
-                            break
-                        }
-                    }
-                    
-                    var full = false
-                    
-                    if let commentsJSON = possibleCommentsJSON
-                    {
-                        var dataJSON = commentsJSON["data"] as Array<AnyObject>
-                        
-                        for commentJSON in dataJSON
-                        {
-                            var messageCommentJSON = commentJSON["message"] as String
-                            
-                            var comment = Comment(comment: messageCommentJSON)
-                            comments.append(comment)
-                            
-                            if messageCommentJSON.contains("lleno") || messageCommentJSON.contains("llena")
-                                || ( messageCommentJSON.contains("no") && (messageCommentJSON.contains("quedan") || messageCommentJSON.contains("hay") || messageCommentJSON.contains("tengo")) && messageCommentJSON.contains("cupos") )
-                            {
-                                full = true
-                            }
-                        }
-                    }
-                    
-                    if containsTime && (containsKewords || keywords[0] == "")
-                    {
-                        if let existingPost = postsDictionary[postID]
-                        {
-                            existingPost.comments = comments
-                            existingPost.full = full
-                        }
-                        else
-                        {
-                            var from = rawPost["from"] as FBGraphObject
-                            var senderName = from["name"] as String
-                            var senderID = from["id"] as String
-                            var time = rawPost["created_time"] as String
-                            
-                            var post = Post(ID:postID, senderName: senderName, senderID: senderID, post: messageJSON, time:convertFacebookTimeStringToNSDate(time), full:full)
-                            
-                            post.comments = comments
-                            posts.insert(post, atIndex: 0)
-                            postsDictionary[postID] = post
-                            newPosts = true
-                        }
-                    }
-                }
-            }
-            
-            if deleteRecentPosts
-            {
-                posts.sort({ (postA:Post, postB:Post) -> Bool in
-                    
-                    return postA.time?.compare(postB.time!) == NSComparisonResult.OrderedDescending
-                })
-            }
-            
-            if newPosts
-            {
-                vibrate()
-            }
-            
-            dispatch_async(dispatch_get_main_queue()) {
-                
-                self.tableView.reloadData()
-            }
-        }
-        
-        objc_sync_enter(currentlyChecking)
-        
-        objc_sync_exit(currentlyChecking)
-    }
-    
-    func vibrate()
-    {
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-    }
-    
-    func notifyPost(post:Post)
-    {
-        println("new post")
-        
-        /*var notification = UILocalNotification()
-        notification.fireDate = NSDate()
-        notification.alertBody = post.post
-        notification.soundName = UILocalNotificationDefaultSoundName;
-
-        UIApplication.sharedApplication().scheduleLocalNotification(notification)*/
-    }
-    
-    func start()
-    {
-        self.reCheckDeletingRecentPosts(true)
-        
-        queue.addOperationWithBlock()
-        {
-            while true
-            {
-                NSThread.sleepForTimeInterval(20)
-                
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.reCheckDeletingRecentPosts(false)
-                }
-            }
-        }
-    }
-    
-    func stop()
-    {
-        queue.cancelAllOperations()
-    }
-    
-    func sendMessageToUser(userID:String)
-    {
-        var params = FBLinkShareParams()
-        
-    }
-    
-    func goToProfilePageOfPersonWithID(ID: String)
-    {
-        FBRequestConnection.startWithGraphPath("/?id=https://facebook.com/"+ID, completionHandler: { (connection:FBRequestConnection!, result:AnyObject!, error:NSError!) -> Void in
-            
-            if (error == nil)
-            {
-                var ngObject = result["og_object"] as FBGraphObject
-                var profilePageID = ngObject["id"] as String
-                
-                var facebookURL = NSURL(string:"fb://profile/" + profilePageID)
-                
-                
-                if UIApplication.sharedApplication().canOpenURL(facebookURL!)
-                {
-                    UIApplication.sharedApplication().openURL(facebookURL!)
-                }
-                else
-                {
-                    UIApplication.sharedApplication().openURL( NSURL(string:"http://facebook.com/")! )
-                }
-            }
-        })
-    }
-    
-    func convertFacebookTimeStringToNSDate(time:String) -> NSDate
-    {
-        var df = NSDateFormatter()
-        df.dateFormat = "yyyy'-'MM'-'dd'T'HH:mm:ssZ"
-        
-        var date = df.dateFromString(time)
-        return date!
-    }
+    //TableView DataSource
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int
     {
-        return posts.count
+        return system.posts.count
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        var post = posts[section]
+        let post = system.posts[section]
 
         return post.comments.count + 1
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        var post = posts[indexPath.section]
+        let post = system.posts[indexPath.section]
         
         var cell: PostCell
         
@@ -306,15 +112,12 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
         else
         {
-            var comment = post.comments[indexPath.row-1]
+            let comment = post.comments[indexPath.row-1]
             
             cell = tableView.dequeueReusableCellWithIdentifier("CommentCell") as PostCell
             cell.textField.text = comment.comment
             cell.userInteractionEnabled = false
         }
-        
-        //cell.background.layer.borderColor = UIColor.lightGrayColor().CGColor
-        //cell.background.layer.borderWidth = 0.2;
         
         return cell
     }
@@ -322,7 +125,7 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
     {
         var height:CGFloat = 0
-        var post = posts[indexPath.section]
+        let post = system.posts[indexPath.section]
         
         if (indexPath.row == 0)
         {
@@ -338,34 +141,15 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return height
     }
     
+    //TableView Delegate
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        var post = posts[indexPath.section]
+        let post = system.posts[indexPath.section]
         
-        goToProfilePageOfPersonWithID(post.senderID)
+        system.goToProfilePageOfPersonWithID(post.senderID)
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent)
-    {
-        keywordsTextField.endEditing(true)
-        timeTextField.endEditing(true)
-    }
     
-    func textFieldDidEndEditing(textField: UITextField)
-    {
-        reCheckDeletingRecentPosts(true)
-    }
-    
-    func textFieldDidBeginEditing(textField: UITextField)
-    {
-        //reCheck()
-    }
-    
-    func textFieldShouldReturn(textField: UITextField) -> Bool
-    {
-        keywordsTextField.endEditing(true)
-        timeTextField.endEditing(true)
-        return true
-    }
 }
 
