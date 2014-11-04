@@ -341,10 +341,10 @@
                                     <constraint firstItem="Yr0-ua-iYY" firstAttribute="leading" secondItem="jEE-eP-3G8" secondAttribute="leading" constant="13" id="71d-Fp-eC6"/>
                                     <constraint firstItem="re9-h1-LPb" firstAttribute="leading" secondItem="Yr0-ua-iYY" secondAttribute="trailing" constant="8" id="DHV-iY-BX1"/>
                                     <constraint firstItem="Yr0-ua-iYY" firstAttribute="top" secondItem="jEE-eP-3G8" secondAttribute="top" constant="13" id="Lc8-69-RwX">
-                                        <variation key="heightClass=regular-widthClass=compact" constant="38"/>
+                                        <variation key="heightClass=regular-widthClass=compact" constant="13"/>
                                     </constraint>
                                     <constraint firstItem="re9-h1-LPb" firstAttribute="top" secondItem="jEE-eP-3G8" secondAttribute="top" constant="10" id="N5O-wn-xRA">
-                                        <variation key="heightClass=regular-widthClass=compact" constant="35"/>
+                                        <variation key="heightClass=regular-widthClass=compact" constant="10"/>
                                     </constraint>
                                     <constraint firstAttribute="trailing" secondItem="re9-h1-LPb" secondAttribute="trailing" constant="19" id="ZKa-T3-oOj"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="119" id="aBh-0A-5Se"/>
@@ -772,7 +772,7 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fTL-cd-pZS">
+                            <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fTL-cd-pZS">
                                 <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="97" id="6qS-Gf-X5t"/>
@@ -793,7 +793,7 @@
                                     </mask>
                                 </variation>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hora" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BfL-18-TKr">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hora" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BfL-18-TKr">
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="38" id="NI5-f2-f6U"/>

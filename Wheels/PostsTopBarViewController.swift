@@ -36,36 +36,39 @@ class PostsTopBarViewController: UIViewController, UICollectionViewDelegate, UIC
     
     func addFilter(filter:String)
     {
-        system.addFilter(filter)
-        
-        self.keywordsTextField.layoutIfNeeded()
-        
-        UIView.animateWithDuration(0.1, delay:0, options:UIViewAnimationOptions.CurveEaseInOut, animations:{
-            
-            //self.keyWordsTextFieldTopVerticalSpacing.constant += 10
-            
-            self.keywordsTextField.text = nil
-            let indexPathForLastItem = NSIndexPath(forItem: system.filters.count-1, inSection: 0)
-            
-            self.filtersCollectionView.insertItemsAtIndexPaths([indexPathForLastItem])
-            self.filtersCollectionView.scrollToItemAtIndexPath(indexPathForLastItem, atScrollPosition: UICollectionViewScrollPosition.Right, animated: true)
+        if filter != "" && filter != " "
+        {
+            system.addFilter(filter)
             
             self.keywordsTextField.layoutIfNeeded()
             
-            }) { (_) -> Void in
+            UIView.animateWithDuration(0.1, delay:0, options:UIViewAnimationOptions.CurveEaseInOut, animations:{
+                
+                //self.keyWordsTextFieldTopVerticalSpacing.constant += 10
+                
+                self.keywordsTextField.text = nil
+                let indexPathForLastItem = NSIndexPath(forItem: system.filters.count-1, inSection: 0)
+                
+                self.filtersCollectionView.insertItemsAtIndexPaths([indexPathForLastItem])
+                self.filtersCollectionView.scrollToItemAtIndexPath(indexPathForLastItem, atScrollPosition: UICollectionViewScrollPosition.Right, animated: true)
                 
                 self.keywordsTextField.layoutIfNeeded()
                 
-                UIView.animateWithDuration(0.1, delay:0, options:UIViewAnimationOptions.CurveEaseInOut, animations: {
-                    
-                    //self.keyWordsTextFieldTopVerticalSpacing.constant -= 10
+                }) { (_) -> Void in
                     
                     self.keywordsTextField.layoutIfNeeded()
                     
-                    }, completion: {(_) -> Void in
+                    UIView.animateWithDuration(0.1, delay:0, options:UIViewAnimationOptions.CurveEaseInOut, animations: {
                         
-                        system.reCheckDeletingRecentPosts(true)
-                })
+                        //self.keyWordsTextFieldTopVerticalSpacing.constant -= 10
+                        
+                        self.keywordsTextField.layoutIfNeeded()
+                        
+                        }, completion: {(_) -> Void in
+                            
+                            system.reCheckDeletingRecentPosts(true)
+                    })
+            }
         }
     }
     
