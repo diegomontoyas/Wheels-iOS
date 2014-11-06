@@ -15,6 +15,7 @@ class PostCell: UITableViewCell
     @IBOutlet var timeLabel: UILabel!
     @IBOutlet var background: UIView!
     @IBOutlet var fullCarBanner: UILabel!
+    @IBOutlet weak var photoImageView: UIImageView!
     
     var full:Bool = false
     {

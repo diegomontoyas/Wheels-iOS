@@ -8,7 +8,12 @@
 
 import Foundation
 
-class MainPageViewController: UIPageViewController,UIPageViewControllerDelegate, UIPageViewControllerDataSource, UIGestureRecognizerDelegate
+protocol MainPageViewControllerDelegate: class
+{
+    
+}
+
+class MainPageViewController: UIPageViewController,UIPageViewControllerDelegate, UIPageViewControllerDataSource, UIGestureRecognizerDelegate, UIScrollViewDelegate
 {
     var scrollViewPanGestureRecognzier = UIPanGestureRecognizer()
     var originalPanGestureRecognizer: UIPanGestureRecognizer!
@@ -21,7 +26,9 @@ class MainPageViewController: UIPageViewController,UIPageViewControllerDelegate,
         {
             if let scrollView = view as? UIScrollView
             {
-                scrollView.bounces = true
+                scrollView.alwaysBounceHorizontal = true
+                scrollView.alwaysBounceVertical = false
+                scrollView.delegate = self
                 
                 for gestureRecognizer in scrollView.gestureRecognizers!
                 {
@@ -39,7 +46,7 @@ class MainPageViewController: UIPageViewController,UIPageViewControllerDelegate,
         dataSource = self
         
         let initialViewController = storyboard?.instantiateViewControllerWithIdentifier("PostsViewController") as UIViewController
-        setViewControllers([initialViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
+        setViewControllers([initialViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)        
     }
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController?
@@ -64,6 +71,13 @@ class MainPageViewController: UIPageViewController,UIPageViewControllerDelegate,
         {
             return nil
         }
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView)
+    {
+        let percentage = scrollView.contentOffset.x / scrollView.contentSize.width
+        
+        println(percentage)
     }
     
     let grabberWidth:CGFloat = 40

@@ -232,13 +232,13 @@ class System
                 let facebookURL = NSURL(string:"fb://profile/" + profilePageID)
                 
                 
-                if UIApplication.sharedApplication().canOpenURL(facebookURL)
+                if UIApplication.sharedApplication().canOpenURL(facebookURL!)
                 {
-                    UIApplication.sharedApplication().openURL(facebookURL)
+                    UIApplication.sharedApplication().openURL(facebookURL!)
                 }
                 else
                 {
-                    UIApplication.sharedApplication().openURL( NSURL(string:"http://facebook.com/"))
+                    UIApplication.sharedApplication().openURL( NSURL(string:"http://facebook.com/")!                                      )
                 }
             }
         })

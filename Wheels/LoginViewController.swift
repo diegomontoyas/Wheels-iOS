@@ -11,14 +11,14 @@ import Foundation
 class LoginViewController: UIViewController, FBLoginViewDelegate
 {
     @IBOutlet var fbLoginView : FBLoginView!
-    var readPermissions = ["user_groups"]
 
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
         fbLoginView.delegate = self
-        fbLoginView.readPermissions = readPermissions
+        fbLoginView.readPermissions = ["user_groups"]
+        fbLoginView.publishPermissions = ["publish_actions"]
     }
     
     override func viewDidAppear(animated: Bool)

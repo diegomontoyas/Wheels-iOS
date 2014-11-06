@@ -27,6 +27,9 @@ class PostsTopBarViewController: UIViewController, UICollectionViewDelegate, UIC
         addFilterButton.layer.cornerRadius = 5
         
         keywordsTextField.setNeedsUpdateConstraints()
+        
+        view.setNeedsLayout()
+        view.setNeedsUpdateConstraints()
     }
     
     @IBAction func addFilterButtonPressed(sender: AnyObject)
@@ -123,7 +126,7 @@ class PostsTopBarViewController: UIViewController, UICollectionViewDelegate, UIC
         keywordsTextField.endEditing(true)
         //timeTextField.endEditing(true)
         
-        system.addFilter(textField.text)
+        addFilter(textField.text)
         
         return true
     }

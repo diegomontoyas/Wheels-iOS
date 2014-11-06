@@ -15,7 +15,7 @@
 		F114E12119F9C75E00259ED5 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F114E12019F9C75E00259ED5 /* PostCell.swift */; };
 		F1224C591A0282D300AB3A7B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1224C581A0282D300AB3A7B /* LoginViewController.swift */; };
 		F1224C5B1A02830300AB3A7B /* System.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1224C5A1A02830300AB3A7B /* System.swift */; };
-		F13530761A06CD8A0024406D /* PushNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13530751A06CD8A0024406D /* PushNavigationViewController.swift */; };
+		F13530761A06CD8A0024406D /* LeftRightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13530751A06CD8A0024406D /* LeftRightViewController.swift */; };
 		F156CBDE19F9CA290028BDA0 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F156CBDD19F9CA290028BDA0 /* FacebookSDK.framework */; };
 		F156CBE119F9D2D20028BDA0 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = F156CBE019F9D2D20028BDA0 /* Post.swift */; };
 		F1955C641A0323B200BEECC1 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1955C631A0323B200BEECC1 /* Comment.swift */; };
@@ -50,7 +50,7 @@
 		F114E12019F9C75E00259ED5 /* PostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		F1224C581A0282D300AB3A7B /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F1224C5A1A02830300AB3A7B /* System.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = System.swift; sourceTree = "<group>"; };
-		F13530751A06CD8A0024406D /* PushNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushNavigationViewController.swift; sourceTree = "<group>"; };
+		F13530751A06CD8A0024406D /* LeftRightViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftRightViewController.swift; sourceTree = "<group>"; };
 		F156CBDD19F9CA290028BDA0 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		F156CBDF19F9CC030028BDA0 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		F156CBE019F9D2D20028BDA0 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
@@ -149,7 +149,7 @@
 				F114E10019F9C52500259ED5 /* PostsViewController.swift */,
 				F1B32CC91A067FC600974B3E /* PostViewController.swift */,
 				F1B32CCB1A06AD0300974B3E /* MainPageViewController.swift */,
-				F13530751A06CD8A0024406D /* PushNavigationViewController.swift */,
+				F13530751A06CD8A0024406D /* LeftRightViewController.swift */,
 				F1BF81AA1A08707300CACDEE /* MainViewController.swift */,
 				F1BF81AC1A087A5100CACDEE /* PostsTopBarViewController.swift */,
 			);
@@ -282,7 +282,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F114E10119F9C52500259ED5 /* PostsViewController.swift in Sources */,
-				F13530761A06CD8A0024406D /* PushNavigationViewController.swift in Sources */,
+				F13530761A06CD8A0024406D /* LeftRightViewController.swift in Sources */,
 				F1B32CCC1A06AD0300974B3E /* MainPageViewController.swift in Sources */,
 				F1BF81AB1A08707300CACDEE /* MainViewController.swift in Sources */,
 				F1955C661A045BA100BEECC1 /* FilterCell.swift in Sources */,

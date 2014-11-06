@@ -59,6 +59,13 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         view.bringSubviewToFront(grabber)
     }
     
+    override func viewWillAppear(animated: Bool)
+    {
+        view.setNeedsLayout()
+        view.setNeedsDisplay()
+        view.setNeedsUpdateConstraints()
+    }
+    
     override func viewDidAppear(animated: Bool)
     {
         super.viewDidAppear(animated)
@@ -102,6 +109,8 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             cell.textField.text = post.post
             cell.label.text = post.senderName
             cell.full = post.full
+            cell.photoImageView.clipsToBounds = true
+            cell.photoImageView.layer.cornerRadius = cell.photoImageView.frame.size.height/2
             
             var df = NSDateFormatter()
             df.dateFormat = "MMMM dd hh:mm a"
@@ -150,6 +159,54 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         system.goToProfilePageOfPersonWithID(post.senderID)
     }
     
+    func tableView(tableView: UITableView, didHighlightRowAtIndexPath indexPath: NSIndexPath)
+    {
+        let cell = tableView.cellForRowAtIndexPath(indexPath) as PostCell
+    }
     
+    func tableView(tableView: UITableView, didUnhighlightRowAtIndexPath indexPath: NSIndexPath)
+    {
+        let cell = tableView.cellForRowAtIndexPath(indexPath) as PostCell
+    }
+    
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath)
+    {
+        //findPhotoForCellAtIndexPath(indexPath)
+    }
+    
+    let pictureDimensions = 100
+    
+    func findPhotoForCellAtIndexPath(indexPath:NSIndexPath)
+    {
+        if indexPath.row == 0
+        {
+            let cell = tableView.cellForRowAtIndexPath(indexPath) as PostCell
+            
+            if cell.photoImageView == nil
+            {
+                let post = system.posts[indexPath.section]
+                
+                let params = ["redirect":"false","height":"150", "width":"150", "type":"normal"]
+                
+                FBRequestConnection.startWithGraphPath("/\(post.senderID)/picture", parameters:params, HTTPMethod: "GET", completionHandler: { (connection:FBRequestConnection!, result:AnyObject!, error:NSError!) -> Void in
+                    
+                    if error == nil
+                    {
+                        let data = result["data"] as FBGraphObject
+                        let photoURLString = data["url"] as String
+                        let photoURL = NSURL(string: photoURLString)
+                        
+                        let photo = UIImage(data: NSData(contentsOfURL: photoURL!)!)
+                        cell.photoImageView?.image = photo
+                    }
+                })
+            }
+        }
+    }
+    
+    func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath)
+    {
+        //findPhotoForCellAtIndexPath(indexPath)
+    }
 }
 
