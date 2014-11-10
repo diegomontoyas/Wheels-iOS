@@ -11,10 +11,13 @@ import Foundation
 class LoginViewController: UIViewController, FBLoginViewDelegate
 {
     @IBOutlet var fbLoginView : FBLoginView!
+    @IBOutlet var wheel: UIImageView!
 
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+        navigationController?.setNavigationBarHidden(true, animated: false)
         
         fbLoginView.delegate = self
         fbLoginView.readPermissions = ["user_groups"]
@@ -23,7 +26,12 @@ class LoginViewController: UIViewController, FBLoginViewDelegate
     
     override func viewDidAppear(animated: Bool)
     {
-
+        var animation = CABasicAnimation(keyPath: "transform.rotation.z")
+        animation.fromValue = 0.0
+        animation.toValue = 2*M_PI
+        animation.duration = 6
+        animation.repeatCount = 1000
+        wheel.layer.addAnimation(animation, forKey:"rotation")
     }
     
     // Facebook Delegate Methods

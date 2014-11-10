@@ -23,6 +23,19 @@ extension Array
     }
 }
 
+extension UIView
+{
+    func setCornerRadiusWithoutClipToBounds(cornerRadius:CGFloat)
+    {
+        let roundRectMaskPath = UIBezierPath(roundedRect: bounds, cornerRadius: CGFloat(5))
+        
+        let roundRectMaskLayer = CAShapeLayer()
+        roundRectMaskLayer.frame = bounds
+        roundRectMaskLayer.path = roundRectMaskPath.CGPath
+        layer.mask = roundRectMaskLayer
+    }
+}
+
 func synced(lock: AnyObject, closure: () -> ())
 {
     objc_sync_enter(lock)
@@ -30,15 +43,19 @@ func synced(lock: AnyObject, closure: () -> ())
     objc_sync_exit(lock)
 }
 
-let kWheelsGroupID = "429208293784763"
-
 class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, PostsDelegate
 {
     @IBOutlet var timeTextField: UITextField!
     @IBOutlet var tableView: UITableView!
     @IBOutlet var grabber: UIView!
- 
-    var index:Int? = nil
+    
+    weak var mainPageViewController:MainPageViewController?
+    
+    var prototypePostCell:PostCell!
+    var prototypeCommentCell:CommentCell!
+    
+    let imageLoadingOperationQueue = NSOperationQueue()
+    var imageLoadingOngoingOperations = [NSIndexPath:NSBlockOperation]()
     
     override func viewDidLoad()
     {
@@ -49,14 +66,20 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         system.postsDelegate = self
         
-        //timeTextField.delegate = self
-        
         tableView.tableFooterView = UIView(frame: CGRectZero)
         
         navigationController?.setNavigationBarHidden(true, animated: false)
         
+        let tapGestureRecognizer = UITapGestureRecognizer()
+        tapGestureRecognizer.addTarget(self, action: Selector("grabberTapped:"))
+        
         grabber.layer.cornerRadius = 20
         view.bringSubviewToFront(grabber)
+        
+        grabber.addGestureRecognizer(tapGestureRecognizer)
+        
+        prototypePostCell = tableView.dequeueReusableCellWithIdentifier("PostCell") as PostCell
+        prototypeCommentCell = tableView.dequeueReusableCellWithIdentifier("CommentCell") as CommentCell
     }
     
     override func viewWillAppear(animated: Bool)
@@ -77,6 +100,10 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         system.start()
     }
     
+    func grabberTapped(sender:AnyObject)
+    {
+        mainPageViewController?.controllerGrabberPressed(self)
+    }
     
     func systemDidReceiveNewPosts()
     {
@@ -97,40 +124,67 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return post.comments.count + 1
     }
     
+    let nilImagePhotoImageViewSize:CGFloat = 14
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         let post = system.posts[indexPath.section]
-        
-        var cell: PostCell
+        var cell:UITableViewCell
         
         if indexPath.row == 0
         {
-            cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as PostCell
-            cell.textField.text = post.post
-            cell.label.text = post.senderName
-            cell.full = post.full
-            cell.photoImageView.clipsToBounds = true
-            cell.photoImageView.layer.cornerRadius = cell.photoImageView.frame.size.height/2
+            let postCell = tableView.dequeueReusableCellWithIdentifier("PostCell") as PostCell
+            
+            postCell.photoImageView.image = nil
+
+            findPhotoForCell(postCell, atIndexPath: indexPath)
+            
+            if postCell.photoImageView.image == nil
+            {
+                postCell.photoWidthConstraint.constant = nilImagePhotoImageViewSize
+                postCell.photoHeightConstraint.constant = nilImagePhotoImageViewSize
+            
+                postCell.layoutIfNeeded()
+                postCell.setNeedsUpdateConstraints()
+            }
+            
+            postCell.contentView.autoresizingMask = UIViewAutoresizing.FlexibleHeight
+            
+            postCell.textField.text = post.post
+            postCell.label.text = post.senderName
+            postCell.full = post.full
+            
+            postCell.photoImageView.clipsToBounds = true
+            
+            postCell.backBorderView.layer.cornerRadius = 8
+            postCell.contentBackground.layer.cornerRadius = 8
             
             var df = NSDateFormatter()
             df.dateFormat = "MMMM dd hh:mm a"
             
             var dateString = df.stringFromDate(post.time!)
             
-            cell.timeLabel.text = dateString
+            postCell.timeLabel.text = dateString
+            
+            cell = postCell
         }
         else
         {
             let comment = post.comments[indexPath.row-1]
             
-            cell = tableView.dequeueReusableCellWithIdentifier("CommentCell") as PostCell
-            cell.textField.text = comment.comment
-            cell.userInteractionEnabled = false
+            let commentCell = tableView.dequeueReusableCellWithIdentifier("CommentCell") as CommentCell
+            commentCell.textField.text = comment.comment
+            commentCell.userInteractionEnabled = false
+            
+            commentCell.background.clipsToBounds = true
+            commentCell.background.layer.cornerRadius = 8
+            
+            cell = commentCell
         }
         
         return cell
     }
-    
+        
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
     {
         var height:CGFloat = 0
@@ -138,13 +192,23 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         if (indexPath.row == 0)
         {
-            height = 146
+            var textView = UITextView()
+            textView.text = post.post
+            textView.font = prototypePostCell.textField.font
+            let size = textView.sizeThatFits(CGSizeMake(prototypePostCell.textField.frame.size.width, CGFloat.max))
+            
+            height = size.height + prototypePostCell.heightWithoutTextField
         }
         else
         {
             var comment = post.comments[indexPath.row-1]
             
-            height = 64
+            var textView = UITextView()
+            textView.text = comment.comment
+            textView.font = prototypeCommentCell.textField.font
+            let size = textView.sizeThatFits(CGSizeMake(prototypeCommentCell.frame.size.width, CGFloat.max))
+            
+            height = size.height + prototypeCommentCell.heightWithoutTextField
         }
         
         return height
@@ -169,35 +233,79 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let cell = tableView.cellForRowAtIndexPath(indexPath) as PostCell
     }
     
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath)
-    {
-        //findPhotoForCellAtIndexPath(indexPath)
-    }
+    let downloadedPhotoDimensions = "90"
+    let photoImageViewSize:CGFloat = 52
     
-    let pictureDimensions = 100
-    
-    func findPhotoForCellAtIndexPath(indexPath:NSIndexPath)
+    func findPhotoForCell(cell:PostCell, atIndexPath indexPath:NSIndexPath)
     {
+        let post = system.posts[indexPath.section]
+        
         if indexPath.row == 0
         {
-            let cell = tableView.cellForRowAtIndexPath(indexPath) as PostCell
-            
-            if cell.photoImageView == nil
+            if let cachedPhoto = post.senderPhoto
             {
-                let post = system.posts[indexPath.section]
+                cell.photoImageView?.image = cachedPhoto
                 
-                let params = ["redirect":"false","height":"150", "width":"150", "type":"normal"]
+                cell.photoWidthConstraint.constant = self.photoImageViewSize
+                cell.photoHeightConstraint.constant = self.photoImageViewSize
+                cell.photoImageView.layer.cornerRadius = self.photoImageViewSize/2
+                
+                cell.setNeedsUpdateConstraints()
+                cell.layoutIfNeeded()
+            }
+            else
+            {
+                let params = ["redirect":"false","height":self.downloadedPhotoDimensions, "width":self.downloadedPhotoDimensions, "type":"normal"]
                 
                 FBRequestConnection.startWithGraphPath("/\(post.senderID)/picture", parameters:params, HTTPMethod: "GET", completionHandler: { (connection:FBRequestConnection!, result:AnyObject!, error:NSError!) -> Void in
                     
                     if error == nil
                     {
-                        let data = result["data"] as FBGraphObject
-                        let photoURLString = data["url"] as String
-                        let photoURL = NSURL(string: photoURLString)
+                        let blockOperation = NSBlockOperation()
+                        weak var weakBlockOperation = blockOperation
                         
-                        let photo = UIImage(data: NSData(contentsOfURL: photoURL!)!)
-                        cell.photoImageView?.image = photo
+                        blockOperation.addExecutionBlock()
+                        {
+                            let data = result["data"] as FBGraphObject
+                            let photoURLString = data["url"] as String
+                            let photoURL = NSURL(string: photoURLString)
+                            
+                            let photo = UIImage(data: NSData(contentsOfURL: photoURL))
+                            
+                            NSOperationQueue.mainQueue().addOperationWithBlock()
+                            {
+                                post.senderPhoto = photo
+                                
+                                if let nonNilblockOperation = weakBlockOperation
+                                {
+                                    if !nonNilblockOperation.cancelled
+                                    {
+                                        self.imageLoadingOngoingOperations.removeValueForKey(indexPath)
+                                        
+                                        cell.photoImageView?.image = photo
+                                        cell.photoImageView.layer.cornerRadius = self.photoImageViewSize/2
+                                        
+                                        cell.setNeedsUpdateConstraints()
+                                        cell.layoutIfNeeded()
+                                        
+                                        UIView.animateWithDuration(0.2, animations: {
+                                            
+                                            cell.photoWidthConstraint.constant = self.photoImageViewSize
+                                            cell.photoHeightConstraint.constant = self.photoImageViewSize
+                                            
+                                            cell.setNeedsUpdateConstraints()
+                                            cell.layoutIfNeeded()
+                                            
+                                            }, completion: {(_) -> Void in
+                                                
+                                                cell.photoImageView.layer.cornerRadius = cell.photoImageView.frame.size.height/2
+                                        })
+                                    }
+                                }
+                            }
+                        }
+                        self.imageLoadingOperationQueue.addOperation(blockOperation)
+                        self.imageLoadingOngoingOperations[indexPath] = blockOperation
                     }
                 })
             }
@@ -206,7 +314,10 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath)
     {
-        //findPhotoForCellAtIndexPath(indexPath)
+        if let operation = imageLoadingOngoingOperations[indexPath]
+        {
+            operation.cancel()
+        }
     }
 }
 

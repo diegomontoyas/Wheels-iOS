@@ -8,15 +8,14 @@
 
 import Foundation
 
-protocol MainPageViewControllerDelegate: class
-{
-    
-}
-
 class MainPageViewController: UIPageViewController,UIPageViewControllerDelegate, UIPageViewControllerDataSource, UIGestureRecognizerDelegate, UIScrollViewDelegate
 {
     var scrollViewPanGestureRecognzier = UIPanGestureRecognizer()
     var originalPanGestureRecognizer: UIPanGestureRecognizer!
+    
+    var scrollView: UIScrollView!
+    
+    var lastScrollPercentage:CGFloat = 0
     
     override func viewDidLoad()
     {
@@ -29,6 +28,7 @@ class MainPageViewController: UIPageViewController,UIPageViewControllerDelegate,
                 scrollView.alwaysBounceHorizontal = true
                 scrollView.alwaysBounceVertical = false
                 scrollView.delegate = self
+                self.scrollView = scrollView
                 
                 for gestureRecognizer in scrollView.gestureRecognizers!
                 {
@@ -44,16 +44,18 @@ class MainPageViewController: UIPageViewController,UIPageViewControllerDelegate,
         }
         
         dataSource = self
+        delegate = self
         
-        let initialViewController = storyboard?.instantiateViewControllerWithIdentifier("PostsViewController") as UIViewController
-        setViewControllers([initialViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)        
+        let initialViewController = storyboard?.instantiateViewControllerWithIdentifier("PostsViewController") as PostsViewController
+        setViewControllers([initialViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
     }
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController?
     {
         if viewController is PostViewController
         {
-            return storyboard?.instantiateViewControllerWithIdentifier("PostsViewController") as? PostsViewController
+            let controller = storyboard?.instantiateViewControllerWithIdentifier("PostsViewController") as? PostsViewController
+            return controller
         }
         else
         {
@@ -65,7 +67,8 @@ class MainPageViewController: UIPageViewController,UIPageViewControllerDelegate,
     {
         if viewController is PostsViewController
         {
-            return storyboard?.instantiateViewControllerWithIdentifier("PostViewController") as? PostViewController
+            let controller = storyboard?.instantiateViewControllerWithIdentifier("PostViewController") as? PostViewController
+            return controller
         }
         else
         {
@@ -73,11 +76,39 @@ class MainPageViewController: UIPageViewController,UIPageViewControllerDelegate,
         }
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView)
+    func scrollViewDidScroll(scrollView : UIScrollView)
     {
-        let percentage = scrollView.contentOffset.x / scrollView.contentSize.width
+        var percentage: CGFloat = 0
         
-        println(percentage)
+        if scrollView.contentOffset.x >= view.frame.size.width && scrollView.contentOffset.x < view.frame.size.width*2
+        {
+            percentage = ((scrollView.contentOffset.x-view.frame.size.width) / (view.frame.size.width*2))*2
+        }
+        else if scrollView.contentOffset.x >= 0 && scrollView.contentOffset.x <= view.frame.size.width
+        {
+            percentage = (scrollView.contentOffset.x / view.frame.size.width)
+        }
+        
+        if abs(percentage-lastScrollPercentage) < 0.5
+        {
+            lastScrollPercentage = percentage
+            
+            let broadCastDictionary = ["controller":viewControllers.last, "percentage":percentage] as Dictionary<String,AnyObject>
+            NSNotificationCenter.defaultCenter().postNotificationName("pageViewControllerDidScroll", object: nil, userInfo: broadCastDictionary)
+        }
+    }
+    
+    func controllerGrabberPressed(controller: UIViewController)
+    {
+        /*if controller is PostsViewController
+        {
+            scrollView.setContentOffset(CGPointMake(50,0), animated: true)
+            scrollView.setContentOffset(CGPointMake(-50,0), animated: true)
+        }
+        else if controller is PostViewController
+        {
+            
+        }*/
     }
     
     let grabberWidth:CGFloat = 40

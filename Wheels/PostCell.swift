@@ -8,14 +8,24 @@
 
 import UIKit
 
-class PostCell: UITableViewCell
+class PostCell: UITableViewCell, UITextFieldDelegate
 {
     @IBOutlet var label: UILabel!
     @IBOutlet var textField: UITextView!
     @IBOutlet var timeLabel: UILabel!
     @IBOutlet var background: UIView!
+    @IBOutlet var backBorderView: UIView!
+    @IBOutlet var contentBackground: UIView!
     @IBOutlet var fullCarBanner: UILabel!
     @IBOutlet weak var photoImageView: UIImageView!
+    
+    @IBOutlet var photoWidthConstraint: NSLayoutConstraint!
+    @IBOutlet var photoHeightConstraint: NSLayoutConstraint!
+    
+    @IBOutlet var spaceBetweenPhotoAndTimeLabelConstraint: NSLayoutConstraint!
+    @IBOutlet var spaceBetweenPhotoAndLabelConstraint: NSLayoutConstraint!
+    
+    let heightWithoutTextField:CGFloat = 90
     
     var full:Bool = false
     {
@@ -23,6 +33,8 @@ class PostCell: UITableViewCell
         {
             if full
             {
+                fullCarBanner.clipsToBounds = true
+                fullCarBanner.layer.cornerRadius = 5
                 fullCarBanner.hidden = false
             }
             else

@@ -8,15 +8,35 @@
 
 import Foundation
 
+protocol PostsTopBarViewControllerDelegate:class
+{
+    func postsTopBarViewControllerNoFiltersSpecified(controller:PostsTopBarViewController)
+    
+    func postsTopBarViewControllerFiltersSpecified(controller:PostsTopBarViewController)
+}
+
 class PostsTopBarViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITextFieldDelegate
 {
     @IBOutlet var keywordsTextField: UITextField!
     @IBOutlet var filtersCollectionView: UICollectionView!
     @IBOutlet var addFilterButton: UIButton!
     
+    @IBOutlet var topSpaceToTextFieldConstraint: NSLayoutConstraint!
+    
+    var initialTopSpaceToTextFieldConstraint:CGFloat!
+    
+    weak var delegate:PostsTopBarViewControllerDelegate?
+        
+    let addFilterButtonEnabledColor = UIColor(red: 90/255.0, green: 130/255.0, blue: 200/255.0, alpha: 1)
+    let addFilterButtonDisabledColor = UIColor(red: 117/255.0, green: 150/255.0, blue: 200/255.0, alpha: 1)
+    
+    var postViewControllerTitleLabel:UILabel?
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+        //(view as UIToolbar).translucent = true
         
         filtersCollectionView.dataSource = self
         filtersCollectionView.delegate = self
@@ -28,8 +48,15 @@ class PostsTopBarViewController: UIViewController, UICollectionViewDelegate, UIC
         
         keywordsTextField.setNeedsUpdateConstraints()
         
-        view.setNeedsLayout()
-        view.setNeedsUpdateConstraints()
+        enableAddFilterButton()
+        
+        initialTopSpaceToTextFieldConstraint = topSpaceToTextFieldConstraint.constant
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("pageViewControllerDidScroll:"), name: "pageViewControllerDidScroll", object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("pageViewControllerDidChangeViewController:"), name: "pageViewControllerDidChangeViewController", object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("postViewControllerViewDidAppear:"), name: "postViewControllerViewDidAppear", object: nil)
     }
     
     @IBAction func addFilterButtonPressed(sender: AnyObject)
@@ -41,6 +68,11 @@ class PostsTopBarViewController: UIViewController, UICollectionViewDelegate, UIC
     {
         if filter != "" && filter != " "
         {
+            if system.filters.isEmpty
+            {
+                delegate?.postsTopBarViewControllerFiltersSpecified(self)
+            }
+            
             system.addFilter(filter)
             
             self.keywordsTextField.layoutIfNeeded()
@@ -75,6 +107,36 @@ class PostsTopBarViewController: UIViewController, UICollectionViewDelegate, UIC
         }
     }
     
+    func removeFilterAtIndexPath(indexPath:NSIndexPath)
+    {
+        system.removeFilterAtIndex(indexPath.item)
+        filtersCollectionView.deleteItemsAtIndexPaths([indexPath])
+        system.reCheckDeletingRecentPosts(true)
+        
+        if system.filters.isEmpty
+        {
+            delegate?.postsTopBarViewControllerNoFiltersSpecified(self)
+        }
+    }
+    
+    func enableAddFilterButton()
+    {
+        UIView.animateWithDuration(0.2, animations: {
+            
+            self.addFilterButton.enabled = true
+            self.addFilterButton.backgroundColor = self.addFilterButtonEnabledColor
+        })
+    }
+    
+    func disableAddFilterButton()
+    {
+        UIView.animateWithDuration(0.2, animations: {
+            
+            self.addFilterButton.enabled = false
+            self.addFilterButton.backgroundColor = self.addFilterButtonDisabledColor
+        })
+    }
+    
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
         return system.filters.count
@@ -87,7 +149,7 @@ class PostsTopBarViewController: UIViewController, UICollectionViewDelegate, UIC
         cell.contentView.autoresizingMask = UIViewAutoresizing.FlexibleWidth
         cell.label.text = system.filters[indexPath.item]
         
-        cell.layer.cornerRadius = 3
+        cell.layer.cornerRadius = 10
         
         cell.setNeedsLayout()
         cell.layoutIfNeeded()
@@ -110,9 +172,7 @@ class PostsTopBarViewController: UIViewController, UICollectionViewDelegate, UIC
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath)
     {
-        system.filters.removeAtIndex(indexPath.item)
-        filtersCollectionView.deleteItemsAtIndexPaths([indexPath])
-        system.reCheckDeletingRecentPosts(true)
+        removeFilterAtIndexPath(indexPath)
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent)
@@ -133,6 +193,17 @@ class PostsTopBarViewController: UIViewController, UICollectionViewDelegate, UIC
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
     {
+        let textViewRange = NSMakeRange(0, countElements(textField.text))
+        
+        if (NSEqualRanges(range, textViewRange) && string.isEmpty)
+        {
+            //disableAddFilterButton()
+        }
+        else
+        {
+            //enableAddFilterButton()
+        }
+        
         if string == " "
         {
             addFilter(textField.text)
@@ -143,5 +214,68 @@ class PostsTopBarViewController: UIViewController, UICollectionViewDelegate, UIC
             return true
         }
     }
-
+    
+    func postViewControllerViewDidAppear(notification:NSNotification)
+    {
+        if postViewControllerTitleLabel == nil
+        {
+            let frame =  view.frame
+            let label = UILabel(frame: CGRectMake(frame.size.width/2 - 150/2, frame.size.height/2 - 20/2, 150, 20 ))
+            label.text = "Soy conductor"
+            label.textColor = UIColor.darkTextColor()
+            label.textAlignment = .Center
+            label.alpha = 0
+            label.opaque = false
+            postViewControllerTitleLabel = label
+        }
+        view.addSubview(postViewControllerTitleLabel!)
+        
+        dispatch_async(dispatch_get_main_queue())
+        {
+            UIView.animateWithDuration(0.2, animations: { () -> Void in
+                
+                self.postViewControllerTitleLabel!.alpha = 1
+            })
+        }
+    }
+    
+    func pageViewControllerDidChangeViewController(notification:NSNotification)
+    {
+        let userInfo = notification.userInfo as Dictionary<String,AnyObject>
+        let controller = userInfo["controller"]
+        
+        if controller is PostViewController
+        {
+            
+        }
+    }
+    
+    let componentsVerticaldisplacementForAnimation:CGFloat = 90
+    
+    func pageViewControllerDidScroll (notification:NSNotification)
+    {
+        let userInfo = notification.userInfo as Dictionary<String,AnyObject>
+        let percentage = userInfo["percentage"]! as CGFloat
+        
+        if (userInfo["controller"] is PostsViewController && percentage >= 0) || (userInfo["controller"] is PostViewController && percentage <= 1)
+        {
+            topSpaceToTextFieldConstraint.constant = initialTopSpaceToTextFieldConstraint - componentsVerticaldisplacementForAnimation*percentage
+            view.layoutIfNeeded()
+            
+            dispatch_async(dispatch_get_main_queue())
+            {
+                if self.postViewControllerTitleLabel != nil
+                {
+                    UIView.animateWithDuration(0.4, animations: { () -> Void in
+                        
+                        self.postViewControllerTitleLabel!.alpha = 0
+                        
+                        }, completion: { (_) -> Void in
+                            
+                            self.postViewControllerTitleLabel!.removeFromSuperview()
+                    })
+                }
+            }
+        }
+    }
 }

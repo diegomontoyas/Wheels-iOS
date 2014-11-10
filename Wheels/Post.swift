@@ -13,6 +13,7 @@ class Post: Equatable
     var ID = ""
     var senderName = ""
     var senderID = ""
+    var senderPhoto:UIImage? = nil
     var post = ""
     var time: NSDate?
     var comments = [Comment]()

@@ -10,7 +10,7 @@
 		F114E0FF19F9C52500259ED5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F114E0FE19F9C52500259ED5 /* AppDelegate.swift */; };
 		F114E10119F9C52500259ED5 /* PostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F114E10019F9C52500259ED5 /* PostsViewController.swift */; };
 		F114E10619F9C52500259ED5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F114E10519F9C52500259ED5 /* Images.xcassets */; };
-		F114E10919F9C52500259ED5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = F114E10719F9C52500259ED5 /* LaunchScreen.xib */; };
+		F114E10919F9C52500259ED5 /* LaunchScreenOld.xib in Resources */ = {isa = PBXBuildFile; fileRef = F114E10719F9C52500259ED5 /* LaunchScreenOld.xib */; };
 		F114E11519F9C52600259ED5 /* WheelsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F114E11419F9C52600259ED5 /* WheelsTests.swift */; };
 		F114E12119F9C75E00259ED5 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F114E12019F9C75E00259ED5 /* PostCell.swift */; };
 		F1224C591A0282D300AB3A7B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1224C581A0282D300AB3A7B /* LoginViewController.swift */; };
@@ -18,6 +18,7 @@
 		F13530761A06CD8A0024406D /* LeftRightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13530751A06CD8A0024406D /* LeftRightViewController.swift */; };
 		F156CBDE19F9CA290028BDA0 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F156CBDD19F9CA290028BDA0 /* FacebookSDK.framework */; };
 		F156CBE119F9D2D20028BDA0 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = F156CBE019F9D2D20028BDA0 /* Post.swift */; };
+		F15D641A1A0E8CE600D69808 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15D64191A0E8CE600D69808 /* CommentCell.swift */; };
 		F1955C641A0323B200BEECC1 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1955C631A0323B200BEECC1 /* Comment.swift */; };
 		F1955C661A045BA100BEECC1 /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1955C651A045BA100BEECC1 /* FilterCell.swift */; };
 		F1A1DF721A01AF1C003B1D2E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1A1DF701A01AF1B003B1D2E /* Main.storyboard */; };
@@ -43,7 +44,7 @@
 		F114E0FE19F9C52500259ED5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F114E10019F9C52500259ED5 /* PostsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsViewController.swift; sourceTree = "<group>"; };
 		F114E10519F9C52500259ED5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		F114E10819F9C52500259ED5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		F114E10819F9C52500259ED5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreenOld.xib; sourceTree = "<group>"; };
 		F114E10E19F9C52600259ED5 /* WheelsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WheelsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F114E11319F9C52600259ED5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F114E11419F9C52600259ED5 /* WheelsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheelsTests.swift; sourceTree = "<group>"; };
@@ -54,6 +55,7 @@
 		F156CBDD19F9CA290028BDA0 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		F156CBDF19F9CC030028BDA0 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		F156CBE019F9D2D20028BDA0 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		F15D64191A0E8CE600D69808 /* CommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		F1955C631A0323B200BEECC1 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		F1955C651A045BA100BEECC1 /* FilterCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
 		F1A1DF711A01AF1C003B1D2E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -109,7 +111,7 @@
 				F114E0FE19F9C52500259ED5 /* AppDelegate.swift */,
 				F1A1DF701A01AF1B003B1D2E /* Main.storyboard */,
 				F114E10519F9C52500259ED5 /* Images.xcassets */,
-				F114E10719F9C52500259ED5 /* LaunchScreen.xib */,
+				F114E10719F9C52500259ED5 /* LaunchScreenOld.xib */,
 				F114E0FC19F9C52500259ED5 /* Supporting Files */,
 				F156CBDF19F9CC030028BDA0 /* Bridging-Header.h */,
 			);
@@ -161,6 +163,7 @@
 			children = (
 				F114E12019F9C75E00259ED5 /* PostCell.swift */,
 				F1955C651A045BA100BEECC1 /* FilterCell.swift */,
+				F15D64191A0E8CE600D69808 /* CommentCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -224,7 +227,7 @@
 				TargetAttributes = {
 					F114E0F819F9C52500259ED5 = {
 						CreatedOnToolsVersion = 6.0;
-						DevelopmentTeam = BNAJ6CQ8UE;
+						DevelopmentTeam = 29G7CN67XL;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -262,7 +265,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F1A1DF721A01AF1C003B1D2E /* Main.storyboard in Resources */,
-				F114E10919F9C52500259ED5 /* LaunchScreen.xib in Resources */,
+				F114E10919F9C52500259ED5 /* LaunchScreenOld.xib in Resources */,
 				F114E10619F9C52500259ED5 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -294,6 +297,7 @@
 				F1224C591A0282D300AB3A7B /* LoginViewController.swift in Sources */,
 				F1224C5B1A02830300AB3A7B /* System.swift in Sources */,
 				F156CBE119F9D2D20028BDA0 /* Post.swift in Sources */,
+				F15D641A1A0E8CE600D69808 /* CommentCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,12 +320,12 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		F114E10719F9C52500259ED5 /* LaunchScreen.xib */ = {
+		F114E10719F9C52500259ED5 /* LaunchScreenOld.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				F114E10819F9C52500259ED5 /* Base */,
 			);
-			name = LaunchScreen.xib;
+			name = LaunchScreenOld.xib;
 			sourceTree = "<group>";
 		};
 		F1A1DF701A01AF1B003B1D2E /* Main.storyboard */ = {

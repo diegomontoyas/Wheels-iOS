@@ -17,6 +17,8 @@ protocol PostsDelegate: class
 private let _systemSharedInstance = System()
 let system =  System.S()
 
+let kWheelsGroupID = "429208293784763"
+
 class System
 {
     init()
@@ -38,7 +40,8 @@ class System
     var currentlyChecking = false
     
     let queue = NSOperationQueue()
-    var checking = false
+    var numberOfChecks = 0
+    var started = false
     
     func reCheckDeletingRecentPosts(deletingRecentPosts:Bool)
     {
@@ -48,7 +51,7 @@ class System
         {
             currentlyChecking = true
             
-            FBRequestConnection.startWithGraphPath("\(kWheelsGroupID)/feed?limit=50", completionHandler: { (connection: FBRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
+            FBRequestConnection.startWithGraphPath("\(kWheelsGroupID)/feed?limit=100", completionHandler: { (connection: FBRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
                 
                 self.receivedFacebookPostsInfoWithConnection(connection, result: result, error: error, deleteRecentPosts:deletingRecentPosts)
             })
@@ -59,7 +62,8 @@ class System
     
     func receivedFacebookPostsInfoWithConnection(connection: FBRequestConnection!, result: AnyObject!, error: NSError!, deleteRecentPosts:Bool)
     {
-        println("receiving...")
+        numberOfChecks++
+        println("receiving: \(numberOfChecks)")
         
         if deleteRecentPosts
         {
@@ -148,10 +152,10 @@ class System
                     return postA.time?.compare(postB.time!) == NSComparisonResult.OrderedDescending
                 })
             }
-            
-            if newPosts
+            else if newPosts
             {
                 vibrate()
+
             }
             
             weak var weakSelf = self
@@ -189,25 +193,30 @@ class System
     
     func start()
     {
-        self.reCheckDeletingRecentPosts(true)
-        
-        queue.addOperationWithBlock()
-            {
-                while true
+        if !started
+        {
+            started = true
+            
+            self.reCheckDeletingRecentPosts(true)
+            
+            queue.addOperationWithBlock()
                 {
-                    NSThread.sleepForTimeInterval(20)
-                    
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.reCheckDeletingRecentPosts(false)
+                    while true
+                    {
+                        NSThread.sleepForTimeInterval(20)
+                        
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.reCheckDeletingRecentPosts(false)
+                        }
                     }
-                }
+            }
         }
     }
     
-    func stop()
+    /*func stop()
     {
         queue.cancelAllOperations()
-    }
+    }*/
     
     func sendMessageToUser(userID:String)
     {
@@ -218,6 +227,11 @@ class System
     func addFilter(filter:String)
     {
         filters.append(filter)
+    }
+    
+    func removeFilterAtIndex(index:Int)
+    {
+        filters.removeAtIndex(index)
     }
     
     func goToProfilePageOfPersonWithID(ID: String)
@@ -231,14 +245,16 @@ class System
                 
                 let facebookURL = NSURL(string:"fb://profile/" + profilePageID)
                 
+                println(profilePageID)
+                println(ID)
                 
-                if UIApplication.sharedApplication().canOpenURL(facebookURL!)
+                if UIApplication.sharedApplication().canOpenURL(facebookURL)
                 {
-                    UIApplication.sharedApplication().openURL(facebookURL!)
+                    UIApplication.sharedApplication().openURL(facebookURL)
                 }
                 else
                 {
-                    UIApplication.sharedApplication().openURL( NSURL(string:"http://facebook.com/")!                                      )
+                    UIApplication.sharedApplication().openURL( NSURL(string:"http://facebook.com/"+ID))
                 }
             }
         })

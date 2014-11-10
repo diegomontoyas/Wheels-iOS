@@ -15,7 +15,6 @@ protocol FilterCellDelegate
 
 class FilterCell: UICollectionViewCell
 {
-    @IBOutlet var textVIew: UITextView!
     @IBOutlet var label: UILabel!
     @IBOutlet var button: UIButton!
     

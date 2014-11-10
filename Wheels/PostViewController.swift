@@ -8,43 +8,98 @@
 
 import Foundation
 
-class PostViewController: UIViewController, UITextFieldDelegate
+class PostViewController: UIViewController, UITextViewDelegate
 {
     let kTestsGroupID = "1635866786640178"
     
-    @IBOutlet var newPostTextField: UITextView!
+    @IBOutlet var newPostTextView: UITextView!
     @IBOutlet var sendButton: UIButton!
     @IBOutlet var imFullButton: UIButton!
     @IBOutlet var grabber: UIView!
+    @IBOutlet var backBorderView: UIView!
     
-    var index:Int? = nil
-    
+    weak var mainPageViewController:MainPageViewController?
+
     var postID: String? = nil
     
     let imFullComment = "Lleno"
+    
+    let sendButtonEnabledColor = UIColor(red: 90/255.0, green: 130/255.0, blue: 200/255.0, alpha: 1)
+    let sendButtonDisabledColor = UIColor(red: 170/255.0, green: 178/255.0, blue: 200/255.0, alpha: 1)
+    
+    let errorButtonColor = UIColor(red: 210/255.0, green: 125/255.0, blue: 115/255.0, alpha: 1)
+    let sendButtonSentPostColor = UIColor(red: 100/255.0, green: 180/255.0, blue: 116/255.0, alpha: 1)
+
+    let imFullButtonEnabledColor = UIColor(red: 210/255.0, green: 125/255.0, blue: 115/255.0, alpha: 1)
+    let imFullButtonDisabledColor = UIColor(red: 200/255.0, green: 200/255.0, blue: 200/255.0, alpha: 1)
+    
+    var initialBackBorderViewColor: UIColor!
+    
+    var waitingForConfirmation = false
+    var showingLastSentPost = false
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
     
+        let tapGestureRecognizer = UITapGestureRecognizer()
+        tapGestureRecognizer.addTarget(self, action: Selector("grabberTapped:"))
+        
         grabber.layer.cornerRadius = 20
         view.bringSubviewToFront(grabber)
+        //grabber.addGestureRecognizer(tapGestureRecognizer)
         
-        newPostTextField.layer.cornerRadius = 3
-        //newPostTextField.delegate = self
+        newPostTextView.layer.cornerRadius = 6
+        backBorderView.layer.cornerRadius = 6
+        sendButton.layer.cornerRadius = 6
+        imFullButton.layer.cornerRadius = 6
         
-        view.setNeedsLayout()
-        view.setNeedsUpdateConstraints()
-        
-        if parentViewController is MainViewController
+        if newPostTextView.text.isEmpty
         {
-            
+            disableSendButton()
         }
+        else
+        {
+            enableSendButton()
+        }
+        
+        imFullButton.hidden = true
+        enableImFullButton()
+        
+        newPostTextView.delegate = self
+        
+        initialBackBorderViewColor = backBorderView.backgroundColor
+    }
+    
+    override func viewDidAppear(animated: Bool)
+    {
+        NSNotificationCenter.defaultCenter().postNotificationName("postViewControllerViewDidAppear", object: nil)
+    }
+    
+    func grabberTapped(sender:AnyObject)
+    {
+        mainPageViewController?.controllerGrabberPressed(self)
     }
     
     @IBAction func sendButtonPressed(sender: UIButton)
     {
-        postMessageToGroup(newPostTextField.text)
+        if waitingForConfirmation
+        {
+            waitingForConfirmation = false
+            postMessageToGroup(newPostTextView.text)
+        }
+        else
+        {
+            if showingLastSentPost
+            {
+                newPost()
+            }
+            else
+            {
+                waitingForConfirmation = true
+                changeSendButtonToAskForConfirmation()
+            }
+        }
     }
     
     @IBAction func imFullButtonPressed(sender: AnyObject)
@@ -55,11 +110,118 @@ class PostViewController: UIViewController, UITextFieldDelegate
         }
     }
     
+    func enableSendButton()
+    {
+        UIView.animateWithDuration(0.2, animations: {
+            
+            self.sendButton.enabled = true
+            self.sendButton.backgroundColor = self.sendButtonEnabledColor
+        })
+    }
+    
+    func changeSendButtonToNewPost()
+    {
+        UIView.animateWithDuration(0.2, animations: {
+            
+            self.sendButton.enabled = true
+            self.sendButton.backgroundColor = self.sendButtonEnabledColor
+            self.sendButton.setTitle("Nuevo", forState: .Normal)
+        })
+    }
+    
+    func changeSendButtonToSend()
+    {
+        UIView.animateWithDuration(0.2, animations: {
+            
+            self.sendButton.enabled = true
+            self.sendButton.backgroundColor = self.sendButtonEnabledColor
+            self.sendButton.setTitle("Enviar", forState: .Normal)
+        })
+    }
+    
+    func changeSendButtonToAskForConfirmation()
+    {
+        UIView.animateWithDuration(0.2, animations: {
+            
+            self.sendButton.enabled = true
+            self.sendButton.backgroundColor = self.sendButtonEnabledColor
+            self.sendButton.setTitle("¿Seguro?", forState: .Normal)
+            
+            }, completion:{ (_) -> Void in
+                
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(3 * Double(NSEC_PER_SEC))), dispatch_get_main_queue())
+                {
+                    self.waitingForConfirmation = false
+                    self.changeSendButtonToSend()
+                }
+            })
+    }
+    
+    func changeSendButtonToPostSent()
+    {
+        UIView.animateWithDuration(0.2, animations: {
+            
+            self.sendButton.enabled = false
+            self.sendButton.backgroundColor = self.sendButtonSentPostColor
+            self.sendButton.setTitle("Enviado", forState: .Normal)
+            
+            }, completion:{ (_) -> Void in
+                
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(2 * Double(NSEC_PER_SEC))), dispatch_get_main_queue())
+                {
+                    self.changeSendButtonToNewPost()
+                }
+        })
+    }
+    
+    func disableSendButton()
+    {
+        UIView.animateWithDuration(0.2, animations: {
+            
+            self.sendButton.enabled = false
+            self.sendButton.backgroundColor = self.sendButtonDisabledColor
+        })
+    }
+    
+    func enableImFullButton()
+    {
+        UIView.animateWithDuration(0.2, animations: {
+            
+            self.imFullButton.enabled = true
+            self.imFullButton.setTitle("Me llené!", forState: .Normal)
+            self.imFullButton.backgroundColor = self.imFullButtonEnabledColor
+        })
+    }
+    
+    func disableImFullButton()
+    {
+        UIView.animateWithDuration(0.2, animations: {
+            
+            self.imFullButton.enabled = false
+            self.imFullButton.setTitle("Lleno", forState: .Normal)
+            self.imFullButton.backgroundColor = self.imFullButtonDisabledColor
+        })
+    }
+    
+    func newPost()
+    {
+        showingLastSentPost = false
+        changeSendButtonToSend()
+        newPostTextView.text = nil
+        
+        UIView.animateWithDuration(0.5, animations: {
+            
+            self.imFullButton.hidden = true
+            self.newPostTextView.backgroundColor = UIColor.whiteColor()
+            self.backBorderView.backgroundColor = self.initialBackBorderViewColor
+        })
+    }
+    
     func postMessageToGroup(post:String)
     {
         var params = ["message":post] as NSDictionary
         
-        FBRequestConnection.startWithGraphPath("/\(kWheelsGroupID)/feed", parameters: params, HTTPMethod: "POST", completionHandler:
+        FBRequestConnection.startWithGraphPath("/\(kTestsGroupID)/feed", parameters: params, HTTPMethod: "POST", completionHandler:
             { (connection:FBRequestConnection!, results:AnyObject!, error:NSError!) -> Void in
             
                 if error == nil
@@ -67,11 +229,16 @@ class PostViewController: UIViewController, UITextFieldDelegate
                     println("message published: \(post)")
                     let postID = results["id"] as String
                     self.postID = postID
-                    self.sendButton.enabled = false
+                    self.changeSendButtonToPostSent()
+                    self.imFullButton.hidden = false
+                    self.enableImFullButton()
+                    self.newPostTextView.endEditing(true)
+                    self.showingLastSentPost = true
                     
                     UIView.animateWithDuration(0.5, animations: {
                         
-                        self.newPostTextField.backgroundColor = UIColor.clearColor()
+                        self.newPostTextView.backgroundColor = UIColor.clearColor()
+                        self.backBorderView.backgroundColor = UIColor.clearColor()
                     })
                 }
         })
@@ -88,14 +255,29 @@ class PostViewController: UIViewController, UITextFieldDelegate
                 if error == nil
                 {
                     println("comment published: \(comment)")
-                    self.imFullButton.backgroundColor = UIColor(red: 132/255.0, green: 164/255.0, blue: 146/255.0, alpha: 1)
-                    self.imFullButton.enabled = false
+                    
+                    self.disableImFullButton()
                 }
         })
     }
     
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent)
     {
-        newPostTextField.endEditing(true)
+        newPostTextView.endEditing(true)
+    }
+    
+    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool
+    {
+        let textViewRange = NSMakeRange(0, countElements(newPostTextView.text))
+        
+        if (NSEqualRanges(range, textViewRange) && text.isEmpty)
+        {
+            disableSendButton()
+        }
+        else
+        {
+            enableSendButton()
+        }
+        return true
     }
 }
