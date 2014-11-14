@@ -270,7 +270,7 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                             let photoURLString = data["url"] as String
                             let photoURL = NSURL(string: photoURLString)
                             
-                            let photo = UIImage(data: NSData(contentsOfURL: photoURL))
+                            let photo = UIImage(data: NSData(contentsOfURL: photoURL!)!)
                             
                             NSOperationQueue.mainQueue().addOperationWithBlock()
                             {

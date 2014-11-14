@@ -78,6 +78,8 @@ class MainPageViewController: UIPageViewController,UIPageViewControllerDelegate,
     
     func scrollViewDidScroll(scrollView : UIScrollView)
     {
+        let controller = viewControllers.last as UIViewController
+        
         var percentage: CGFloat = 0
         
         if scrollView.contentOffset.x >= view.frame.size.width && scrollView.contentOffset.x < view.frame.size.width*2
@@ -93,7 +95,7 @@ class MainPageViewController: UIPageViewController,UIPageViewControllerDelegate,
         {
             lastScrollPercentage = percentage
             
-            let broadCastDictionary = ["controller":viewControllers.last, "percentage":percentage] as Dictionary<String,AnyObject>
+            let broadCastDictionary = ["controller":controller, "percentage":percentage]
             NSNotificationCenter.defaultCenter().postNotificationName("pageViewControllerDidScroll", object: nil, userInfo: broadCastDictionary)
         }
     }

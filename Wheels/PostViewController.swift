@@ -17,6 +17,7 @@ class PostViewController: UIViewController, UITextViewDelegate
     @IBOutlet var imFullButton: UIButton!
     @IBOutlet var grabber: UIView!
     @IBOutlet var backBorderView: UIView!
+    @IBOutlet weak var logOutButton: UIButton!
     
     weak var mainPageViewController:MainPageViewController?
 
@@ -32,6 +33,8 @@ class PostViewController: UIViewController, UITextViewDelegate
 
     let imFullButtonEnabledColor = UIColor(red: 210/255.0, green: 125/255.0, blue: 115/255.0, alpha: 1)
     let imFullButtonDisabledColor = UIColor(red: 200/255.0, green: 200/255.0, blue: 200/255.0, alpha: 1)
+    
+    let buttonStandardCornerRadius:CGFloat = 6
     
     var initialBackBorderViewColor: UIColor!
     
@@ -49,10 +52,11 @@ class PostViewController: UIViewController, UITextViewDelegate
         view.bringSubviewToFront(grabber)
         //grabber.addGestureRecognizer(tapGestureRecognizer)
         
-        newPostTextView.layer.cornerRadius = 6
-        backBorderView.layer.cornerRadius = 6
-        sendButton.layer.cornerRadius = 6
-        imFullButton.layer.cornerRadius = 6
+        newPostTextView.layer.cornerRadius = buttonStandardCornerRadius
+        backBorderView.layer.cornerRadius = buttonStandardCornerRadius
+        sendButton.layer.cornerRadius = buttonStandardCornerRadius
+        imFullButton.layer.cornerRadius = buttonStandardCornerRadius
+        logOutButton.layer.cornerRadius = buttonStandardCornerRadius
         
         if newPostTextView.text.isEmpty
         {
@@ -100,6 +104,11 @@ class PostViewController: UIViewController, UITextViewDelegate
                 changeSendButtonToAskForConfirmation()
             }
         }
+    }
+    
+    @IBAction func logoutButtonPressed(sender: AnyObject)
+    {
+        navigationController?.popViewControllerAnimated(true)
     }
     
     @IBAction func imFullButtonPressed(sender: AnyObject)
@@ -157,7 +166,7 @@ class PostViewController: UIViewController, UITextViewDelegate
             })
     }
     
-    func changeSendButtonToPostSent()
+    func changeSendButtonToPostSentAndUnhideImFullButton()
     {
         UIView.animateWithDuration(0.2, animations: {
             
@@ -170,6 +179,8 @@ class PostViewController: UIViewController, UITextViewDelegate
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(2 * Double(NSEC_PER_SEC))), dispatch_get_main_queue())
                 {
                     self.changeSendButtonToNewPost()
+                    self.imFullButton.hidden = false
+                    self.enableImFullButton()
                 }
         })
     }
@@ -229,9 +240,7 @@ class PostViewController: UIViewController, UITextViewDelegate
                     println("message published: \(post)")
                     let postID = results["id"] as String
                     self.postID = postID
-                    self.changeSendButtonToPostSent()
-                    self.imFullButton.hidden = false
-                    self.enableImFullButton()
+                    self.changeSendButtonToPostSentAndUnhideImFullButton()
                     self.newPostTextView.endEditing(true)
                     self.showingLastSentPost = true
                     

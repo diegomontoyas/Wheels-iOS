@@ -248,13 +248,13 @@ class System
                 println(profilePageID)
                 println(ID)
                 
-                if UIApplication.sharedApplication().canOpenURL(facebookURL)
+                if UIApplication.sharedApplication().canOpenURL(facebookURL!)
                 {
-                    UIApplication.sharedApplication().openURL(facebookURL)
+                    UIApplication.sharedApplication().openURL(facebookURL!)
                 }
                 else
                 {
-                    UIApplication.sharedApplication().openURL( NSURL(string:"http://facebook.com/"+ID))
+                    UIApplication.sharedApplication().openURL( NSURL(string:"http://facebook.com/"+ID)!)
                 }
             }
         })
