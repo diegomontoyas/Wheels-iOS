@@ -21,7 +21,7 @@ class PostViewController: UIViewController, UITextViewDelegate
     
     weak var mainPageViewController:MainPageViewController?
 
-    var postID: String? = nil
+    private(set) var postID: String? = nil
     
     let imFullComment = "Lleno"
     
@@ -38,8 +38,8 @@ class PostViewController: UIViewController, UITextViewDelegate
     
     var initialBackBorderViewColor: UIColor!
     
-    var waitingForConfirmation = false
-    var showingLastSentPost = false
+    private(set) var waitingForConfirmation = false
+    private(set) var showingLastSentPost = false
     
     override func viewDidLoad()
     {
@@ -134,7 +134,7 @@ class PostViewController: UIViewController, UITextViewDelegate
             
             self.sendButton.enabled = true
             self.sendButton.backgroundColor = self.sendButtonEnabledColor
-            self.sendButton.setTitle("Nuevo", forState: .Normal)
+            self.sendButton.setTitle("New", forState: .Normal)
         })
     }
     
@@ -144,7 +144,7 @@ class PostViewController: UIViewController, UITextViewDelegate
             
             self.sendButton.enabled = true
             self.sendButton.backgroundColor = self.sendButtonEnabledColor
-            self.sendButton.setTitle("Enviar", forState: .Normal)
+            self.sendButton.setTitle("Send", forState: .Normal)
         })
     }
     
@@ -154,7 +154,7 @@ class PostViewController: UIViewController, UITextViewDelegate
             
             self.sendButton.enabled = true
             self.sendButton.backgroundColor = self.sendButtonEnabledColor
-            self.sendButton.setTitle("¿Seguro?", forState: .Normal)
+            self.sendButton.setTitle("¿Sure?", forState: .Normal)
             
             }, completion:{ (_) -> Void in
                 
@@ -172,7 +172,7 @@ class PostViewController: UIViewController, UITextViewDelegate
             
             self.sendButton.enabled = false
             self.sendButton.backgroundColor = self.sendButtonSentPostColor
-            self.sendButton.setTitle("Enviado", forState: .Normal)
+            self.sendButton.setTitle("Sent", forState: .Normal)
             
             }, completion:{ (_) -> Void in
                 
@@ -199,7 +199,7 @@ class PostViewController: UIViewController, UITextViewDelegate
         UIView.animateWithDuration(0.2, animations: {
             
             self.imFullButton.enabled = true
-            self.imFullButton.setTitle("Me llené!", forState: .Normal)
+            self.imFullButton.setTitle("I'm full!", forState: .Normal)
             self.imFullButton.backgroundColor = self.imFullButtonEnabledColor
         })
     }
@@ -209,7 +209,7 @@ class PostViewController: UIViewController, UITextViewDelegate
         UIView.animateWithDuration(0.2, animations: {
             
             self.imFullButton.enabled = false
-            self.imFullButton.setTitle("Lleno", forState: .Normal)
+            self.imFullButton.setTitle("Full", forState: .Normal)
             self.imFullButton.backgroundColor = self.imFullButtonDisabledColor
         })
     }

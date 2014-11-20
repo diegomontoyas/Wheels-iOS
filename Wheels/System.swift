@@ -32,16 +32,16 @@ class System
     
     weak var postsDelegate:PostsDelegate?
     
-    var posts = [Post]()
-    var postsDictionary = [String:Post]()
+    private(set) var posts = [Post]()
+    private(set) var postsDictionary = [String:Post]()
     
-    var filters = [String]()
+    private(set) var filters = [String]()
     
-    var currentlyChecking = false
+    private(set) var currentlyChecking = false
     
     let queue = NSOperationQueue()
-    var numberOfChecks = 0
-    var started = false
+    private var numberOfChecks = 0
+    private(set) var started = false
     
     func reCheckDeletingRecentPosts(deletingRecentPosts:Bool)
     {

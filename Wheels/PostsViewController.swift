@@ -51,11 +51,11 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     weak var mainPageViewController:MainPageViewController?
     
-    var prototypePostCell:PostCell!
-    var prototypeCommentCell:CommentCell!
+    private(set) var prototypePostCell:PostCell!
+    private(set) var prototypeCommentCell:CommentCell!
     
     let imageLoadingOperationQueue = NSOperationQueue()
-    var imageLoadingOngoingOperations = [NSIndexPath:NSBlockOperation]()
+    private(set) var imageLoadingOngoingOperations = [NSIndexPath:NSBlockOperation]()
     
     override func viewDidLoad()
     {
@@ -92,6 +92,9 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     override func viewDidAppear(animated: Bool)
     {
         super.viewDidAppear(animated)
+        
+        //UIAlertView(title: "Push Notifications", message: "Once you start adding filters you will be automatically notified of new posts containing those filters, no need to do anything additional ;). If you wish to stop receiving notifications, simply remove all filters", delegate: self, cancelButtonTitle: "OK").show()
+        
         
         if let indexPath = tableView.indexPathForSelectedRow()
         {

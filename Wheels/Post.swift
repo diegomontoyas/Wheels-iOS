@@ -10,11 +10,11 @@ import Foundation
 
 class Post: Equatable
 {
-    var ID = ""
-    var senderName = ""
-    var senderID = ""
+    var ID:String!
+    var senderName:String!
+    var senderID:String!
     var senderPhoto:UIImage? = nil
-    var post = ""
+    var post:String!
     var time: NSDate?
     var comments = [Comment]()
     var full = false

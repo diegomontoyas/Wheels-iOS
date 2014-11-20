@@ -10,12 +10,12 @@ import Foundation
 
 class MainPageViewController: UIPageViewController,UIPageViewControllerDelegate, UIPageViewControllerDataSource, UIGestureRecognizerDelegate, UIScrollViewDelegate
 {
-    var scrollViewPanGestureRecognzier = UIPanGestureRecognizer()
-    var originalPanGestureRecognizer: UIPanGestureRecognizer!
+    private(set) var scrollViewPanGestureRecognzier = UIPanGestureRecognizer()
+    private(set) var originalPanGestureRecognizer: UIPanGestureRecognizer!
     
-    var scrollView: UIScrollView!
+    private(set) var scrollView: UIScrollView!
     
-    var lastScrollPercentage:CGFloat = 0
+    private(set) var lastScrollPercentage:CGFloat = 0
     
     override func viewDidLoad()
     {

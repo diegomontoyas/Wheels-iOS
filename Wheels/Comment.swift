@@ -10,7 +10,7 @@ import Foundation
 
 class Comment
 {
-    var comment = ""
+    var comment:String!
     
     init(comment:String)
     {

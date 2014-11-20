@@ -221,7 +221,7 @@ class PostsTopBarViewController: UIViewController, UICollectionViewDelegate, UIC
         {
             let frame =  view.frame
             let label = UILabel(frame: CGRectMake(frame.size.width/2 - 150/2, frame.size.height/2 - 20/2, 150, 20 ))
-            label.text = "Nuevo Post"
+            label.text = "New Post"
             //label.font =
             label.textColor = UIColor.darkTextColor()
             label.textAlignment = .Center

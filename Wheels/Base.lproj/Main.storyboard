@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B23" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Nvo-rv-Jz9">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Nvo-rv-Jz9">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
@@ -328,7 +328,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Filtro" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Yr0-ua-iYY">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Filter" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Yr0-ua-iYY">
                                 <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.55000000000000004" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -357,7 +357,7 @@
                                     <constraint firstAttribute="height" constant="35" id="xUI-Mo-uCg"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <state key="normal" title="Agregar">
+                                <state key="normal" title="Add">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -501,7 +501,9 @@
                             <constraint firstAttribute="trailing" secondItem="re9-h1-LPb" secondAttribute="trailing" constant="16" id="O8t-TW-BpQ"/>
                             <constraint firstItem="Yr0-ua-iYY" firstAttribute="leading" secondItem="VFD-fu-wU7" secondAttribute="leading" constant="16" id="i0u-67-kjh"/>
                             <constraint firstItem="LSI-4O-jGu" firstAttribute="leading" secondItem="VFD-fu-wU7" secondAttribute="leading" constant="16" id="lXL-9Y-5iR"/>
-                            <constraint firstItem="Yr0-ua-iYY" firstAttribute="centerY" secondItem="re9-h1-LPb" secondAttribute="centerY" constant="0.5" id="rf1-6k-Uur"/>
+                            <constraint firstItem="Yr0-ua-iYY" firstAttribute="centerY" secondItem="re9-h1-LPb" secondAttribute="centerY" constant="0.5" id="rf1-6k-Uur">
+                                <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
+                            </constraint>
                             <constraint firstAttribute="trailing" secondItem="LSI-4O-jGu" secondAttribute="trailing" constant="16" id="wJQ-Qe-qc1"/>
                         </constraints>
                         <variation key="default">
@@ -716,7 +718,7 @@
                                                                         </mask>
                                                                     </variation>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lleno" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Khn-JY-e7q">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Full" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Khn-JY-e7q">
                                                                     <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                                                     <color key="backgroundColor" red="0.88160393646408841" green="0.61032898081487907" blue="0.61278639845539573" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <constraints>
@@ -1308,7 +1310,7 @@
                                     <constraint firstAttribute="height" constant="35" id="fgs-1t-8kn"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <state key="normal" title="Enviar">
+                                <state key="normal" title="Send">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -1488,7 +1490,7 @@
                                     <constraint firstAttribute="height" constant="35" id="piY-ue-xPf"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <state key="normal" title="Me llené!">
+                                <state key="normal" title="I'm full!">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
