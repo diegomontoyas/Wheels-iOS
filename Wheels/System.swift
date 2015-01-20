@@ -243,10 +243,7 @@ class System
                 let ngObject = result["og_object"] as FBGraphObject
                 let profilePageID = ngObject["id"] as String
                 
-                let facebookURL = NSURL(string:"fb://profile/" + profilePageID)
-                
-                println(profilePageID)
-                println(ID)
+                let facebookURL = NSURL(string:"fb://page?id=" + profilePageID)
                 
                 if UIApplication.sharedApplication().canOpenURL(facebookURL!)
                 {
