@@ -3,10 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="93d45da4-29e3-4432-8251-43c889edcb86" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels.xcodeproj/project.xcworkspace/xcuserdata/Diego.xcuserdatad/UserInterfaceState.xcuserstate" afterPath="$PROJECT_DIR$/Wheels.xcodeproj/project.xcworkspace/xcuserdata/Diego.xcuserdatad/UserInterfaceState.xcuserstate" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels.xcodeproj/xcuserdata/Diego.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist" afterPath="$PROJECT_DIR$/Wheels.xcodeproj/xcuserdata/Diego.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels/PostsViewController.swift" afterPath="$PROJECT_DIR$/Wheels/PostsViewController.swift" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels/System.swift" afterPath="$PROJECT_DIR$/Wheels/System.swift" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="fastwheels.iws" />
     <ignored path=".idea/workspace.xml" />

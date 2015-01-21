@@ -51,6 +51,8 @@ class System: NSObject
     
     private var checkOperationCount = 0
     
+    private var checkAfterFilterChangeTimer: NSTimer?
+    
     override init()
     {
         super.init()
@@ -127,7 +129,7 @@ class System: NSObject
                         
                         println("Received: \(NSDate())")
                         
-                        self.checkOperationCount--                        
+                        self.checkOperationCount--
                         if self.checkOperationCount == 0
                         {
                             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -387,13 +389,28 @@ class System: NSObject
     func addFilter(filter:String)
     {
         filters.append(filter)
-        system.reCheckDeletingRecentPosts(true)
+        schedulePostCheckDeletingRecentPostsAfterInterval()
     }
     
     func removeFilterAtIndex(index:Int)
     {
         filters.removeAtIndex(index)
-        system.reCheckDeletingRecentPosts(true)
+        schedulePostCheckDeletingRecentPostsAfterInterval()
+    }
+    
+    private func schedulePostCheckDeletingRecentPostsAfterInterval ()
+    {
+        if checkAfterFilterChangeTimer != nil && checkAfterFilterChangeTimer!.valid
+        {
+            checkAfterFilterChangeTimer!.invalidate()
+        }
+        
+        let block = NSBlockOperation {
+            
+            system.reCheckDeletingRecentPosts(true)
+        }
+        
+        checkAfterFilterChangeTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: block, selector: Selector("main"), userInfo: nil, repeats: false)
     }
     
     func goToProfilePageOfPersonWithID(ID: String)

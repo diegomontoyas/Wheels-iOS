@@ -65,6 +65,7 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         system.postsDelegate = self
         
         tableView.tableFooterView = UIView(frame: CGRectZero)
+        tableView.contentInset = UIEdgeInsetsMake(0.0, 0.0, 50.0, 0.0)
         
         navigationController?.setNavigationBarHidden(true, animated: false)
         
@@ -118,7 +119,7 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    {        
+    {
         let post = system.lastCheckPosts[section]
 
         return post.comments.count + 1
