@@ -40,6 +40,7 @@ class PostsTopBarViewController: UIViewController, UICollectionViewDelegate, UIC
         
         filtersCollectionView.dataSource = self
         filtersCollectionView.delegate = self
+        filtersCollectionView.scrollsToTop = false
         
         keywordsTextField.delegate = self
         keywordsTextField.keyboardAppearance = UIKeyboardAppearance.Dark
@@ -56,7 +57,7 @@ class PostsTopBarViewController: UIViewController, UICollectionViewDelegate, UIC
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("pageViewControllerDidChangeViewController:"), name: "pageViewControllerDidChangeViewController", object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("postViewControllerViewDidAppear:"), name: "postViewControllerViewDidAppear", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("rightViewControllerViewDidAppear:"), name: "rightViewControllerViewDidAppear", object: nil)
     }
     
     @IBAction func addFilterButtonPressed(sender: AnyObject)
@@ -215,14 +216,13 @@ class PostsTopBarViewController: UIViewController, UICollectionViewDelegate, UIC
         }
     }
     
-    func postViewControllerViewDidAppear(notification:NSNotification)
+    func rightViewControllerViewDidAppear(notification:NSNotification)
     {
         if postViewControllerTitleLabel == nil
         {
             let frame =  view.frame
             let label = UILabel(frame: CGRectMake(frame.size.width/2 - 150/2, frame.size.height/2 - 20/2, 150, 20 ))
-            label.text = "New Post"
-            //label.font =
+            label.text = "Información"
             label.textColor = UIColor.darkTextColor()
             label.textAlignment = .Center
             label.alpha = 0

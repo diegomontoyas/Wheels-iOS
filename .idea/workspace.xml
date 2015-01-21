@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="93d45da4-29e3-4432-8251-43c889edcb86" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/Images/diagmonds/diagmonds.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/Images/diagmonds/diagmonds_@2X.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Images.xcassets/settings.imageset/machine2.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Images.xcassets/settings.imageset/Contents.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDate+TimeAgo.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDate+TimeAgo.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/ar.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/bg.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/cs.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/da.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/de.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/en.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/es.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/fi.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/fr.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/gre.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/he.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/hu.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/is.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/it.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/ja.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/ko.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/lv.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/nb.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/nl.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/pl.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/pt-PT.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/pt.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/ro.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/ru.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/sq.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/sv.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/th.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/tr.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/uk.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/vi.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/zh-Hans.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/zh-Hant.lproj/NSDateTimeAgo.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSOperationStack.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSOperationStack.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/RightViewController.swift" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/TTBlackTriangle.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/TTBlackTriangle.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/TTScrollSlidingPagesController.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/TTScrollSlidingPagesController.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/TTScrollViewWrapper.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/TTScrollViewWrapper.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/TTSliddingPageDelegate.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/TTSlidingPage.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/TTSlidingPage.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/TTSlidingPageTitle.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/TTSlidingPageTitle.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/TTSlidingPagesDataSource.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/TTUIScrollViewSlidingPages.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/fastwheels.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/Images/diagmonds/readme.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/scopes/scope_settings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/xcode.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Objects-normal/i386/LeftRightViewController.d" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Objects-normal/i386/LeftRightViewController.dia" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Objects-normal/i386/LeftRightViewController~partial.swiftmodule" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Objects-normal/i386/MainPageViewController.d" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Objects-normal/i386/MainPageViewController.dia" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Objects-normal/i386/MainPageViewController~partial.swiftmodule" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Objects-normal/i386/PostsViewController.d" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Objects-normal/i386/PostsViewController.dia" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Objects-normal/i386/PostsViewController~partial.swiftmodule" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Objects-normal/i386/Wheels-OutputFileMap.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Objects-normal/i386/Wheels.LinkFileList" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Wheels-all-non-framework-target-headers.hmap" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Wheels-all-target-headers.hmap" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Wheels-generated-files.hmap" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Wheels-own-target-headers.hmap" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Wheels-project-headers.hmap" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Wheels.hmap" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/dgph" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/swift-overrides.hmap" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels.xcodeproj/project.xcworkspace/xcuserdata/Diego.xcuserdatad/UserInterfaceState.xcuserstate" afterPath="$PROJECT_DIR$/Wheels.xcodeproj/project.xcworkspace/xcuserdata/Diego.xcuserdatad/UserInterfaceState.xcuserstate" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels/AppDelegate.swift" afterPath="$PROJECT_DIR$/Wheels/AppDelegate.swift" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels.xcodeproj/xcuserdata/Diego.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist" afterPath="$PROJECT_DIR$/Wheels.xcodeproj/xcuserdata/Diego.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels/Bridging-Header.h" afterPath="$PROJECT_DIR$/Wheels/Bridging-Header.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels/CommentCell.swift" afterPath="$PROJECT_DIR$/Wheels/CommentCell.swift" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels/Info.plist" afterPath="$PROJECT_DIR$/Wheels/Info.plist" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels/Base.lproj/LaunchScreenOld.xib" afterPath="$PROJECT_DIR$/Wheels/Base.lproj/LaunchScreenOld.xib" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels/LeftRightViewController.swift" afterPath="$PROJECT_DIR$/Wheels/LeftRightViewController.swift" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels/LoginViewController.swift" afterPath="$PROJECT_DIR$/Wheels/LoginViewController.swift" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels/Base.lproj/Main.storyboard" afterPath="$PROJECT_DIR$/Wheels/Base.lproj/Main.storyboard" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels/MainPageViewController.swift" afterPath="$PROJECT_DIR$/Wheels/MainPageViewController.swift" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels/PostCell.swift" afterPath="$PROJECT_DIR$/Wheels/PostCell.swift" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels/PostViewController.swift" afterPath="$PROJECT_DIR$/Wheels/PostViewController.swift" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels/PostsTopBarViewController.swift" afterPath="$PROJECT_DIR$/Wheels/PostsTopBarViewController.swift" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels/PostsViewController.swift" afterPath="$PROJECT_DIR$/Wheels/PostsViewController.swift" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels/System.swift" afterPath="$PROJECT_DIR$/Wheels/System.swift" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels.xcodeproj/project.pbxproj" afterPath="$PROJECT_DIR$/Wheels.xcodeproj/project.pbxproj" />
+    </list>
+    <ignored path="fastwheels.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="DaemonCodeAnalyzer">
+    <disable_hints />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="iphoneos" />
+  <component name="FavoritesManager">
+    <favorites_list name="Wheels" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="LeftRightViewController.swift" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Wheels/LeftRightViewController.swift">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="858" max-vertical-offset="1545">
+              <caret line="92" column="9" selection-start-line="92" selection-start-column="9" selection-end-line="92" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MainPageViewController.swift" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Wheels/MainPageViewController.swift">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.9230769" vertical-offset="888" max-vertical-offset="1695">
+              <caret line="16" column="18" selection-start-line="16" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RightViewController.swift" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Wheels/RightViewController.swift">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="600">
+              <caret line="22" column="5" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PostsTopBarViewController.swift" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Wheels/PostsTopBarViewController.swift">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="555" max-vertical-offset="4305">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PostViewController.swift" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Wheels/PostViewController.swift">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="855" max-vertical-offset="4455">
+              <caret line="79" column="27" selection-start-line="79" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Wheels/PostViewController.swift" />
+        <option value="$PROJECT_DIR$/Wheels/RightViewController.swift" />
+        <option value="$PROJECT_DIR$/Wheels/LeftRightViewController.swift" />
+        <option value="$PROJECT_DIR$/Wheels/Bridging-Header.h" />
+      </list>
+    </option>
+  </component>
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="width" value="1280" />
+    <option name="height" value="800" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+    </navigator>
+    <panes>
+      <pane id="Cidr.FilesView" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeRootNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Wheels" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeRootNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Wheels" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Wheels" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeRootNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Wheels" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Wheels" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Supporting Files" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeRootNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Wheels" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Wheels" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Controllers" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeRootNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Wheels" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Wheels" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Views" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeRootNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Wheels" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Wheels" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Model" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="recentsLimit" value="5" />
+    <property name="FullScreen" value="true" />
+  </component>
+  <component name="RunManager" selected="Application.Wheels">
+    <configuration default="true" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS="FALSE" PROJECT_NAME="Wheels" TARGET_NAME="Wheels" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Wheels" RUN_TARGET_NAME="Wheels" MAKE_ACTIVE="TRUE" WAIT_FOR="FALSE">
+      <envs />
+      <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
+        <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
+      </EXTENSION>
+      <method />
+    </configuration>
+    <configuration default="true" type="OCUnitRunConfiguration" factoryName="XCTest/Kiwi" PASS_PARENT_ENVS="FALSE" PROJECT_NAME="Wheels" TARGET_NAME="WheelsTests" CONFIG_NAME="Debug" TEST_MODE="SUITE_TEST">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="OCGoogleTestRunConfigurationType" factoryName="Google Test" PASS_PARENT_ENVS="FALSE" PROJECT_NAME="Wheels" TARGET_NAME="Wheels" CONFIG_NAME="Debug" TEST_MODE="SUITE_TEST">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <method />
+    </configuration>
+    <configuration default="false" name="Wheels" type="AppleRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS="FALSE" PROJECT_NAME="Wheels" TARGET_NAME="Wheels" CONFIG_NAME="Debug" SCHEME_NAME="Wheels" RUN_TARGET_PROJECT_NAME="Wheels" RUN_TARGET_NAME="Wheels" MAKE_ACTIVE="TRUE" WAIT_FOR="FALSE">
+      <envs />
+      <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
+        <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
+      </EXTENSION>
+      <method />
+    </configuration>
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="Application.Wheels" />
+    </list>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="93d45da4-29e3-4432-8251-43c889edcb86" name="Default" comment="" />
+      <created>1421802374407</created>
+      <option name="number" value="Default" />
+      <updated>1421802374407</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="0" width="1280" height="800" extended-state="0" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329235" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2494043" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+    </layout>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="myTodoPanelSettings">
+      <TodoPanelSettings />
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Wheels/Source/TTScrollSlidingPagesController.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.021367522" vertical-offset="420" max-vertical-offset="2490">
+          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Wheels/PostsTopBarViewController.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4305">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Wheels/PostViewController.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="855" max-vertical-offset="4455">
+          <caret line="79" column="27" selection-start-line="79" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Wheels/RightViewController.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="600">
+          <caret line="22" column="5" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Wheels/LeftRightViewController.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="858" max-vertical-offset="1545">
+          <caret line="92" column="9" selection-start-line="92" selection-start-column="9" selection-end-line="92" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Wheels/Bridging-Header.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2991453" vertical-offset="0" max-vertical-offset="702">
+          <caret line="14" column="37" selection-start-line="14" selection-start-column="37" selection-end-line="14" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Wheels/MainPageViewController.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.9230769" vertical-offset="888" max-vertical-offset="1695">
+          <caret line="16" column="18" selection-start-line="16" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

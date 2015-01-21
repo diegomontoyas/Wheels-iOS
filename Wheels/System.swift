@@ -12,12 +12,21 @@ import AudioToolbox
 protocol PostsDelegate: class
 {
     func systemDidReceiveNewPosts()
+    
+    func systemDidDeleteUnnecessaryResources()
 }
 
 private let _systemSharedInstance = System()
 let system =  System.S()
 
+let serverIP = "192.168.0.15"
+let serverPort = "8080"
+let serverAppPath = "/WheelsServer"
+let serverPath = "http://\(serverIP):\(serverPort + serverAppPath)"
+
 let kWheelsGroupID = "429208293784763"
+
+let kUseFacebookDeveloperConnection = true
 
 class System
 {
@@ -39,32 +48,187 @@ class System
     
     private(set) var currentlyChecking = false
     
+    private var checkLock = NSObject()
+    
     let queue = NSOperationQueue()
-    private var numberOfChecks = 0
     private(set) var started = false
     
     func reCheckDeletingRecentPosts(deletingRecentPosts:Bool)
     {
-        objc_sync_enter(currentlyChecking)
+        objc_sync_enter(checkLock)
         
         if !currentlyChecking
         {
             currentlyChecking = true
             
-            FBRequestConnection.startWithGraphPath("\(kWheelsGroupID)/feed?limit=100", completionHandler: { (connection: FBRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
+            objc_sync_exit(checkLock)
+         
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+            
+            var urlString = "\(serverPath)/getFeed"
+            var url = NSURL(string: urlString)
+            
+            var request = NSMutableURLRequest(URL: url!)
+            request.HTTPMethod = "GET"
+            request.timeoutInterval = 2;
+            
+            NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue(), completionHandler: { (response:NSURLResponse!, data:NSData!, error:NSError!) -> Void in
                 
-                self.receivedFacebookPostsInfoWithConnection(connection, result: result, error: error, deleteRecentPosts:deletingRecentPosts)
+                if data != nil
+                {
+                    println("Received: \(NSDate())")
+                    
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                    
+                        self.receivedFacebookPostsInfoWithResponse(response, data: data, error: error, deleteRecentPosts:deletingRecentPosts)
+                    }
+                }
+                else
+                {
+                    dispatch_async(dispatch_get_main_queue())
+                    {                        
+                        let limit = deletingRecentPosts ? 200 : 50
+                        
+                        FBRequestConnection.startWithGraphPath("\(kWheelsGroupID)/feed?limit=\(limit)", completionHandler: { (connection: FBRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
+                            
+                            println("Received: \(NSDate())")
+                            
+                            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                            
+                            dispatch_async(dispatch_get_main_queue()) {
+                                
+                                self.receivedFacebookPostsInfoWithConnection(connection, result: result, error: error, deleteRecentPosts:deletingRecentPosts) 
+                            }
+                        })
+                        return
+                    }
+                }
             })
         }
-        
-        objc_sync_exit(currentlyChecking)
+        else
+        {
+            objc_sync_exit(checkLock)
+        }
     }
     
-    func receivedFacebookPostsInfoWithConnection(connection: FBRequestConnection!, result: AnyObject!, error: NSError!, deleteRecentPosts:Bool)
+    private func receivedFacebookPostsInfoWithResponse(response:NSURLResponse!, data:NSData!, error:NSError!, deleteRecentPosts:Bool)
     {
-        numberOfChecks++
-        println("receiving: \(numberOfChecks)")
+        if deleteRecentPosts
+        {
+            self.posts = []
+            self.postsDictionary = [:]
+        }
         
+        if error == nil
+        {
+            let JSONResponse:AnyObject! = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil)
+            
+            if JSONResponse != nil
+            {
+                let postsJSON = JSONResponse["data"] as [AnyObject]
+                var newPosts = false
+                
+                for rawPost in postsJSON
+                {
+                    var comments = [Comment]()
+                    
+                    let possibleMessageJSON = rawPost["message"] as String?
+                    
+                    if let messageJSON = possibleMessageJSON
+                    {
+                        let possibleCommentsJSON = rawPost["comments"]? as [AnyObject]?
+                        let postID = rawPost["id"] as String
+                        
+                        var containsFilters = false
+                        var containsTime = true /*= messageJSON.contains(timeTextField.text) || timeTextField.text.isEmpty*/
+                        
+                        for filter in filters
+                        {
+                            if messageJSON.contains(filter)
+                            {
+                                containsFilters = true
+                                break
+                            }
+                        }
+                        
+                        var full = false
+                        
+                        if let commentsJSON = possibleCommentsJSON
+                        {
+                            for commentJSON in commentsJSON
+                            {
+                                let messageCommentJSON = commentJSON["message"] as String
+                                
+                                if !messageCommentJSON.isEmpty
+                                {
+                                    var comment = Comment(comment: messageCommentJSON)
+                                    comments.append(comment)
+                                    
+                                    if messageCommentJSON.contains("lleno") || messageCommentJSON.contains("llena")
+                                        || ( messageCommentJSON.contains("no") && (messageCommentJSON.contains("quedan") || messageCommentJSON.contains("hay") || messageCommentJSON.contains("tengo")) && messageCommentJSON.contains("cupos") )
+                                    {
+                                        full = true
+                                    }
+                                }
+                            }
+                        }
+                        
+                        if containsTime && (containsFilters || filters.isEmpty)
+                        {
+                            if let existingPost = postsDictionary[postID]
+                            {
+                                existingPost.comments = comments
+                                existingPost.full = full
+                            }
+                            else
+                            {
+                                let from = rawPost["from"] as AnyObject!
+                                let senderName = from["name"] as String
+                                let senderID = from["id"] as String
+                                let time = rawPost["createdTime"] as String
+                                
+                                var post = Post(ID:postID, senderName: senderName, senderID: senderID, post: messageJSON, time:convertServerTimeStringToNSDate(time), full:full)
+                                
+                                post.comments = comments
+                                posts.insert(post, atIndex: 0)
+                                postsDictionary[postID] = post
+                                newPosts = true
+                            }
+                        }
+                    }
+                }
+                
+                if deleteRecentPosts
+                {
+                    posts.sort({ (postA:Post, postB:Post) -> Bool in
+                        
+                        return postA.time?.compare(postB.time!) == NSComparisonResult.OrderedDescending
+                    })
+                }
+                else if newPosts
+                {
+                    vibrate()
+                }
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    self.postsDelegate?.systemDidReceiveNewPosts()
+                    ()
+                }
+            }
+        }
+        
+        objc_sync_enter(checkLock)
+        
+        currentlyChecking = false
+        
+        objc_sync_exit(checkLock)
+    }
+    
+    private func receivedFacebookPostsInfoWithConnection(connection: FBRequestConnection!, result: AnyObject!, error: NSError!, deleteRecentPosts:Bool)
+    {        
         if deleteRecentPosts
         {
             self.posts = []
@@ -217,13 +381,7 @@ class System
     {
         queue.cancelAllOperations()
     }*/
-    
-    func sendMessageToUser(userID:String)
-    {
-        var params = FBLinkShareParams()
-        
-    }
-    
+
     func addFilter(filter:String)
     {
         filters.append(filter)
@@ -236,7 +394,7 @@ class System
     
     func goToProfilePageOfPersonWithID(ID: String)
     {
-        FBRequestConnection.startWithGraphPath("/?id=https://facebook.com/"+ID, completionHandler: { (connection:FBRequestConnection!, result:AnyObject!, error:NSError!) -> Void in
+        FBRequestConnection.startWithGraphPath("/?id=http://facebook.com/"+ID, completionHandler: { (connection:FBRequestConnection!, result:AnyObject!, error:NSError!) -> Void in
             
             if error == nil
             {
@@ -245,7 +403,7 @@ class System
                 
                 let facebookURL = NSURL(string:"fb://page?id=" + profilePageID)
                 
-                if UIApplication.sharedApplication().canOpenURL(facebookURL!)
+                if false && UIApplication.sharedApplication().canOpenURL(facebookURL!)
                 {
                     UIApplication.sharedApplication().openURL(facebookURL!)
                 }
@@ -265,6 +423,28 @@ class System
         var date = df.dateFromString(time)
         return date!
     }
-
+    
+    func convertServerTimeStringToNSDate(time:String) -> NSDate
+    {
+        var df = NSDateFormatter()
+        df.dateFormat = "dd MM yyyy HH:mm:ss"
+        
+        var date = df.dateFromString(time)
+        return date!
+    }
+    
+    func deleteUnnecessaryResources()
+    {
+        for post in posts
+        {
+            post.senderPhoto = nil
+            
+            dispatch_async(dispatch_get_main_queue())
+            {
+                self.postsDelegate?.systemDidReceiveNewPosts()
+                ()
+            }
+        }
+    }
 }
 

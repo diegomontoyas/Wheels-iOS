@@ -13,19 +13,31 @@
 		F114E10919F9C52500259ED5 /* LaunchScreenOld.xib in Resources */ = {isa = PBXBuildFile; fileRef = F114E10719F9C52500259ED5 /* LaunchScreenOld.xib */; };
 		F114E11519F9C52600259ED5 /* WheelsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F114E11419F9C52600259ED5 /* WheelsTests.swift */; };
 		F114E12119F9C75E00259ED5 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F114E12019F9C75E00259ED5 /* PostCell.swift */; };
+		F11928FE1A2B8565007E37C0 /* RightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11928FD1A2B8565007E37C0 /* RightViewController.swift */; };
 		F1224C591A0282D300AB3A7B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1224C581A0282D300AB3A7B /* LoginViewController.swift */; };
 		F1224C5B1A02830300AB3A7B /* System.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1224C5A1A02830300AB3A7B /* System.swift */; };
 		F13530761A06CD8A0024406D /* LeftRightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13530751A06CD8A0024406D /* LeftRightViewController.swift */; };
+		F1568DD21A2AC48E00B5D034 /* NSOperationStack.m in Sources */ = {isa = PBXBuildFile; fileRef = F1568DD11A2AC48E00B5D034 /* NSOperationStack.m */; };
 		F156CBDE19F9CA290028BDA0 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F156CBDD19F9CA290028BDA0 /* FacebookSDK.framework */; };
 		F156CBE119F9D2D20028BDA0 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = F156CBE019F9D2D20028BDA0 /* Post.swift */; };
 		F15D641A1A0E8CE600D69808 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15D64191A0E8CE600D69808 /* CommentCell.swift */; };
 		F1955C641A0323B200BEECC1 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1955C631A0323B200BEECC1 /* Comment.swift */; };
 		F1955C661A045BA100BEECC1 /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1955C651A045BA100BEECC1 /* FilterCell.swift */; };
 		F1A1DF721A01AF1C003B1D2E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1A1DF701A01AF1B003B1D2E /* Main.storyboard */; };
+		F1AF8DA11A29911F00CBBAD3 /* NSDate+TimeAgo.m in Sources */ = {isa = PBXBuildFile; fileRef = F1AF8D9F1A29911F00CBBAD3 /* NSDate+TimeAgo.m */; };
+		F1AF8DA21A29911F00CBBAD3 /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F1AF8DA01A29911F00CBBAD3 /* NSDateTimeAgo.bundle */; };
 		F1B32CCA1A067FC600974B3E /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B32CC91A067FC600974B3E /* PostViewController.swift */; };
 		F1B32CCC1A06AD0300974B3E /* MainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B32CCB1A06AD0300974B3E /* MainPageViewController.swift */; };
 		F1BF81AB1A08707300CACDEE /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BF81AA1A08707300CACDEE /* MainViewController.swift */; };
 		F1BF81AD1A087A5100CACDEE /* PostsTopBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BF81AC1A087A5100CACDEE /* PostsTopBarViewController.swift */; };
+		F1C8B14B1A6F2938002B4837 /* diagmonds.png in Resources */ = {isa = PBXBuildFile; fileRef = F1C8B13B1A6F2938002B4837 /* diagmonds.png */; };
+		F1C8B14C1A6F2938002B4837 /* diagmonds_@2X.png in Resources */ = {isa = PBXBuildFile; fileRef = F1C8B13C1A6F2938002B4837 /* diagmonds_@2X.png */; };
+		F1C8B14D1A6F2938002B4837 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = F1C8B13D1A6F2938002B4837 /* readme.txt */; };
+		F1C8B14E1A6F2938002B4837 /* TTBlackTriangle.m in Sources */ = {isa = PBXBuildFile; fileRef = F1C8B13F1A6F2938002B4837 /* TTBlackTriangle.m */; };
+		F1C8B14F1A6F2938002B4837 /* TTScrollSlidingPagesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1C8B1411A6F2938002B4837 /* TTScrollSlidingPagesController.m */; };
+		F1C8B1501A6F2938002B4837 /* TTScrollViewWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F1C8B1431A6F2938002B4837 /* TTScrollViewWrapper.m */; };
+		F1C8B1511A6F2938002B4837 /* TTSlidingPage.m in Sources */ = {isa = PBXBuildFile; fileRef = F1C8B1461A6F2938002B4837 /* TTSlidingPage.m */; };
+		F1C8B1521A6F2938002B4837 /* TTSlidingPageTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = F1C8B1491A6F2938002B4837 /* TTSlidingPageTitle.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,9 +61,12 @@
 		F114E11319F9C52600259ED5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F114E11419F9C52600259ED5 /* WheelsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheelsTests.swift; sourceTree = "<group>"; };
 		F114E12019F9C75E00259ED5 /* PostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
+		F11928FD1A2B8565007E37C0 /* RightViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RightViewController.swift; sourceTree = "<group>"; };
 		F1224C581A0282D300AB3A7B /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F1224C5A1A02830300AB3A7B /* System.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = System.swift; sourceTree = "<group>"; };
 		F13530751A06CD8A0024406D /* LeftRightViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftRightViewController.swift; sourceTree = "<group>"; };
+		F1568DD01A2AC48E00B5D034 /* NSOperationStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSOperationStack.h; sourceTree = "<group>"; };
+		F1568DD11A2AC48E00B5D034 /* NSOperationStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSOperationStack.m; sourceTree = "<group>"; };
 		F156CBDD19F9CA290028BDA0 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		F156CBDF19F9CC030028BDA0 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		F156CBE019F9D2D20028BDA0 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
@@ -59,10 +74,29 @@
 		F1955C631A0323B200BEECC1 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		F1955C651A045BA100BEECC1 /* FilterCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
 		F1A1DF711A01AF1C003B1D2E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		F1AF8D9E1A29911F00CBBAD3 /* NSDate+TimeAgo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+TimeAgo.h"; sourceTree = "<group>"; };
+		F1AF8D9F1A29911F00CBBAD3 /* NSDate+TimeAgo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+TimeAgo.m"; sourceTree = "<group>"; };
+		F1AF8DA01A29911F00CBBAD3 /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NSDateTimeAgo.bundle; sourceTree = "<group>"; };
 		F1B32CC91A067FC600974B3E /* PostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		F1B32CCB1A06AD0300974B3E /* MainPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainPageViewController.swift; sourceTree = "<group>"; };
 		F1BF81AA1A08707300CACDEE /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		F1BF81AC1A087A5100CACDEE /* PostsTopBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsTopBarViewController.swift; sourceTree = "<group>"; };
+		F1C8B13B1A6F2938002B4837 /* diagmonds.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = diagmonds.png; sourceTree = "<group>"; };
+		F1C8B13C1A6F2938002B4837 /* diagmonds_@2X.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "diagmonds_@2X.png"; sourceTree = "<group>"; };
+		F1C8B13D1A6F2938002B4837 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
+		F1C8B13E1A6F2938002B4837 /* TTBlackTriangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTBlackTriangle.h; sourceTree = "<group>"; };
+		F1C8B13F1A6F2938002B4837 /* TTBlackTriangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTBlackTriangle.m; sourceTree = "<group>"; };
+		F1C8B1401A6F2938002B4837 /* TTScrollSlidingPagesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTScrollSlidingPagesController.h; sourceTree = "<group>"; };
+		F1C8B1411A6F2938002B4837 /* TTScrollSlidingPagesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTScrollSlidingPagesController.m; sourceTree = "<group>"; };
+		F1C8B1421A6F2938002B4837 /* TTScrollViewWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTScrollViewWrapper.h; sourceTree = "<group>"; };
+		F1C8B1431A6F2938002B4837 /* TTScrollViewWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTScrollViewWrapper.m; sourceTree = "<group>"; };
+		F1C8B1441A6F2938002B4837 /* TTSliddingPageDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTSliddingPageDelegate.h; sourceTree = "<group>"; };
+		F1C8B1451A6F2938002B4837 /* TTSlidingPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTSlidingPage.h; sourceTree = "<group>"; };
+		F1C8B1461A6F2938002B4837 /* TTSlidingPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTSlidingPage.m; sourceTree = "<group>"; };
+		F1C8B1471A6F2938002B4837 /* TTSlidingPagesDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTSlidingPagesDataSource.h; sourceTree = "<group>"; };
+		F1C8B1481A6F2938002B4837 /* TTSlidingPageTitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTSlidingPageTitle.h; sourceTree = "<group>"; };
+		F1C8B1491A6F2938002B4837 /* TTSlidingPageTitle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTSlidingPageTitle.m; sourceTree = "<group>"; };
+		F1C8B14A1A6F2938002B4837 /* TTUIScrollViewSlidingPages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTUIScrollViewSlidingPages.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +155,12 @@
 		F114E0FC19F9C52500259ED5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F1C8B1381A6F2938002B4837 /* TSScrollSlidingPages */,
+				F1568DD01A2AC48E00B5D034 /* NSOperationStack.h */,
+				F1568DD11A2AC48E00B5D034 /* NSOperationStack.m */,
+				F1AF8D9E1A29911F00CBBAD3 /* NSDate+TimeAgo.h */,
+				F1AF8D9F1A29911F00CBBAD3 /* NSDate+TimeAgo.m */,
+				F1AF8DA01A29911F00CBBAD3 /* NSDateTimeAgo.bundle */,
 				F156CBDD19F9CA290028BDA0 /* FacebookSDK.framework */,
 				F114E0FD19F9C52500259ED5 /* Info.plist */,
 			);
@@ -154,6 +194,7 @@
 				F13530751A06CD8A0024406D /* LeftRightViewController.swift */,
 				F1BF81AA1A08707300CACDEE /* MainViewController.swift */,
 				F1BF81AC1A087A5100CACDEE /* PostsTopBarViewController.swift */,
+				F11928FD1A2B8565007E37C0 /* RightViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -176,6 +217,46 @@
 				F1955C631A0323B200BEECC1 /* Comment.swift */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		F1C8B1381A6F2938002B4837 /* TSScrollSlidingPages */ = {
+			isa = PBXGroup;
+			children = (
+				F1C8B1391A6F2938002B4837 /* Images */,
+				F1C8B13E1A6F2938002B4837 /* TTBlackTriangle.h */,
+				F1C8B13F1A6F2938002B4837 /* TTBlackTriangle.m */,
+				F1C8B1401A6F2938002B4837 /* TTScrollSlidingPagesController.h */,
+				F1C8B1411A6F2938002B4837 /* TTScrollSlidingPagesController.m */,
+				F1C8B1421A6F2938002B4837 /* TTScrollViewWrapper.h */,
+				F1C8B1431A6F2938002B4837 /* TTScrollViewWrapper.m */,
+				F1C8B1441A6F2938002B4837 /* TTSliddingPageDelegate.h */,
+				F1C8B1451A6F2938002B4837 /* TTSlidingPage.h */,
+				F1C8B1461A6F2938002B4837 /* TTSlidingPage.m */,
+				F1C8B1471A6F2938002B4837 /* TTSlidingPagesDataSource.h */,
+				F1C8B1481A6F2938002B4837 /* TTSlidingPageTitle.h */,
+				F1C8B1491A6F2938002B4837 /* TTSlidingPageTitle.m */,
+				F1C8B14A1A6F2938002B4837 /* TTUIScrollViewSlidingPages.h */,
+			);
+			name = TSScrollSlidingPages;
+			path = Source;
+			sourceTree = "<group>";
+		};
+		F1C8B1391A6F2938002B4837 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				F1C8B13A1A6F2938002B4837 /* diagmonds */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		F1C8B13A1A6F2938002B4837 /* diagmonds */ = {
+			isa = PBXGroup;
+			children = (
+				F1C8B13B1A6F2938002B4837 /* diagmonds.png */,
+				F1C8B13C1A6F2938002B4837 /* diagmonds_@2X.png */,
+				F1C8B13D1A6F2938002B4837 /* readme.txt */,
+			);
+			path = diagmonds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -265,6 +346,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				F1A1DF721A01AF1C003B1D2E /* Main.storyboard in Resources */,
+				F1AF8DA21A29911F00CBBAD3 /* NSDateTimeAgo.bundle in Resources */,
+				F1C8B14B1A6F2938002B4837 /* diagmonds.png in Resources */,
+				F1C8B14C1A6F2938002B4837 /* diagmonds_@2X.png in Resources */,
+				F1C8B14D1A6F2938002B4837 /* readme.txt in Resources */,
 				F114E10919F9C52500259ED5 /* LaunchScreenOld.xib in Resources */,
 				F114E10619F9C52500259ED5 /* Images.xcassets in Resources */,
 			);
@@ -284,13 +369,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F11928FE1A2B8565007E37C0 /* RightViewController.swift in Sources */,
 				F114E10119F9C52500259ED5 /* PostsViewController.swift in Sources */,
 				F13530761A06CD8A0024406D /* LeftRightViewController.swift in Sources */,
+				F1C8B1501A6F2938002B4837 /* TTScrollViewWrapper.m in Sources */,
 				F1B32CCC1A06AD0300974B3E /* MainPageViewController.swift in Sources */,
 				F1BF81AB1A08707300CACDEE /* MainViewController.swift in Sources */,
+				F1C8B1521A6F2938002B4837 /* TTSlidingPageTitle.m in Sources */,
+				F1C8B14E1A6F2938002B4837 /* TTBlackTriangle.m in Sources */,
 				F1955C661A045BA100BEECC1 /* FilterCell.swift in Sources */,
+				F1568DD21A2AC48E00B5D034 /* NSOperationStack.m in Sources */,
+				F1C8B14F1A6F2938002B4837 /* TTScrollSlidingPagesController.m in Sources */,
+				F1AF8DA11A29911F00CBBAD3 /* NSDate+TimeAgo.m in Sources */,
 				F114E0FF19F9C52500259ED5 /* AppDelegate.swift in Sources */,
 				F1B32CCA1A067FC600974B3E /* PostViewController.swift in Sources */,
+				F1C8B1511A6F2938002B4837 /* TTSlidingPage.m in Sources */,
 				F114E12119F9C75E00259ED5 /* PostCell.swift in Sources */,
 				F1955C641A0323B200BEECC1 /* Comment.swift in Sources */,
 				F1BF81AD1A087A5100CACDEE /* PostsTopBarViewController.swift in Sources */,

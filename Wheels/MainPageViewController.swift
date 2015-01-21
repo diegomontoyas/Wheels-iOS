@@ -11,11 +11,13 @@ import Foundation
 class MainPageViewController: UIPageViewController,UIPageViewControllerDelegate, UIPageViewControllerDataSource, UIGestureRecognizerDelegate, UIScrollViewDelegate
 {
     private(set) var scrollViewPanGestureRecognzier = UIPanGestureRecognizer()
-    private(set) var originalPanGestureRecognizer: UIPanGestureRecognizer!
     
     private(set) var scrollView: UIScrollView!
     
     private(set) var lastScrollPercentage:CGFloat = 0
+    
+    private var postsViewController: PostsViewController!
+    private var rightViewController: RightViewController!
     
     override func viewDidLoad()
     {
@@ -28,34 +30,26 @@ class MainPageViewController: UIPageViewController,UIPageViewControllerDelegate,
                 scrollView.alwaysBounceHorizontal = true
                 scrollView.alwaysBounceVertical = false
                 scrollView.delegate = self
+                scrollView.scrollsToTop = false
                 self.scrollView = scrollView
-                
-                for gestureRecognizer in scrollView.gestureRecognizers!
-                {
-                    if let panGestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer
-                    {
-                        originalPanGestureRecognizer = panGestureRecognizer
-                    }
-                }
-                
-                scrollViewPanGestureRecognzier.delegate = self
-                //scrollView.addGestureRecognizer(scrollViewPanGestureRecognzier)
             }
         }
         
         dataSource = self
         delegate = self
         
-        let initialViewController = storyboard?.instantiateViewControllerWithIdentifier("PostsViewController") as PostsViewController
-        setViewControllers([initialViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
+        postsViewController = storyboard?.instantiateViewControllerWithIdentifier("PostsViewController") as PostsViewController
+       
+        rightViewController = storyboard?.instantiateViewControllerWithIdentifier("RightViewController") as? RightViewController!
+        
+        setViewControllers([postsViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
     }
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController?
     {
-        if viewController is PostViewController
+        if viewController is RightViewController
         {
-            let controller = storyboard?.instantiateViewControllerWithIdentifier("PostsViewController") as? PostsViewController
-            return controller
+            return postsViewController
         }
         else
         {
@@ -67,8 +61,7 @@ class MainPageViewController: UIPageViewController,UIPageViewControllerDelegate,
     {
         if viewController is PostsViewController
         {
-            let controller = storyboard?.instantiateViewControllerWithIdentifier("PostViewController") as? PostViewController
-            return controller
+            return rightViewController
         }
         else
         {
@@ -111,44 +104,5 @@ class MainPageViewController: UIPageViewController,UIPageViewControllerDelegate,
         {
             
         }*/
-    }
-    
-    let grabberWidth:CGFloat = 40
-    let distanceToGrabberBottomFromBottomOfScreen:CGFloat = 70
-    
-    /*func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool
-    {
-        if gestureRecognizer === scrollViewPanGestureRecognzier
-        {
-            let locationInView = gestureRecognizer.locationInView(view)
-            
-            let y = locationInView.y
-            let x = locationInView.x
-            
-            let screenBounds = UIScreen.mainScreen().bounds
-            
-            if y > screenBounds.size.height-distanceToGrabberBottomFromBottomOfScreen-grabberWidth
-                && y < screenBounds.size.height-distanceToGrabberBottomFromBottomOfScreen
-            {
-                if viewControllers.first is PostsViewController && (x > screenBounds.size.width-grabberWidth) && (x < screenBounds.size.width)
-                {
-                    return false
-                }
-                else if viewControllers.first is PostViewController && (x > 0) && (x < grabberWidth)
-                {
-                    return false
-                }
-            }
-            else
-            {
-                return true
-            }
-        }
-        return true
-    }
-    
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool
-    {
-        return false
-    }*/
+    }    
 }
