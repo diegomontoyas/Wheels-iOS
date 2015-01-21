@@ -100,9 +100,7 @@ class PostsTopBarViewController: UIViewController, UICollectionViewDelegate, UIC
                         
                         self.keywordsTextField.layoutIfNeeded()
                         
-                        }, completion: {(_) -> Void in
-                            
-                            system.reCheckDeletingRecentPosts(true)
+                        }, completion: {(_) -> Void in                            
                     })
             }
         }
@@ -112,7 +110,6 @@ class PostsTopBarViewController: UIViewController, UICollectionViewDelegate, UIC
     {
         system.removeFilterAtIndex(indexPath.item)
         filtersCollectionView.deleteItemsAtIndexPaths([indexPath])
-        system.reCheckDeletingRecentPosts(true)
         
         if system.filters.isEmpty
         {

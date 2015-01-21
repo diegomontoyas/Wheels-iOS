@@ -28,16 +28,12 @@ let kWheelsGroupID = "429208293784763"
 
 let kUseFacebookDeveloperConnection = true
 
-class System
+class System: NSObject
 {
-    init()
-    {
-    }
+    let getPostsQueue = NSOperationQueue()
+    let processPostsQueue = NSOperationQueue()
     
-    class func S() -> System
-    {
-        return _systemSharedInstance
-    }
+    let reCheckInterval = 20.0
     
     weak var postsDelegate:PostsDelegate?
     
@@ -50,18 +46,45 @@ class System
     
     private var checkLock = NSObject()
     
-    let queue = NSOperationQueue()
     private(set) var started = false
+    
+    override init()
+    {
+        super.init()
+        
+        getPostsQueue.maxConcurrentOperationCount = 1
+        processPostsQueue.maxConcurrentOperationCount = 1
+    }
+    
+    class func S() -> System
+    {
+        return _systemSharedInstance
+    }
+    
+    func start()
+    {
+        if !started
+        {
+            started = true
+            
+            self.reCheckDeletingRecentPosts(true)
+            
+            NSTimer.scheduledTimerWithTimeInterval(self.reCheckInterval, target: self, selector: Selector("postsTimerTicked:"), userInfo: nil, repeats: true)
+        }
+    }
+    
+    func postsTimerTicked(timer:NSTimer)
+    {
+        let closure: () -> Void = {
+            
+            self.reCheckDeletingRecentPosts(false)
+        }
+        
+        getPostsQueue.addOperationWithBlock(closure)
+    }
     
     func reCheckDeletingRecentPosts(deletingRecentPosts:Bool)
     {
-        objc_sync_enter(checkLock)
-        
-        if !currentlyChecking
-        {
-            currentlyChecking = true
-            
-            objc_sync_exit(checkLock)
          
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
             
@@ -80,10 +103,12 @@ class System
                     
                     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
                     
-                    dispatch_async(dispatch_get_main_queue()) {
-                    
+                    let closure: () -> Void = {
+                        
                         self.receivedFacebookPostsInfoWithResponse(response, data: data, error: error, deleteRecentPosts:deletingRecentPosts)
                     }
+                    
+                    self.processPostsQueue.addOperationWithBlock(closure)
                 }
                 else
                 {
@@ -97,20 +122,18 @@ class System
                             
                             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                             
-                            dispatch_async(dispatch_get_main_queue()) {
+                            let closure: () -> Void = {
                                 
                                 self.receivedFacebookPostsInfoWithConnection(connection, result: result, error: error, deleteRecentPosts:deletingRecentPosts) 
                             }
+                            
+                            self.processPostsQueue.addOperationWithBlock(closure)
                         })
                         return
                     }
                 }
             })
-        }
-        else
-        {
-            objc_sync_exit(checkLock)
-        }
+        
     }
     
     private func receivedFacebookPostsInfoWithResponse(response:NSURLResponse!, data:NSData!, error:NSError!, deleteRecentPosts:Bool)
@@ -219,12 +242,6 @@ class System
                 }
             }
         }
-        
-        objc_sync_enter(checkLock)
-        
-        currentlyChecking = false
-        
-        objc_sync_exit(checkLock)
     }
     
     private func receivedFacebookPostsInfoWithConnection(connection: FBRequestConnection!, result: AnyObject!, error: NSError!, deleteRecentPosts:Bool)
@@ -329,13 +346,7 @@ class System
                 self.postsDelegate?.systemDidReceiveNewPosts()
                 ()
             }
-        }
-        
-        objc_sync_enter(currentlyChecking)
-        
-        currentlyChecking = false
-        
-        objc_sync_exit(currentlyChecking)
+        }        
     }
     
     func vibrate()
@@ -355,28 +366,6 @@ class System
         UIApplication.sharedApplication().scheduleLocalNotification(notification)*/
     }
     
-    func start()
-    {
-        if !started
-        {
-            started = true
-            
-            self.reCheckDeletingRecentPosts(true)
-            
-            queue.addOperationWithBlock()
-                {
-                    while true
-                    {
-                        NSThread.sleepForTimeInterval(20)
-                        
-                        dispatch_async(dispatch_get_main_queue()) {
-                            self.reCheckDeletingRecentPosts(false)
-                        }
-                    }
-            }
-        }
-    }
-    
     /*func stop()
     {
         queue.cancelAllOperations()
@@ -385,11 +374,13 @@ class System
     func addFilter(filter:String)
     {
         filters.append(filter)
+        system.reCheckDeletingRecentPosts(true)
     }
     
     func removeFilterAtIndex(index:Int)
     {
         filters.removeAtIndex(index)
+        system.reCheckDeletingRecentPosts(true)
     }
     
     func goToProfilePageOfPersonWithID(ID: String)

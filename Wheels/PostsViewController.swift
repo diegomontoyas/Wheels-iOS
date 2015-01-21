@@ -75,11 +75,7 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         view.bringSubviewToFront(grabber)
         
         grabber.addGestureRecognizer(tapGestureRecognizer)
-        
-        //settingsButton.clipsToBounds = true
-        settingsButton.layer.cornerRadius = 20
-        //view.bringSubviewToFront(settingsButton)
-        
+                
         prototypePostCell = tableView.dequeueReusableCellWithIdentifier("PostCell") as PostCell
         prototypeCommentCell = tableView.dequeueReusableCellWithIdentifier("CommentCell") as CommentCell
     }
