@@ -10,5 +10,8 @@
 #define Wheels_Bridging_Header_h
 
 #import <FacebookSDK/FacebookSDK.h>
+#import "NSDate+TimeAgo.h"
+#import "NSOperationStack.h"
+#import "TTUIScrollViewSlidingPages.h"
 
 #endif

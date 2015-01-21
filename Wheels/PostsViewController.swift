@@ -36,18 +36,12 @@ extension UIView
     }
 }
 
-func synced(lock: AnyObject, closure: () -> ())
-{
-    objc_sync_enter(lock)
-    closure()
-    objc_sync_exit(lock)
-}
-
 class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, PostsDelegate
 {
     @IBOutlet var timeTextField: UITextField!
     @IBOutlet var tableView: UITableView!
     @IBOutlet var grabber: UIView!
+    @IBOutlet weak var settingsButton: UIView!
     
     weak var mainPageViewController:MainPageViewController?
     
@@ -56,6 +50,10 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     let imageLoadingOperationQueue = NSOperationQueue()
     private(set) var imageLoadingOngoingOperations = [NSIndexPath:NSBlockOperation]()
+    
+    let downloadedPhotoDimensions = "90"
+    let photoImageViewSize:CGFloat = 52
+    let nilImagePhotoImageViewSize:CGFloat = 14
     
     override func viewDidLoad()
     {
@@ -78,23 +76,21 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         grabber.addGestureRecognizer(tapGestureRecognizer)
         
+        //settingsButton.clipsToBounds = true
+        settingsButton.layer.cornerRadius = 20
+        //view.bringSubviewToFront(settingsButton)
+        
         prototypePostCell = tableView.dequeueReusableCellWithIdentifier("PostCell") as PostCell
         prototypeCommentCell = tableView.dequeueReusableCellWithIdentifier("CommentCell") as CommentCell
     }
     
     override func viewWillAppear(animated: Bool)
     {
-        view.setNeedsLayout()
-        view.setNeedsDisplay()
-        view.setNeedsUpdateConstraints()
     }
     
     override func viewDidAppear(animated: Bool)
     {
         super.viewDidAppear(animated)
-        
-        //UIAlertView(title: "Push Notifications", message: "Once you start adding filters you will be automatically notified of new posts containing those filters, no need to do anything additional ;). If you wish to stop receiving notifications, simply remove all filters", delegate: self, cancelButtonTitle: "OK").show()
-        
         
         if let indexPath = tableView.indexPathForSelectedRow()
         {
@@ -113,6 +109,11 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         tableView.reloadData()
     }
     
+    func systemDidDeleteUnnecessaryResources()
+    {
+        tableView.reloadData()
+    }
+    
     //TableView DataSource
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int
@@ -127,8 +128,6 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return post.comments.count + 1
     }
     
-    let nilImagePhotoImageViewSize:CGFloat = 14
-    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         let post = system.posts[indexPath.section]
@@ -139,17 +138,17 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             let postCell = tableView.dequeueReusableCellWithIdentifier("PostCell") as PostCell
             
             postCell.photoImageView.image = nil
-
-            findPhotoForCell(postCell, atIndexPath: indexPath)
             
             if postCell.photoImageView.image == nil
             {
                 postCell.photoWidthConstraint.constant = nilImagePhotoImageViewSize
                 postCell.photoHeightConstraint.constant = nilImagePhotoImageViewSize
-            
+                
                 postCell.layoutIfNeeded()
-                postCell.setNeedsUpdateConstraints()
+                postCell.updateConstraintsIfNeeded()
             }
+            
+            findPhotoForCell(postCell, atIndexPath: indexPath)
             
             postCell.contentView.autoresizingMask = UIViewAutoresizing.FlexibleHeight
             
@@ -162,10 +161,12 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             postCell.backBorderView.layer.cornerRadius = 8
             postCell.contentBackground.layer.cornerRadius = 8
             
-            var df = NSDateFormatter()
-            df.dateFormat = "MMMM dd hh:mm a"
+            var dateformatter = NSDateFormatter()
+            dateformatter.dateFormat = "MMMM dd hh:mm a"
             
-            var dateString = df.stringFromDate(post.time!)
+            var timeInterval = 60*60*24*7 as NSTimeInterval
+            
+            var dateString = post.time?.timeAgoWithLimit(timeInterval, dateFormatter: dateformatter)
             
             postCell.timeLabel.text = dateString
             
@@ -198,7 +199,7 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             var textView = UITextView()
             textView.text = post.post
             textView.font = prototypePostCell.textField.font
-            let size = textView.sizeThatFits(CGSizeMake(prototypePostCell.textField.frame.size.width, CGFloat.max))
+            let size = textView.sizeThatFits(CGSizeMake(prototypePostCell.width, CGFloat.max))
             
             height = size.height + prototypePostCell.heightWithoutTextField
         }
@@ -209,7 +210,7 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             var textView = UITextView()
             textView.text = comment.comment
             textView.font = prototypeCommentCell.textField.font
-            let size = textView.sizeThatFits(CGSizeMake(prototypeCommentCell.frame.size.width, CGFloat.max))
+            let size = textView.sizeThatFits(CGSizeMake(prototypeCommentCell.width, CGFloat.max))
             
             height = size.height + prototypeCommentCell.heightWithoutTextField
         }
@@ -236,9 +237,6 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let cell = tableView.cellForRowAtIndexPath(indexPath) as PostCell
     }
     
-    let downloadedPhotoDimensions = "90"
-    let photoImageViewSize:CGFloat = 52
-    
     func findPhotoForCell(cell:PostCell, atIndexPath indexPath:NSIndexPath)
     {
         let post = system.posts[indexPath.section]
@@ -258,59 +256,88 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             }
             else
             {
-                let params = ["redirect":"false","height":self.downloadedPhotoDimensions, "width":self.downloadedPhotoDimensions, "type":"normal"]
+                let blockOperation = NSBlockOperation()
+                weak var weakBlockOperation = blockOperation
                 
-                FBRequestConnection.startWithGraphPath("/\(post.senderID)/picture", parameters:params, HTTPMethod: "GET", completionHandler: { (connection:FBRequestConnection!, result:AnyObject!, error:NSError!) -> Void in
-                    
-                    if error == nil
+                blockOperation.addExecutionBlock()
+                {
+                    dispatch_async(dispatch_get_main_queue())
                     {
-                        let blockOperation = NSBlockOperation()
-                        weak var weakBlockOperation = blockOperation
-                        
-                        blockOperation.addExecutionBlock()
+                        if weakBlockOperation != nil && !weakBlockOperation!.cancelled
                         {
-                            let data = result["data"] as FBGraphObject
-                            let photoURLString = data["url"] as String
-                            let photoURL = NSURL(string: photoURLString)
+                            /*var url = NSURL(string: "http://graph.facebook.com/\(post.senderID)/picture?redirect=false&height=\(self.downloadedPhotoDimensions)&width=\(self.downloadedPhotoDimensions)&type=normal")
                             
-                            let photo = UIImage(data: NSData(contentsOfURL: photoURL!)!)
+                            var request = NSMutableURLRequest(URL: url!)
+                            request.HTTPMethod = "GET"
                             
-                            NSOperationQueue.mainQueue().addOperationWithBlock()
-                            {
-                                post.senderPhoto = photo
+                            NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue(), completionHandler: { (response:NSURLResponse!, data:NSData!, error:NSError!) -> Void in
                                 
-                                if let nonNilblockOperation = weakBlockOperation
+                                
+                            })*/
+                            
+                            let params = ["redirect":"false","height":self.downloadedPhotoDimensions, "width":self.downloadedPhotoDimensions, "type":"normal"]
+                        
+                            FBRequestConnection.startWithGraphPath("/\(post.senderID)/picture", parameters:params, HTTPMethod: "GET", completionHandler: { (connection:FBRequestConnection!, result:AnyObject!, error:NSError!) -> Void in
+                                
+                                if error == nil
                                 {
-                                    if !nonNilblockOperation.cancelled
+                                    let data = result["data"] as FBGraphObject
+                                    let photoURLString = data["url"] as String
+                                    let photoURL = NSURL(string: photoURLString)
+                                    
+                                    if weakBlockOperation != nil && !weakBlockOperation!.cancelled
+                                    {
+                                        let photo = UIImage(data: NSData(contentsOfURL: photoURL!)!)
+                                        
+                                        dispatch_async(dispatch_get_main_queue())
+                                            {
+                                                post.senderPhoto = photo
+                                                
+                                                if weakBlockOperation != nil && !weakBlockOperation!.cancelled
+                                                {
+                                                    cell.photoImageView.image = photo
+                                                    cell.photoImageView.layer.cornerRadius = self.photoImageViewSize/2
+                                                    
+                                                    cell.setNeedsUpdateConstraints()
+                                                    cell.layoutIfNeeded()
+                                                
+                                                
+                                                    UIView.animateWithDuration(0.2, animations: {
+                                                        
+                                                        cell.photoWidthConstraint.constant = self.photoImageViewSize
+                                                        cell.photoHeightConstraint.constant = self.photoImageViewSize
+                                                        
+                                                        cell.setNeedsUpdateConstraints()
+                                                        cell.layoutIfNeeded()
+                                                        
+                                                        }, completion: {(_) -> Void in
+                                                            
+                                                            cell.photoImageView.layer.cornerRadius = cell.photoImageView.frame.size.height/2
+                                                    })
+                                                }
+                                                
+                                                self.imageLoadingOngoingOperations.removeValueForKey(indexPath)
+                                        }
+                                    }
+                                    else
                                     {
                                         self.imageLoadingOngoingOperations.removeValueForKey(indexPath)
-                                        
-                                        cell.photoImageView?.image = photo
-                                        cell.photoImageView.layer.cornerRadius = self.photoImageViewSize/2
-                                        
-                                        cell.setNeedsUpdateConstraints()
-                                        cell.layoutIfNeeded()
-                                        
-                                        UIView.animateWithDuration(0.2, animations: {
-                                            
-                                            cell.photoWidthConstraint.constant = self.photoImageViewSize
-                                            cell.photoHeightConstraint.constant = self.photoImageViewSize
-                                            
-                                            cell.setNeedsUpdateConstraints()
-                                            cell.layoutIfNeeded()
-                                            
-                                            }, completion: {(_) -> Void in
-                                                
-                                                cell.photoImageView.layer.cornerRadius = cell.photoImageView.frame.size.height/2
-                                        })
                                     }
                                 }
-                            }
+                            })
                         }
-                        self.imageLoadingOperationQueue.addOperation(blockOperation)
-                        self.imageLoadingOngoingOperations[indexPath] = blockOperation
+                        else
+                        {
+                            self.imageLoadingOngoingOperations.removeValueForKey(indexPath)
+                        }
                     }
-                })
+                }
+                
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue())
+                    {
+                        self.imageLoadingOperationQueue.addOperationAtFrontOfQueue(blockOperation)
+                }
+                self.imageLoadingOngoingOperations[indexPath] = blockOperation
             }
         }
     }
@@ -321,6 +348,11 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         {
             operation.cancel()
         }
+    }
+    
+    override func didReceiveMemoryWarning()
+    {
+        system.deleteUnnecessaryResources()
     }
 }
 

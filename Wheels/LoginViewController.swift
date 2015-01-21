@@ -20,11 +20,29 @@ class LoginViewController: UIViewController, FBLoginViewDelegate
         navigationController?.setNavigationBarHidden(true, animated: false)
         
         fbLoginView.delegate = self
-        fbLoginView.readPermissions = ["user_groups"]
-        fbLoginView.publishPermissions = ["publish_actions"]
+        
+        if kUseFacebookDeveloperConnection
+        {
+            fbLoginView.readPermissions = ["user_groups"]
+        }
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("appDidBecomeActive:"), name: "appDidBecomeActive", object: nil)
+    }
+    
+    func appDidBecomeActive(notification: NSNotification)
+    {
+        if isViewLoaded() && view.window != nil
+        {
+            animateWheel()
+        }
     }
     
     override func viewDidAppear(animated: Bool)
+    {
+        animateWheel()
+    }
+    
+    func animateWheel ()
     {
         var animation = CABasicAnimation(keyPath: "transform.rotation.z")
         animation.fromValue = 0.0
