@@ -202,10 +202,19 @@ class System: NSObject
                                     var comment = Comment(comment: messageCommentJSON)
                                     comments.append(comment)
                                     
-                                    if messageCommentJSON.contains("lleno") || messageCommentJSON.contains("llena")
-                                        || ( messageCommentJSON.contains("no") && (messageCommentJSON.contains("quedan") || messageCommentJSON.contains("hay") || messageCommentJSON.contains("tengo")) && messageCommentJSON.contains("cupos") )
+                                    let postSenderJSON = rawPost["from"] as AnyObject!
+                                    let postSenderID = postSenderJSON["id"] as String
+                                    
+                                    let commentSenderJSON = commentJSON["from"] as AnyObject!
+                                    let commentSenderID = commentSenderJSON["id"] as String
+                                    
+                                    if commentSenderID == postSenderID
                                     {
-                                        full = true
+                                        if messageCommentJSON.contains("lleno") || messageCommentJSON.contains("llena")
+                                            || ( messageCommentJSON.contains("no") && (messageCommentJSON.contains("quedan") || messageCommentJSON.contains("hay") || messageCommentJSON.contains("tengo")) && messageCommentJSON.contains("cupos") )
+                                        {
+                                            full = true
+                                        }
                                     }
                                 }
                             }
