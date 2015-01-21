@@ -8,7 +8,7 @@
 
 import Foundation
 
-class LeftRightViewController: UIViewController, UIGestureRecognizerDelegate, UIScrollViewDelegate
+class LeftRightViewController: Tssl, UIGestureRecognizerDelegate, UIScrollViewDelegate
 {
     @IBOutlet weak var scrollView: UIScrollView!
     var panGestureRecognzier = UIPanGestureRecognizer()
