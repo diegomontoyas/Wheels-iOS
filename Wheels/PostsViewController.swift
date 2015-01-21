@@ -114,19 +114,19 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int
     {
-        return system.posts.count
+        return system.lastCheckPosts.count
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    {
-        let post = system.posts[section]
+    {        
+        let post = system.lastCheckPosts[section]
 
         return post.comments.count + 1
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        let post = system.posts[indexPath.section]
+        let post = system.lastCheckPosts[indexPath.section]
         var cell:UITableViewCell
         
         if indexPath.row == 0
@@ -169,7 +169,7 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             cell = postCell
         }
         else
-        {
+        {            
             let comment = post.comments[indexPath.row-1]
             
             let commentCell = tableView.dequeueReusableCellWithIdentifier("CommentCell") as CommentCell
@@ -188,7 +188,7 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
     {
         var height:CGFloat = 0
-        let post = system.posts[indexPath.section]
+        let post = system.lastCheckPosts[indexPath.section]
         
         if (indexPath.row == 0)
         {
@@ -218,7 +218,7 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        let post = system.posts[indexPath.section]
+        let post = system.lastCheckPosts[indexPath.section]
         
         system.goToProfilePageOfPersonWithID(post.senderID)
     }
@@ -235,7 +235,7 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func findPhotoForCell(cell:PostCell, atIndexPath indexPath:NSIndexPath)
     {
-        let post = system.posts[indexPath.section]
+        let post = system.lastCheckPosts[indexPath.section]
         
         if indexPath.row == 0
         {
@@ -283,10 +283,13 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                                     
                                     if weakBlockOperation != nil && !weakBlockOperation!.cancelled
                                     {
-                                        let photo = UIImage(data: NSData(contentsOfURL: photoURL!)!)
+                                        let photoData = NSData(contentsOfURL: photoURL!) as NSData?
+                                        let photo = photoData != nil ? UIImage(data: photoData!) : nil
                                         
-                                        dispatch_async(dispatch_get_main_queue())
-                                            {
+                                        if photo != nil
+                                        {
+                                            dispatch_async(dispatch_get_main_queue()){
+                                                
                                                 post.senderPhoto = photo
                                                 
                                                 if weakBlockOperation != nil && !weakBlockOperation!.cancelled
@@ -296,8 +299,8 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                                                     
                                                     cell.setNeedsUpdateConstraints()
                                                     cell.layoutIfNeeded()
-                                                
-                                                
+                                                    
+                                                    
                                                     UIView.animateWithDuration(0.2, animations: {
                                                         
                                                         cell.photoWidthConstraint.constant = self.photoImageViewSize
@@ -313,6 +316,7 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                                                 }
                                                 
                                                 self.imageLoadingOngoingOperations.removeValueForKey(indexPath)
+                                            }
                                         }
                                     }
                                     else

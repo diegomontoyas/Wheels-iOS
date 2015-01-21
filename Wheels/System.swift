@@ -37,8 +37,9 @@ class System: NSObject
     
     weak var postsDelegate:PostsDelegate?
     
-    private(set) var posts = [Post]()
-    private(set) var postsDictionary = [String:Post]()
+    private(set) var lastCheckPosts = [Post]()
+    private var mutablePosts = [Post]()
+    private var postsDictionary = [String:Post]()
     
     private(set) var filters = [String]()
     
@@ -47,6 +48,8 @@ class System: NSObject
     private var checkLock = NSObject()
     
     private(set) var started = false
+    
+    private var checkOperationCount = 0
     
     override init()
     {
@@ -85,54 +88,62 @@ class System: NSObject
     
     func reCheckDeletingRecentPosts(deletingRecentPosts:Bool)
     {
-         
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        checkOperationCount++
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        
+        var urlString = "\(serverPath)/getFeed"
+        var url = NSURL(string: urlString)
+        
+        var request = NSMutableURLRequest(URL: url!)
+        request.HTTPMethod = "GET"
+        request.timeoutInterval = 2;
+        
+        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue(), completionHandler: { (response:NSURLResponse!, data:NSData!, error:NSError!) -> Void in
             
-            var urlString = "\(serverPath)/getFeed"
-            var url = NSURL(string: urlString)
-            
-            var request = NSMutableURLRequest(URL: url!)
-            request.HTTPMethod = "GET"
-            request.timeoutInterval = 2;
-            
-            NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue(), completionHandler: { (response:NSURLResponse!, data:NSData!, error:NSError!) -> Void in
+            if data != nil
+            {
+                println("Received: \(NSDate())")
+             
+                self.checkOperationCount--
+                if self.checkOperationCount == 0
+                {
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                }
                 
-                if data != nil
-                {
-                    println("Received: \(NSDate())")
+                let closure: () -> Void = {
                     
-                    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-                    
-                    let closure: () -> Void = {
-                        
-                        self.receivedFacebookPostsInfoWithResponse(response, data: data, error: error, deleteRecentPosts:deletingRecentPosts)
-                    }
-                    
-                    self.processPostsQueue.addOperationWithBlock(closure)
+                    self.receivedFacebookPostsInfoWithResponse(response, data: data, error: error, deleteRecentPosts:deletingRecentPosts)
                 }
-                else
-                {
-                    dispatch_async(dispatch_get_main_queue())
-                    {                        
-                        let limit = deletingRecentPosts ? 200 : 50
+                
+                self.processPostsQueue.addOperationWithBlock(closure)
+            }
+            else
+            {
+                dispatch_async(dispatch_get_main_queue()){
+                    
+                    let limit = deletingRecentPosts ? 200 : 50
+                    
+                    FBRequestConnection.startWithGraphPath("\(kWheelsGroupID)/feed?limit=\(limit)", completionHandler: { (connection: FBRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
                         
-                        FBRequestConnection.startWithGraphPath("\(kWheelsGroupID)/feed?limit=\(limit)", completionHandler: { (connection: FBRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
-                            
-                            println("Received: \(NSDate())")
-                            
+                        println("Received: \(NSDate())")
+                        
+                        self.checkOperationCount--                        
+                        if self.checkOperationCount == 0
+                        {
                             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                        }
+                        
+                        let closure: () -> Void = {
                             
-                            let closure: () -> Void = {
-                                
-                                self.receivedFacebookPostsInfoWithConnection(connection, result: result, error: error, deleteRecentPosts:deletingRecentPosts) 
-                            }
-                            
-                            self.processPostsQueue.addOperationWithBlock(closure)
-                        })
-                        return
-                    }
+                            self.receivedFacebookPostsInfoWithConnection(connection, result: result, error: error, deleteRecentPosts:deletingRecentPosts)
+                        }
+                        
+                        self.processPostsQueue.addOperationWithBlock(closure)
+                    })
+                    return
                 }
-            })
+            }
+        })
         
     }
     
@@ -140,7 +151,7 @@ class System: NSObject
     {
         if deleteRecentPosts
         {
-            self.posts = []
+            self.mutablePosts = []
             self.postsDictionary = [:]
         }
         
@@ -215,7 +226,7 @@ class System: NSObject
                                 var post = Post(ID:postID, senderName: senderName, senderID: senderID, post: messageJSON, time:convertServerTimeStringToNSDate(time), full:full)
                                 
                                 post.comments = comments
-                                posts.insert(post, atIndex: 0)
+                                mutablePosts.insert(post, atIndex: 0)
                                 postsDictionary[postID] = post
                                 newPosts = true
                             }
@@ -225,7 +236,7 @@ class System: NSObject
                 
                 if deleteRecentPosts
                 {
-                    posts.sort({ (postA:Post, postB:Post) -> Bool in
+                    mutablePosts.sort({ (postA:Post, postB:Post) -> Bool in
                         
                         return postA.time?.compare(postB.time!) == NSComparisonResult.OrderedDescending
                     })
@@ -234,6 +245,8 @@ class System: NSObject
                 {
                     vibrate()
                 }
+                
+                lastCheckPosts = mutablePosts
                 
                 dispatch_async(dispatch_get_main_queue()) {
                     
@@ -245,10 +258,10 @@ class System: NSObject
     }
     
     private func receivedFacebookPostsInfoWithConnection(connection: FBRequestConnection!, result: AnyObject!, error: NSError!, deleteRecentPosts:Bool)
-    {        
+    {
         if deleteRecentPosts
         {
-            self.posts = []
+            self.mutablePosts = []
             self.postsDictionary = [:]
         }
         
@@ -318,7 +331,7 @@ class System: NSObject
                             var post = Post(ID:postID, senderName: senderName, senderID: senderID, post: messageJSON, time:convertFacebookTimeStringToNSDate(time), full:full)
                             
                             post.comments = comments
-                            posts.insert(post, atIndex: 0)
+                            mutablePosts.insert(post, atIndex: 0)
                             postsDictionary[postID] = post
                             newPosts = true
                         }
@@ -328,7 +341,7 @@ class System: NSObject
             
             if deleteRecentPosts
             {
-                posts.sort({ (postA:Post, postB:Post) -> Bool in
+                mutablePosts.sort({ (postA:Post, postB:Post) -> Bool in
                     
                     return postA.time?.compare(postB.time!) == NSComparisonResult.OrderedDescending
                 })
@@ -336,17 +349,17 @@ class System: NSObject
             else if newPosts
             {
                 vibrate()
-
+                
             }
             
-            weak var weakSelf = self
+            lastCheckPosts = mutablePosts
             
             dispatch_async(dispatch_get_main_queue()) {
                 
                 self.postsDelegate?.systemDidReceiveNewPosts()
                 ()
             }
-        }        
+        }
     }
     
     func vibrate()
@@ -368,9 +381,9 @@ class System: NSObject
     
     /*func stop()
     {
-        queue.cancelAllOperations()
+    queue.cancelAllOperations()
     }*/
-
+    
     func addFilter(filter:String)
     {
         filters.append(filter)
@@ -426,14 +439,14 @@ class System: NSObject
     
     func deleteUnnecessaryResources()
     {
-        for post in posts
+        for post in mutablePosts
         {
             post.senderPhoto = nil
             
             dispatch_async(dispatch_get_main_queue())
-            {
-                self.postsDelegate?.systemDidReceiveNewPosts()
-                ()
+                {
+                    self.postsDelegate?.systemDidReceiveNewPosts()
+                    ()
             }
         }
     }

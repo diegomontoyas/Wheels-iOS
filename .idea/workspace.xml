@@ -2,104 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="93d45da4-29e3-4432-8251-43c889edcb86" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/Images/diagmonds/diagmonds.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/Images/diagmonds/diagmonds_@2X.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Images.xcassets/settings.imageset/machine2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Images.xcassets/settings.imageset/Contents.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDate+TimeAgo.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDate+TimeAgo.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/ar.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/bg.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/cs.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/da.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/de.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/en.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/es.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/fi.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/fr.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/gre.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/he.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/hu.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/is.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/it.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/ja.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/ko.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/lv.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/nb.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/nl.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/pl.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/pt-PT.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/pt.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/ro.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/ru.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/sq.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/sv.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/th.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/tr.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/uk.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/vi.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/zh-Hans.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSDateTimeAgo.bundle/zh-Hant.lproj/NSDateTimeAgo.strings" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSOperationStack.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/NSOperationStack.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/RightViewController.swift" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/TTBlackTriangle.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/TTBlackTriangle.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/TTScrollSlidingPagesController.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/TTScrollSlidingPagesController.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/TTScrollViewWrapper.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/TTScrollViewWrapper.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/TTSliddingPageDelegate.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/TTSlidingPage.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/TTSlidingPage.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/TTSlidingPageTitle.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/TTSlidingPageTitle.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/TTSlidingPagesDataSource.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/TTUIScrollViewSlidingPages.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/fastwheels.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Wheels/Source/Images/diagmonds/readme.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/scopes/scope_settings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/xcode.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Objects-normal/i386/LeftRightViewController.d" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Objects-normal/i386/LeftRightViewController.dia" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Objects-normal/i386/LeftRightViewController~partial.swiftmodule" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Objects-normal/i386/MainPageViewController.d" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Objects-normal/i386/MainPageViewController.dia" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Objects-normal/i386/MainPageViewController~partial.swiftmodule" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Objects-normal/i386/PostsViewController.d" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Objects-normal/i386/PostsViewController.dia" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Objects-normal/i386/PostsViewController~partial.swiftmodule" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Objects-normal/i386/Wheels-OutputFileMap.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Objects-normal/i386/Wheels.LinkFileList" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Wheels-all-non-framework-target-headers.hmap" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Wheels-all-target-headers.hmap" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Wheels-generated-files.hmap" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Wheels-own-target-headers.hmap" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Wheels-project-headers.hmap" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/Wheels.hmap" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/dgph" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Wheels.build/Release-iphonesimulator/Wheels.build/swift-overrides.hmap" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels.xcodeproj/project.xcworkspace/xcuserdata/Diego.xcuserdatad/UserInterfaceState.xcuserstate" afterPath="$PROJECT_DIR$/Wheels.xcodeproj/project.xcworkspace/xcuserdata/Diego.xcuserdatad/UserInterfaceState.xcuserstate" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels/AppDelegate.swift" afterPath="$PROJECT_DIR$/Wheels/AppDelegate.swift" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels.xcodeproj/xcuserdata/Diego.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist" afterPath="$PROJECT_DIR$/Wheels.xcodeproj/xcuserdata/Diego.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels/Bridging-Header.h" afterPath="$PROJECT_DIR$/Wheels/Bridging-Header.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels/CommentCell.swift" afterPath="$PROJECT_DIR$/Wheels/CommentCell.swift" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels/Info.plist" afterPath="$PROJECT_DIR$/Wheels/Info.plist" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels/Base.lproj/LaunchScreenOld.xib" afterPath="$PROJECT_DIR$/Wheels/Base.lproj/LaunchScreenOld.xib" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels/LeftRightViewController.swift" afterPath="$PROJECT_DIR$/Wheels/LeftRightViewController.swift" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels/LoginViewController.swift" afterPath="$PROJECT_DIR$/Wheels/LoginViewController.swift" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels/Base.lproj/Main.storyboard" afterPath="$PROJECT_DIR$/Wheels/Base.lproj/Main.storyboard" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels/MainPageViewController.swift" afterPath="$PROJECT_DIR$/Wheels/MainPageViewController.swift" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels/PostCell.swift" afterPath="$PROJECT_DIR$/Wheels/PostCell.swift" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels/PostViewController.swift" afterPath="$PROJECT_DIR$/Wheels/PostViewController.swift" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels/PostsTopBarViewController.swift" afterPath="$PROJECT_DIR$/Wheels/PostsTopBarViewController.swift" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels/PostsViewController.swift" afterPath="$PROJECT_DIR$/Wheels/PostsViewController.swift" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels/System.swift" afterPath="$PROJECT_DIR$/Wheels/System.swift" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wheels.xcodeproj/project.pbxproj" afterPath="$PROJECT_DIR$/Wheels.xcodeproj/project.pbxproj" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="fastwheels.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -117,7 +24,7 @@
   <component name="DaemonCodeAnalyzer">
     <disable_hints />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="iphoneos" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="iphoneos_7347fe4c6ff03a980349e96df9fe3a60c6b1597f" />
   <component name="FavoritesManager">
     <favorites_list name="Wheels" />
   </component>
@@ -156,7 +63,7 @@
       <file leaf-file-name="PostsTopBarViewController.swift" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Wheels/PostsTopBarViewController.swift">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="555" max-vertical-offset="4305">
+            <state vertical-scroll-proportion="0.0" vertical-offset="555" max-vertical-offset="4260">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
