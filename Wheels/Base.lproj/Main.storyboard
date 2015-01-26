@@ -596,7 +596,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XZ7-sS-vUB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1917" y="1097.25"/>
+            <point key="canvasLocation" x="1917" y="485.25"/>
         </scene>
         <!--Main Page View Controller-->
         <scene sceneID="p5g-5m-hbd">
@@ -606,7 +606,7 @@
                 </pageViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HXu-RS-fYi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1917" y="489.75"/>
+            <point key="canvasLocation" x="1159.5" y="1107.75"/>
         </scene>
         <!--Posts View Controller-->
         <scene sceneID="ufC-wZ-h7g">
@@ -1147,12 +1147,12 @@
                                 <exclude reference="SiK-gc-d8s"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="MSN-01-C2a"/>
+                                <exclude reference="j0P-SQ-2he"/>
                                 <exclude reference="0Jc-jt-zYE"/>
                                 <exclude reference="11w-Bt-zMH"/>
                                 <exclude reference="Wzn-8w-WVz"/>
                                 <exclude reference="35O-er-Umj"/>
-                                <exclude reference="MSN-01-C2a"/>
-                                <exclude reference="j0P-SQ-2he"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -1161,12 +1161,12 @@
                                 <include reference="SiK-gc-d8s"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="MSN-01-C2a"/>
+                                <include reference="j0P-SQ-2he"/>
                                 <include reference="0Jc-jt-zYE"/>
                                 <include reference="11w-Bt-zMH"/>
                                 <include reference="Wzn-8w-WVz"/>
                                 <include reference="35O-er-Umj"/>
-                                <include reference="MSN-01-C2a"/>
-                                <include reference="j0P-SQ-2he"/>
                             </mask>
                         </variation>
                     </view>

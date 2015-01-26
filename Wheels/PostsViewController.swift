@@ -64,6 +64,8 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         system.postsDelegate = self
         
+        imageLoadingOperationQueue.qualityOfService = NSQualityOfService.UserInteractive
+        
         tableView.tableFooterView = UIView(frame: CGRectZero)
         tableView.contentInset = UIEdgeInsetsMake(0.0, 0.0, 50.0, 0.0)
         
@@ -254,6 +256,8 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             else
             {
                 let blockOperation = NSBlockOperation()
+                blockOperation.qualityOfService = NSQualityOfService.UserInteractive
+                blockOperation.queuePriority = NSOperationQueuePriority.VeryHigh
                 weak var weakBlockOperation = blockOperation
                 
                 blockOperation.addExecutionBlock()
@@ -334,11 +338,12 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     }
                 }
                 
+                self.imageLoadingOngoingOperations[indexPath] = blockOperation
+
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue())
                     {
                         self.imageLoadingOperationQueue.addOperationAtFrontOfQueue(blockOperation)
                 }
-                self.imageLoadingOngoingOperations[indexPath] = blockOperation
             }
         }
     }

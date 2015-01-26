@@ -30,8 +30,8 @@ let kUseFacebookDeveloperConnection = true
 
 class System: NSObject
 {
-    let getPostsQueue = NSOperationQueue()
-    let processPostsQueue = NSOperationQueue()
+    let processPostsQueuePeriodic = NSOperationQueue()
+    let processPostsQueueFilters = NSOperationQueue()
     
     let reCheckInterval = 20.0
     
@@ -57,8 +57,11 @@ class System: NSObject
     {
         super.init()
         
-        getPostsQueue.maxConcurrentOperationCount = 1
-        processPostsQueue.maxConcurrentOperationCount = 1
+        processPostsQueuePeriodic.maxConcurrentOperationCount = 1
+        processPostsQueuePeriodic.qualityOfService = NSQualityOfService.Utility
+        
+        processPostsQueueFilters.maxConcurrentOperationCount = 1
+        processPostsQueueFilters.qualityOfService = NSQualityOfService.UserInitiated
     }
     
     class func S() -> System
@@ -80,12 +83,7 @@ class System: NSObject
     
     func postsTimerTicked(timer:NSTimer)
     {
-        let closure: () -> Void = {
-            
-            self.reCheckDeletingRecentPosts(false)
-        }
-        
-        getPostsQueue.addOperationWithBlock(closure)
+        self.reCheckDeletingRecentPosts(false)
     }
     
     func reCheckDeletingRecentPosts(deletingRecentPosts:Bool)
@@ -107,17 +105,26 @@ class System: NSObject
                 println("Received: \(NSDate())")
              
                 self.checkOperationCount--
+                
                 if self.checkOperationCount == 0
                 {
                     UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 }
                 
-                let closure: () -> Void = {
-                    
-                    self.receivedFacebookPostsInfoWithResponse(response, data: data, error: error, deleteRecentPosts:deletingRecentPosts)
+                if deletingRecentPosts
+                {
+                    self.processPostsQueueFilters.addOperationWithBlock {
+                        
+                        self.receivedFacebookPostsInfoWithResponse(response, data: data, error: error, deleteRecentPosts:deletingRecentPosts)
+                    }
                 }
-                
-                self.processPostsQueue.addOperationWithBlock(closure)
+                else
+                {
+                    self.processPostsQueuePeriodic.addOperationWithBlock {
+                        
+                        self.receivedFacebookPostsInfoWithResponse(response, data: data, error: error, deleteRecentPosts:deletingRecentPosts)
+                    }
+                }
             }
             else
             {
@@ -130,23 +137,31 @@ class System: NSObject
                         println("Received: \(NSDate())")
                         
                         self.checkOperationCount--
+                        
                         if self.checkOperationCount == 0
                         {
                             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                         }
                         
-                        let closure: () -> Void = {
-                            
-                            self.receivedFacebookPostsInfoWithConnection(connection, result: result, error: error, deleteRecentPosts:deletingRecentPosts)
+                        if deletingRecentPosts
+                        {
+                            self.processPostsQueueFilters.addOperationWithBlock {
+                                
+                                self.receivedFacebookPostsInfoWithConnection(connection, result: result, error: error, deleteRecentPosts:deletingRecentPosts)
+                            }
                         }
-                        
-                        self.processPostsQueue.addOperationWithBlock(closure)
+                        else
+                        {
+                            self.processPostsQueuePeriodic.addOperationWithBlock {
+                                
+                                self.receivedFacebookPostsInfoWithConnection(connection, result: result, error: error, deleteRecentPosts:deletingRecentPosts)
+                            }
+                        }
                     })
                     return
                 }
             }
         })
-        
     }
     
     private func receivedFacebookPostsInfoWithResponse(response:NSURLResponse!, data:NSData!, error:NSError!, deleteRecentPosts:Bool)
