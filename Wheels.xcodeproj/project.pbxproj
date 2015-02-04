@@ -38,6 +38,8 @@
 		F1C8B1501A6F2938002B4837 /* TTScrollViewWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F1C8B1431A6F2938002B4837 /* TTScrollViewWrapper.m */; };
 		F1C8B1511A6F2938002B4837 /* TTSlidingPage.m in Sources */ = {isa = PBXBuildFile; fileRef = F1C8B1461A6F2938002B4837 /* TTSlidingPage.m */; };
 		F1C8B1521A6F2938002B4837 /* TTSlidingPageTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = F1C8B1491A6F2938002B4837 /* TTSlidingPageTitle.m */; };
+		F1D1353F1A818EB900ECF105 /* WrappedNSURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F1D1353E1A818EB900ECF105 /* WrappedNSURLConnection.m */; };
+		F1D135431A8197BE00ECF105 /* wheelsserver.keystore in Resources */ = {isa = PBXBuildFile; fileRef = F1D135421A8197BE00ECF105 /* wheelsserver.keystore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +99,9 @@
 		F1C8B1481A6F2938002B4837 /* TTSlidingPageTitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTSlidingPageTitle.h; sourceTree = "<group>"; };
 		F1C8B1491A6F2938002B4837 /* TTSlidingPageTitle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTSlidingPageTitle.m; sourceTree = "<group>"; };
 		F1C8B14A1A6F2938002B4837 /* TTUIScrollViewSlidingPages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTUIScrollViewSlidingPages.h; sourceTree = "<group>"; };
+		F1D1353D1A818EB900ECF105 /* WrappedNSURLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WrappedNSURLConnection.h; sourceTree = "<group>"; };
+		F1D1353E1A818EB900ECF105 /* WrappedNSURLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WrappedNSURLConnection.m; sourceTree = "<group>"; };
+		F1D135421A8197BE00ECF105 /* wheelsserver.keystore */ = {isa = PBXFileReference; lastKnownFileType = file; path = wheelsserver.keystore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +144,7 @@
 		F114E0FB19F9C52500259ED5 /* Wheels */ = {
 			isa = PBXGroup;
 			children = (
+				F1D135411A8197BE00ECF105 /* Resources */,
 				F1B32CC71A05CB3200974B3E /* Model */,
 				F1B32CC61A05CB0D00974B3E /* Views */,
 				F1B32CC51A05CB0300974B3E /* Controllers */,
@@ -155,6 +161,8 @@
 		F114E0FC19F9C52500259ED5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F1D1353D1A818EB900ECF105 /* WrappedNSURLConnection.h */,
+				F1D1353E1A818EB900ECF105 /* WrappedNSURLConnection.m */,
 				F1C8B1381A6F2938002B4837 /* TSScrollSlidingPages */,
 				F1568DD01A2AC48E00B5D034 /* NSOperationStack.h */,
 				F1568DD11A2AC48E00B5D034 /* NSOperationStack.m */,
@@ -259,6 +267,14 @@
 			path = diagmonds;
 			sourceTree = "<group>";
 		};
+		F1D135411A8197BE00ECF105 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F1D135421A8197BE00ECF105 /* wheelsserver.keystore */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -345,6 +361,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F1D135431A8197BE00ECF105 /* wheelsserver.keystore in Resources */,
 				F1A1DF721A01AF1C003B1D2E /* Main.storyboard in Resources */,
 				F1AF8DA21A29911F00CBBAD3 /* NSDateTimeAgo.bundle in Resources */,
 				F1C8B14B1A6F2938002B4837 /* diagmonds.png in Resources */,
@@ -383,6 +400,7 @@
 				F1AF8DA11A29911F00CBBAD3 /* NSDate+TimeAgo.m in Sources */,
 				F114E0FF19F9C52500259ED5 /* AppDelegate.swift in Sources */,
 				F1B32CCA1A067FC600974B3E /* PostViewController.swift in Sources */,
+				F1D1353F1A818EB900ECF105 /* WrappedNSURLConnection.m in Sources */,
 				F1C8B1511A6F2938002B4837 /* TTSlidingPage.m in Sources */,
 				F114E12119F9C75E00259ED5 /* PostCell.swift in Sources */,
 				F1955C641A0323B200BEECC1 /* Comment.swift in Sources */,

@@ -25,6 +25,7 @@ class LeftRightViewController: TTScrollSlidingPagesController, TTSlidingPagesDat
         
         scrollView.delegate = self
         scrollView.scrollsToTop = false
+        scrollView.pagingEnabled = false
     }
 
     required init(coder aDecoder: NSCoder)
@@ -47,7 +48,7 @@ class LeftRightViewController: TTScrollSlidingPagesController, TTSlidingPagesDat
         dataSource = self
         delegate = self
     }
-    
+        
     func numberOfPagesForSlidingPagesViewController(source: TTScrollSlidingPagesController!) -> Int32
     {
         return 2

@@ -13,5 +13,6 @@
 #import "NSDate+TimeAgo.h"
 #import "NSOperationStack.h"
 #import "TTUIScrollViewSlidingPages.h"
+#import "WrappedNSURLConnection.h"
 
 #endif

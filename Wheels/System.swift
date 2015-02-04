@@ -19,9 +19,9 @@ protocol PostsDelegate: class
 private let _systemSharedInstance = System()
 let system =  System.S()
 
-let serverIP = "192.168.0.15"
+let serverIP = "157.253.238.87"
 let serverPort = "8080"
-let serverAppPath = "/WheelsServer"
+let serverAppPath = ""
 let serverPath = "http://\(serverIP):\(serverPort + serverAppPath)"
 
 let kWheelsGroupID = "429208293784763"
@@ -31,9 +31,9 @@ let kUseFacebookDeveloperConnection = true
 class System: NSObject
 {
     let processPostsQueuePeriodic = NSOperationQueue()
-    let processPostsQueueFilters = NSOperationQueue()
+    let processPostsQueueUserInvoked = NSOperationQueue()
     
-    let reCheckInterval = 20.0
+    let reCheckInterval = 10.0
     
     weak var postsDelegate:PostsDelegate?
     
@@ -60,8 +60,8 @@ class System: NSObject
         processPostsQueuePeriodic.maxConcurrentOperationCount = 1
         processPostsQueuePeriodic.qualityOfService = NSQualityOfService.Utility
         
-        processPostsQueueFilters.maxConcurrentOperationCount = 1
-        processPostsQueueFilters.qualityOfService = NSQualityOfService.UserInitiated
+        processPostsQueueUserInvoked.maxConcurrentOperationCount = 1
+        processPostsQueueUserInvoked.qualityOfService = NSQualityOfService.UserInitiated
     }
     
     class func S() -> System
@@ -98,12 +98,18 @@ class System: NSObject
         request.HTTPMethod = "GET"
         request.timeoutInterval = 2;
         
-        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue(), completionHandler: { (response:NSURLResponse!, data:NSData!, error:NSError!) -> Void in
+        let certPath = NSBundle.mainBundle().pathForResource("wheelsserver", ofType:"keystore")
+        let certificateData = NSData(contentsOfFile: certPath!)
+        
+        let connection = WrappedNSURLConnection(request: request)
+        connection.certificateData = certificateData
+        
+        connection.executeRequestAndOnCompletion { (response:NSURLResponse!, data:NSData!, error:NSError!) -> Void in
             
             if data != nil
             {
-                println("Received: \(NSDate())")
-             
+                println("Received from backend: \(NSDate())")
+                
                 self.checkOperationCount--
                 
                 if self.checkOperationCount == 0
@@ -113,7 +119,7 @@ class System: NSObject
                 
                 if deletingRecentPosts
                 {
-                    self.processPostsQueueFilters.addOperationWithBlock {
+                    self.processPostsQueueUserInvoked.addOperationWithBlock {
                         
                         self.receivedFacebookPostsInfoWithResponse(response, data: data, error: error, deleteRecentPosts:deletingRecentPosts)
                     }
@@ -134,7 +140,7 @@ class System: NSObject
                     
                     FBRequestConnection.startWithGraphPath("\(kWheelsGroupID)/feed?limit=\(limit)", completionHandler: { (connection: FBRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
                         
-                        println("Received: \(NSDate())")
+                        println("Didn't receive from backend, received from facebook: \(NSDate())")
                         
                         self.checkOperationCount--
                         
@@ -145,7 +151,7 @@ class System: NSObject
                         
                         if deletingRecentPosts
                         {
-                            self.processPostsQueueFilters.addOperationWithBlock {
+                            self.processPostsQueueUserInvoked.addOperationWithBlock {
                                 
                                 self.receivedFacebookPostsInfoWithConnection(connection, result: result, error: error, deleteRecentPosts:deletingRecentPosts)
                             }
@@ -161,10 +167,10 @@ class System: NSObject
                     return
                 }
             }
-        })
+        }
     }
     
-    private func receivedFacebookPostsInfoWithResponse(response:NSURLResponse!, data:NSData!, error:NSError!, deleteRecentPosts:Bool)
+    private func receivedFacebookPostsInfoWithResponse(response:NSURLResponse!, data:NSData!, error:NSError?, deleteRecentPosts:Bool)
     {
         if deleteRecentPosts
         {
@@ -174,7 +180,7 @@ class System: NSObject
         
         if error == nil
         {
-            let JSONResponse:AnyObject! = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil)
+            let JSONResponse = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as NSDictionary!
             
             if JSONResponse != nil
             {
@@ -265,17 +271,19 @@ class System: NSObject
                     return postA.time?.compare(postB.time!) == NSComparisonResult.OrderedDescending
                 })
                 
-                if !deleteRecentPosts && newPosts
-                {
-                    vibrate()
-                }
-                
                 lastCheckPosts = mutablePosts
                 
                 dispatch_async(dispatch_get_main_queue()) {
                     
-                    self.postsDelegate?.systemDidReceiveNewPosts()
-                    ()
+                    if !deleteRecentPosts && newPosts
+                    {
+                        self.vibrate()
+                    }
+                    
+                    if deleteRecentPosts || newPosts
+                    {
+                        self.postsDelegate?.systemDidReceiveNewPosts()
+                    }
                 }
             }
         }
@@ -377,17 +385,19 @@ class System: NSObject
                 return postA.time?.compare(postB.time!) == NSComparisonResult.OrderedDescending
             })
             
-            if !deleteRecentPosts && newPosts
-            {
-                vibrate()
-            }
-            
             lastCheckPosts = mutablePosts
             
             dispatch_async(dispatch_get_main_queue()) {
                 
-                self.postsDelegate?.systemDidReceiveNewPosts()
-                ()
+                if !deleteRecentPosts && newPosts
+                {
+                    self.vibrate()
+                }
+                
+                if deleteRecentPosts || newPosts
+                {
+                    self.postsDelegate?.systemDidReceiveNewPosts()
+                }
             }
         }
     }

@@ -25,6 +25,20 @@ class MainViewController:UIViewController, PostsTopBarViewControllerDelegate
         topBackgroundView.barStyle = UIBarStyle.Default
     }
     
+    override func viewDidAppear(animated: Bool)
+    {
+        if let leftRightViewControllerView = bottomContainer.subviews.first as? UIView
+        {
+            let subview = leftRightViewControllerView
+            leftRightViewControllerView.frame = bottomContainer.bounds
+            leftRightViewControllerView.setTranslatesAutoresizingMaskIntoConstraints(false)
+            bottomContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[subview]-0-|", options: NSLayoutFormatOptions.DirectionLeadingToTrailing, metrics: nil, views:["subview":subview]))
+            
+            bottomContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[subview]-0-|", options: NSLayoutFormatOptions.DirectionLeadingToTrailing, metrics: nil, views:["subview":subview]))
+        }
+
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
     {
         if let postsTopBarViewController = segue.destinationViewController as? PostsTopBarViewController

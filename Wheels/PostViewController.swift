@@ -48,8 +48,8 @@ class PostViewController: UIViewController, UITextViewDelegate
         let tapGestureRecognizer = UITapGestureRecognizer()
         tapGestureRecognizer.addTarget(self, action: Selector("grabberTapped:"))
         
-        grabber.layer.cornerRadius = 20
-        view.bringSubviewToFront(grabber)
+        //grabber.layer.cornerRadius = 20
+        //view.bringSubviewToFront(grabber)
         //grabber.addGestureRecognizer(tapGestureRecognizer)
         
         newPostTextView.layer.cornerRadius = buttonStandardCornerRadius
