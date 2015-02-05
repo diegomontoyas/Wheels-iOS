@@ -104,7 +104,7 @@ class System: NSObject
         let connection = WrappedNSURLConnection(request: request)
         connection.certificateData = certificateData
         
-        connection.executeRequestAndOnCompletion { (response:NSURLResponse!, data:NSData!, error:NSError!) -> Void in
+        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue()) {(response:NSURLResponse!, data:NSData!, error:NSError!) -> Void in
             
             if data != nil
             {
@@ -184,18 +184,18 @@ class System: NSObject
             
             if JSONResponse != nil
             {
-                let postsJSON = JSONResponse["data"] as [AnyObject]
+                let postsJSON = JSONResponse["data"] as [NSDictionary]
                 var newPosts = false
                 
                 for rawPost in postsJSON
                 {
                     var comments = [Comment]()
                     
-                    let possibleMessageJSON = rawPost["message"] as String?
+                    let possibleMessageJSON = rawPost["message"] as? String
                     
                     if let messageJSON = possibleMessageJSON
                     {
-                        let possibleCommentsJSON = rawPost["comments"]? as [AnyObject]?
+                        let possibleCommentsJSON = rawPost["comments"]? as [NSDictionary]?
                         let postID = rawPost["id"] as String
                         
                         var containsFilters = false
@@ -223,10 +223,10 @@ class System: NSObject
                                     var comment = Comment(comment: messageCommentJSON)
                                     comments.append(comment)
                                     
-                                    let postSenderJSON = rawPost["from"] as AnyObject!
+                                    let postSenderJSON = rawPost["from"] as NSDictionary!
                                     let postSenderID = postSenderJSON["id"] as String
                                     
-                                    let commentSenderJSON = commentJSON["from"] as AnyObject!
+                                    let commentSenderJSON = commentJSON["from"] as NSDictionary!
                                     let commentSenderID = commentSenderJSON["id"] as String
                                     
                                     if commentSenderID == postSenderID
@@ -250,7 +250,7 @@ class System: NSObject
                             }
                             else
                             {
-                                let from = rawPost["from"] as AnyObject!
+                                let from = rawPost["from"] as NSDictionary!
                                 let senderName = from["name"] as String
                                 let senderID = from["id"] as String
                                 let time = rawPost["createdTime"] as String
@@ -280,10 +280,7 @@ class System: NSObject
                         self.vibrate()
                     }
                     
-                    if deleteRecentPosts || newPosts
-                    {
-                        self.postsDelegate?.systemDidReceiveNewPosts()
-                    }
+                    self.postsDelegate?.systemDidReceiveNewPosts()
                 }
             }
         }
@@ -394,10 +391,7 @@ class System: NSObject
                     self.vibrate()
                 }
                 
-                if deleteRecentPosts || newPosts
-                {
-                    self.postsDelegate?.systemDidReceiveNewPosts()
-                }
+                self.postsDelegate?.systemDidReceiveNewPosts()
             }
         }
     }

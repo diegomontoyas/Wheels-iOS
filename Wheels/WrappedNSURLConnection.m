@@ -42,7 +42,6 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:self.request delegate:self];
-    [connection start];
     return connection != nil;
 }
 
