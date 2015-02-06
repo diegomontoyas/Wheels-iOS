@@ -10,7 +10,7 @@ import Foundation
 
 class CommentCell: UITableViewCell, UITextFieldDelegate
 {
-    let heightWithoutTextField:CGFloat = 15
+    let heightWithoutTextField:CGFloat = 28
     @IBOutlet weak var leadingSpaceToBackgroundConstraint: NSLayoutConstraint!
     @IBOutlet weak var trailingSpaceToBackgroundConstraint: NSLayoutConstraint!
     

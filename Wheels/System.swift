@@ -273,15 +273,12 @@ class System: NSObject
                 
                 lastCheckPosts = mutablePosts
                 
-                dispatch_async(dispatch_get_main_queue()) {
-                    
-                    if !deleteRecentPosts && newPosts
-                    {
-                        self.vibrate()
-                    }
-                    
-                    self.postsDelegate?.systemDidReceiveNewPosts()
+                if !deleteRecentPosts && newPosts
+                {
+                    self.vibrate()
                 }
+                
+                self.postsDelegate?.systemDidReceiveNewPosts()
             }
         }
     }
@@ -384,15 +381,12 @@ class System: NSObject
             
             lastCheckPosts = mutablePosts
             
-            dispatch_async(dispatch_get_main_queue()) {
-                
-                if !deleteRecentPosts && newPosts
-                {
-                    self.vibrate()
-                }
-                
-                self.postsDelegate?.systemDidReceiveNewPosts()
+            if !deleteRecentPosts && newPosts
+            {
+                self.vibrate()
             }
+            
+            self.postsDelegate?.systemDidReceiveNewPosts()
         }
     }
     

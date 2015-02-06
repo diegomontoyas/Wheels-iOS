@@ -57,12 +57,14 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     let photoImageViewSize:CGFloat = 52
     let nilImagePhotoImageViewSize:CGFloat = 14
     
+    var postsAndComments = [AnyObject]()
+    var cellHeights = [CGFloat]()
+    
+    var loadingData = false
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
-        tableView.delegate = self
-        tableView.dataSource = self
         
         system.postsDelegate = self
         
@@ -81,13 +83,12 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         view.bringSubviewToFront(grabber)
         
         //grabber.addGestureRecognizer(tapGestureRecognizer)
-                
-        prototypePostCell = tableView.dequeueReusableCellWithIdentifier("PostCell") as PostCell
-        prototypeCommentCell = tableView.dequeueReusableCellWithIdentifier("CommentCell") as CommentCell
     }
     
     override func viewWillAppear(animated: Bool)
     {
+        prototypePostCell = tableView.dequeueReusableCellWithIdentifier("PostCell") as PostCell
+        prototypeCommentCell = tableView.dequeueReusableCellWithIdentifier("CommentCell") as CommentCell
     }
     
     override func viewDidAppear(animated: Bool)
@@ -101,6 +102,65 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         system.start()
     }
     
+    func loadPostsInfoAndPrepareTableView()
+    {
+        loadingData = true
+        
+        var mutablePostsAndComments = [AnyObject]()
+        
+        for post in system.lastCheckPosts
+        {
+            mutablePostsAndComments.append(post)
+            
+            for comment in post.comments
+            {
+                mutablePostsAndComments.append(comment)
+            }
+        }
+        
+        var mutableCellHeights = [CGFloat]()
+        var i = 0
+        
+        for postOrComment in mutablePostsAndComments
+        {
+            var height:CGFloat = 0
+            
+            if let post = postOrComment as? Post
+            {
+                let font = UIFont.systemFontOfSize(14)
+                let attributedText = NSAttributedString(string: post.post, attributes: [NSFontAttributeName: font])
+                
+                let rect = attributedText.boundingRectWithSize(CGSizeMake(prototypePostCell.width, CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+                
+                let size = rect.size
+                height = size.height + prototypePostCell.heightWithoutTextField
+            }
+            else
+            {
+                let comment = postOrComment as Comment
+                
+                let font = UIFont.systemFontOfSize(14)
+                let attributedText = NSAttributedString(string: comment.comment, attributes: [NSFontAttributeName: font])
+                
+                let rect = attributedText.boundingRectWithSize(CGSizeMake(prototypeCommentCell.width, CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+                
+                let size = rect.size
+                height = size.height + prototypeCommentCell.heightWithoutTextField
+            }
+            
+            mutableCellHeights.append(height)
+            i++
+        }
+        
+        postsAndComments = mutablePostsAndComments
+        cellHeights = mutableCellHeights
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        loadingData = false
+    }
+    
     func grabberTapped(sender:AnyObject)
     {
         mainPageViewController?.controllerGrabberPressed(self)
@@ -108,34 +168,42 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func systemDidReceiveNewPosts()
     {
-        tableView.reloadData()
+        loadPostsInfoAndPrepareTableView()
+        
+        dispatch_async(dispatch_get_main_queue()){
+            
+            self.tableView.reloadData()
+        }
     }
     
     func systemDidDeleteUnnecessaryResources()
     {
-        tableView.reloadData()
+        loadPostsInfoAndPrepareTableView()
+
+        dispatch_async(dispatch_get_main_queue()){
+            
+            self.tableView.reloadData()
+        }
     }
     
     //TableView DataSource
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int
     {
-        return system.lastCheckPosts.count
+        return 1
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        let post = system.lastCheckPosts[section]
-
-        return post.comments.count + 1
+        return postsAndComments.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        let post = system.lastCheckPosts[indexPath.section]
+        let postOrComment: AnyObject = postsAndComments[indexPath.row]
         var cell:UITableViewCell
         
-        if indexPath.row == 0
+        if let post = postOrComment as? Post
         {
             let postCell = tableView.dequeueReusableCellWithIdentifier("PostCell") as PostCell
             
@@ -176,7 +244,7 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
         else
         {            
-            let comment = post.comments[indexPath.row-1]
+            let comment = postOrComment as Comment
             
             let commentCell = tableView.dequeueReusableCellWithIdentifier("CommentCell") as CommentCell
             commentCell.textField.text = comment.comment
@@ -193,38 +261,14 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
     {
-        var height:CGFloat = 0
-        let post = system.lastCheckPosts[indexPath.section]
-        
-        if (indexPath.row == 0)
-        {
-            var textView = UITextView()
-            textView.text = post.post
-            textView.font = prototypePostCell.textField.font
-            let size = textView.sizeThatFits(CGSizeMake(prototypePostCell.width, CGFloat.max))
-            
-            height = size.height + prototypePostCell.heightWithoutTextField
-        }
-        else
-        {
-            var comment = post.comments[indexPath.row-1]
-            
-            var textView = UITextView()
-            textView.text = comment.comment
-            textView.font = prototypeCommentCell.textField.font
-            let size = textView.sizeThatFits(CGSizeMake(prototypeCommentCell.width, CGFloat.max))
-            
-            height = size.height + prototypeCommentCell.heightWithoutTextField
-        }
-        
-        return height
+        return cellHeights[indexPath.row]
     }
     
     //TableView Delegate
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        let post = system.lastCheckPosts[indexPath.section]
+        let post = postsAndComments[indexPath.row] as Post
         
         system.goToProfilePageOfPersonWithID(post.senderID)
     }
@@ -241,115 +285,112 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func findPhotoForCell(cell:PostCell, post:Post, atIndexPath indexPath:NSIndexPath)
     {
-        if indexPath.row == 0
+        if let cachedPhoto = post.senderPhoto
         {
-            if let cachedPhoto = post.senderPhoto
-            {
-                cell.photoImageView?.image = cachedPhoto
-                
-                cell.photoWidthConstraint.constant = self.photoImageViewSize
-                cell.photoHeightConstraint.constant = self.photoImageViewSize
-                cell.photoImageView.layer.cornerRadius = self.photoImageViewSize/2
-            }
-            else
-            {
-                let blockOperation = NSBlockOperation()
-                blockOperation.qualityOfService = NSQualityOfService.UserInteractive
-                blockOperation.queuePriority = NSOperationQueuePriority.VeryHigh
-                weak var weakBlockOperation = blockOperation
-                
-                blockOperation.addExecutionBlock()
+            cell.photoImageView?.image = cachedPhoto
+            
+            cell.photoWidthConstraint.constant = self.photoImageViewSize
+            cell.photoHeightConstraint.constant = self.photoImageViewSize
+            cell.photoImageView.layer.cornerRadius = self.photoImageViewSize/2
+        }
+        else
+        {
+            let blockOperation = NSBlockOperation()
+            blockOperation.qualityOfService = NSQualityOfService.UserInteractive
+            blockOperation.queuePriority = NSOperationQueuePriority.VeryHigh
+            weak var weakBlockOperation = blockOperation
+            
+            blockOperation.addExecutionBlock()
                 {
                     dispatch_async(dispatch_get_main_queue())
-                    {
-                        if weakBlockOperation != nil && !weakBlockOperation!.cancelled
                         {
-                            /*var url = NSURL(string: "http://graph.facebook.com/\(post.senderID)/picture?redirect=false&height=\(self.downloadedPhotoDimensions)&width=\(self.downloadedPhotoDimensions)&type=normal")
-                            
-                            var request = NSMutableURLRequest(URL: url!)
-                            request.HTTPMethod = "GET"
-                            
-                            NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue(), completionHandler: { (response:NSURLResponse!, data:NSData!, error:NSError!) -> Void in
+                            if weakBlockOperation != nil && !weakBlockOperation!.cancelled
+                            {
+                                /*var url = NSURL(string: "http://graph.facebook.com/\(post.senderID)/picture?redirect=false&height=\(self.downloadedPhotoDimensions)&width=\(self.downloadedPhotoDimensions)&type=normal")
+                                
+                                var request = NSMutableURLRequest(URL: url!)
+                                request.HTTPMethod = "GET"
+                                
+                                NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue(), completionHandler: { (response:NSURLResponse!, data:NSData!, error:NSError!) -> Void in
                                 
                                 
-                            })*/
-                            
-                            let params = ["redirect":"false","height":self.downloadedPhotoDimensions, "width":self.downloadedPhotoDimensions, "type":"normal"]
-                        
-                            FBRequestConnection.startWithGraphPath("/\(post.senderID)/picture", parameters:params, HTTPMethod: "GET", completionHandler: { (connection:FBRequestConnection!, result:AnyObject!, error:NSError!) -> Void in
+                                })*/
                                 
+                                let params = ["redirect":"false","height":self.downloadedPhotoDimensions, "width":self.downloadedPhotoDimensions, "type":"normal"]
                                 
-                                if error == nil
-                                {
-                                    let data = result["data"] as FBGraphObject
-                                    let photoURLString = data["url"] as String
-                                    let photoURL = NSURL(string: photoURLString)
+                                FBRequestConnection.startWithGraphPath("/\(post.senderID)/picture", parameters:params, HTTPMethod: "GET", completionHandler: { (connection:FBRequestConnection!, result:AnyObject!, error:NSError!) -> Void in
                                     
-                                    if weakBlockOperation != nil && !weakBlockOperation!.cancelled
+                                    
+                                    if error == nil
                                     {
-                                        var request = NSMutableURLRequest(URL: photoURL!)
-                                        request.HTTPMethod = "GET"
-                                        request.timeoutInterval = 2;
+                                        let data = result["data"] as FBGraphObject
+                                        let photoURLString = data["url"] as String
+                                        let photoURL = NSURL(string: photoURLString)
                                         
-                                        NSURLConnection.sendAsynchronousRequest(request, queue: self.imageProcessingOperationQueue, completionHandler: { (response:NSURLResponse!, photoData:NSData!, error:NSError!) -> Void in
+                                        if weakBlockOperation != nil && !weakBlockOperation!.cancelled
+                                        {
+                                            var request = NSMutableURLRequest(URL: photoURL!)
+                                            request.HTTPMethod = "GET"
+                                            request.timeoutInterval = 2;
                                             
-                                            if photoData != nil
-                                            {
-                                                let photo = photoData != nil ? UIImage(data: photoData!) : nil
+                                            NSURLConnection.sendAsynchronousRequest(request, queue: self.imageProcessingOperationQueue, completionHandler: { (response:NSURLResponse!, photoData:NSData!, error:NSError!) -> Void in
                                                 
-                                                if photo != nil
+                                                if photoData != nil
                                                 {
-                                                    dispatch_async(dispatch_get_main_queue()){
-                                                        
-                                                        post.senderPhoto = photo
-                                                        
-                                                        if weakBlockOperation != nil && !weakBlockOperation!.cancelled
-                                                        {
-                                                            cell.photoImageView.image = photo
-                                                            cell.photoImageView.layer.cornerRadius = self.photoImageViewSize/2
+                                                    let photo = photoData != nil ? UIImage(data: photoData!) : nil
+                                                    
+                                                    if photo != nil
+                                                    {
+                                                        dispatch_async(dispatch_get_main_queue()){
                                                             
-                                                            cell.layoutIfNeeded()
+                                                            post.senderPhoto = photo
                                                             
-                                                            
-                                                            UIView.animateWithDuration(0.2, animations: {
-                                                                
-                                                                cell.photoWidthConstraint.constant = self.photoImageViewSize
-                                                                cell.photoHeightConstraint.constant = self.photoImageViewSize
+                                                            if weakBlockOperation != nil && !weakBlockOperation!.cancelled
+                                                            {
+                                                                cell.photoImageView.image = photo
+                                                                cell.photoImageView.layer.cornerRadius = self.photoImageViewSize/2
                                                                 
                                                                 cell.layoutIfNeeded()
                                                                 
-                                                                }, completion: {(_) -> Void in
+                                                                
+                                                                UIView.animateWithDuration(0.2, animations: {
                                                                     
-                                                                    cell.photoImageView.layer.cornerRadius = cell.photoImageView.frame.size.height/2
-                                                            })
+                                                                    cell.photoWidthConstraint.constant = self.photoImageViewSize
+                                                                    cell.photoHeightConstraint.constant = self.photoImageViewSize
+                                                                    
+                                                                    cell.layoutIfNeeded()
+                                                                    
+                                                                    }, completion: {(_) -> Void in
+                                                                        
+                                                                        cell.photoImageView.layer.cornerRadius = cell.photoImageView.frame.size.height/2
+                                                                })
+                                                            }
+                                                            
+                                                            self.imageLoadingOngoingOperations.removeValueForKey(indexPath)
                                                         }
-                                                        
-                                                        self.imageLoadingOngoingOperations.removeValueForKey(indexPath)
                                                     }
                                                 }
-                                            }
-                                        })
+                                            })
+                                        }
+                                        else
+                                        {
+                                            self.imageLoadingOngoingOperations.removeValueForKey(indexPath)
+                                        }
                                     }
-                                    else
-                                    {
-                                        self.imageLoadingOngoingOperations.removeValueForKey(indexPath)
-                                    }
-                                }
-                            })
-                        }
-                        else
-                        {
-                            self.imageLoadingOngoingOperations.removeValueForKey(indexPath)
-                        }
+                                })
+                            }
+                            else
+                            {
+                                self.imageLoadingOngoingOperations.removeValueForKey(indexPath)
+                            }
                     }
-                }
-                
-                self.imageLoadingOngoingOperations[indexPath] = blockOperation
-
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue())
+            }
+            
+            self.imageLoadingOngoingOperations[indexPath] = blockOperation
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue())
                 {
                     self.imageLoadingOperationQueue.addOperationAtFrontOfQueue(blockOperation)
-                }
             }
         }
     }

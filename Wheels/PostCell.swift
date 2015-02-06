@@ -27,7 +27,7 @@ class PostCell: UITableViewCell, UITextFieldDelegate
     @IBOutlet weak var leadingSpaceToBackgroundConstraint: NSLayoutConstraint!
     @IBOutlet weak var trailingSpaceToBackgroundConstraint: NSLayoutConstraint!
     
-    let heightWithoutTextField:CGFloat = 90
+    let heightWithoutTextField:CGFloat = 100
     
     var width: CGFloat
     {
