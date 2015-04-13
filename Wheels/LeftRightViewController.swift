@@ -42,8 +42,8 @@ class LeftRightViewController: TTScrollSlidingPagesController, TTSlidingPagesDat
         super.viewDidLoad()
         
         viewControllers = [UIViewController]()
-        viewControllers.append(storyboard?.instantiateViewControllerWithIdentifier("PostsViewController") as PostsViewController)
-        viewControllers.append(storyboard?.instantiateViewControllerWithIdentifier("RightViewController") as RightViewController)
+        viewControllers.append(storyboard?.instantiateViewControllerWithIdentifier("PostsViewController") as! PostsViewController)
+        viewControllers.append(storyboard?.instantiateViewControllerWithIdentifier("RightViewController") as! RightViewController)
         
         dataSource = self
         delegate = self

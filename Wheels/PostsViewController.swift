@@ -82,13 +82,18 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         grabber.layer.cornerRadius = 20
         view.bringSubviewToFront(grabber)
         
+        let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: Selector("didLongPressCell:"))
+        longPressGestureRecognizer.minimumPressDuration = 1.5
+        longPressGestureRecognizer.delegate = self
+        tableView.addGestureRecognizer(longPressGestureRecognizer)
+        
         //grabber.addGestureRecognizer(tapGestureRecognizer)
     }
     
     override func viewWillAppear(animated: Bool)
     {
-        prototypePostCell = tableView.dequeueReusableCellWithIdentifier("PostCell") as PostCell
-        prototypeCommentCell = tableView.dequeueReusableCellWithIdentifier("CommentCell") as CommentCell
+        prototypePostCell = tableView.dequeueReusableCellWithIdentifier("PostCell") as! PostCell
+        prototypeCommentCell = tableView.dequeueReusableCellWithIdentifier("CommentCell") as! CommentCell
     }
     
     override func viewDidAppear(animated: Bool)
@@ -137,7 +142,7 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             }
             else
             {
-                let comment = postOrComment as Comment
+                let comment = postOrComment as! Comment
                 
                 let font = UIFont.systemFontOfSize(14)
                 let attributedText = NSAttributedString(string: comment.comment, attributes: [NSFontAttributeName: font])
@@ -205,7 +210,7 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         if let post = postOrComment as? Post
         {
-            let postCell = tableView.dequeueReusableCellWithIdentifier("PostCell") as PostCell
+            let postCell = tableView.dequeueReusableCellWithIdentifier("PostCell") as! PostCell
             
             postCell.photoImageView.image = nil
             
@@ -244,9 +249,9 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
         else
         {            
-            let comment = postOrComment as Comment
+            let comment = postOrComment as! Comment
             
-            let commentCell = tableView.dequeueReusableCellWithIdentifier("CommentCell") as CommentCell
+            let commentCell = tableView.dequeueReusableCellWithIdentifier("CommentCell") as! CommentCell
             commentCell.textField.text = comment.comment
             commentCell.userInteractionEnabled = false
             
@@ -268,19 +273,32 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        let post = postsAndComments[indexPath.row] as Post
+        let post = postsAndComments[indexPath.row] as! Post
         
         system.goToProfilePageOfPersonWithID(post.senderID)
     }
     
+    func didLongPressCell(gestureRecognizer:UILongPressGestureRecognizer)
+    {
+        let point = gestureRecognizer.locationInView(tableView)
+        let indexPath = tableView.indexPathForRowAtPoint(point)
+        
+        if indexPath != nil
+        {
+            let post = postsAndComments[indexPath!.row] as! Post
+            
+            system.goToPostPageOfPostWithID(post.ID)
+        }
+    }
+    
     func tableView(tableView: UITableView, didHighlightRowAtIndexPath indexPath: NSIndexPath)
     {
-        let cell = tableView.cellForRowAtIndexPath(indexPath) as PostCell
+        let cell = tableView.cellForRowAtIndexPath(indexPath) as! PostCell
     }
     
     func tableView(tableView: UITableView, didUnhighlightRowAtIndexPath indexPath: NSIndexPath)
     {
-        let cell = tableView.cellForRowAtIndexPath(indexPath) as PostCell
+        let cell = tableView.cellForRowAtIndexPath(indexPath) as! PostCell
     }
     
     func findPhotoForCell(cell:PostCell, post:Post, atIndexPath indexPath:NSIndexPath)
@@ -323,8 +341,8 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                                     
                                     if error == nil
                                     {
-                                        let data = result["data"] as FBGraphObject
-                                        let photoURLString = data["url"] as String
+                                        let data = result["data"] as! FBGraphObject
+                                        let photoURLString = data["url"] as! String
                                         let photoURL = NSURL(string: photoURLString)
                                         
                                         if weakBlockOperation != nil && !weakBlockOperation!.cancelled

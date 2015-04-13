@@ -80,7 +80,7 @@ class LoginViewController: UIViewController, FBLoginViewDelegate
 
     func transitionToPostsViewController()
     {
-        var viewController = storyboard?.instantiateViewControllerWithIdentifier("MainViewController") as MainViewController
+        var viewController = storyboard?.instantiateViewControllerWithIdentifier("MainViewController") as! MainViewController
         navigationController?.pushViewController(viewController, animated: true)
     }
 }

@@ -142,7 +142,7 @@ class PostsTopBarViewController: UIViewController, UICollectionViewDelegate, UIC
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell
     {
-        let cell = filtersCollectionView.dequeueReusableCellWithReuseIdentifier("FilterCell", forIndexPath: indexPath) as FilterCell
+        let cell = filtersCollectionView.dequeueReusableCellWithReuseIdentifier("FilterCell", forIndexPath: indexPath) as! FilterCell
         
         cell.contentView.autoresizingMask = UIViewAutoresizing.FlexibleWidth
         cell.label.text = system.filters[indexPath.item]
@@ -173,10 +173,9 @@ class PostsTopBarViewController: UIViewController, UICollectionViewDelegate, UIC
         removeFilterAtIndexPath(indexPath)
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent)
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent)
     {
         keywordsTextField.endEditing(true)
-        //timeTextField.endEditing(true)
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool
@@ -191,7 +190,7 @@ class PostsTopBarViewController: UIViewController, UICollectionViewDelegate, UIC
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
     {
-        let textViewRange = NSMakeRange(0, countElements(textField.text))
+        let textViewRange = NSMakeRange(0, count(textField.text))
         
         if (NSEqualRanges(range, textViewRange) && string.isEmpty)
         {
@@ -239,7 +238,7 @@ class PostsTopBarViewController: UIViewController, UICollectionViewDelegate, UIC
     
     func pageViewControllerDidChangeViewController(notification:NSNotification)
     {
-        let userInfo = notification.userInfo as Dictionary<String,AnyObject>
+        let userInfo = notification.userInfo as! Dictionary<String,AnyObject>
         let controller = userInfo["controller"]
         
         if controller is PostViewController
@@ -252,8 +251,8 @@ class PostsTopBarViewController: UIViewController, UICollectionViewDelegate, UIC
     
     func pageViewControllerDidScroll (notification:NSNotification)
     {
-        let userInfo = notification.userInfo as Dictionary<String,AnyObject>
-        let percentage = userInfo["percentage"]! as CGFloat
+        let userInfo = notification.userInfo as! Dictionary<String,AnyObject>
+        let percentage = userInfo["percentage"]! as! CGFloat
         
         if (userInfo["controller"] is PostsViewController && percentage >= 0) || (userInfo["controller"] is PostViewController && percentage <= 1)
         {

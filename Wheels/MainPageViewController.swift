@@ -38,7 +38,7 @@ class MainPageViewController: UIPageViewController,UIPageViewControllerDelegate,
         dataSource = self
         delegate = self
         
-        postsViewController = storyboard?.instantiateViewControllerWithIdentifier("PostsViewController") as PostsViewController
+        postsViewController = storyboard?.instantiateViewControllerWithIdentifier("PostsViewController") as! PostsViewController
        
         rightViewController = storyboard?.instantiateViewControllerWithIdentifier("RightViewController") as? RightViewController!
         
@@ -71,7 +71,7 @@ class MainPageViewController: UIPageViewController,UIPageViewControllerDelegate,
     
     func scrollViewDidScroll(scrollView : UIScrollView)
     {
-        let controller = viewControllers.last as UIViewController
+        let controller = viewControllers.last as! UIViewController
         
         var percentage: CGFloat = 0
         

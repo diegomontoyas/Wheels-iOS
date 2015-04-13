@@ -232,13 +232,13 @@ class PostViewController: UIViewController, UITextViewDelegate
     {
         var params = ["message":post] as NSDictionary
         
-        FBRequestConnection.startWithGraphPath("/\(kTestsGroupID)/feed", parameters: params, HTTPMethod: "POST", completionHandler:
+        FBRequestConnection.startWithGraphPath("/\(kTestsGroupID)/feed", parameters: params as [NSObject : AnyObject], HTTPMethod: "POST", completionHandler:
             { (connection:FBRequestConnection!, results:AnyObject!, error:NSError!) -> Void in
             
                 if error == nil
                 {
                     println("message published: \(post)")
-                    let postID = results["id"] as String
+                    let postID = results["id"] as! String
                     self.postID = postID
                     self.changeSendButtonToPostSentAndUnhideImFullButton()
                     self.newPostTextView.endEditing(true)
@@ -258,7 +258,7 @@ class PostViewController: UIViewController, UITextViewDelegate
     {
         var params = ["message":comment] as NSDictionary
     
-        FBRequestConnection.startWithGraphPath("/\(postID)/comments", parameters: params, HTTPMethod: "POST", completionHandler:
+        FBRequestConnection.startWithGraphPath("/\(postID)/comments", parameters: params as [NSObject : AnyObject], HTTPMethod: "POST", completionHandler:
             { (connection:FBRequestConnection!, results:AnyObject!, error:NSError!) -> Void in
                 
                 if error == nil
@@ -270,14 +270,14 @@ class PostViewController: UIViewController, UITextViewDelegate
         })
     }
     
-    override func touchesEnded(touches: NSSet, withEvent event: UIEvent)
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent)
     {
         newPostTextView.endEditing(true)
     }
     
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool
     {
-        let textViewRange = NSMakeRange(0, countElements(newPostTextView.text))
+        let textViewRange = NSMakeRange(0, count(newPostTextView.text))
         
         if (NSEqualRanges(range, textViewRange) && text.isEmpty)
         {

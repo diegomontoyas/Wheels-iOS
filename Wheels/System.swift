@@ -180,11 +180,11 @@ class System: NSObject
         
         if error == nil
         {
-            let JSONResponse = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as NSDictionary!
+            let JSONResponse = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary!
             
             if JSONResponse != nil
             {
-                let postsJSON = JSONResponse["data"] as [NSDictionary]
+                let postsJSON = JSONResponse["data"] as! [NSDictionary]
                 var newPosts = false
                 
                 for rawPost in postsJSON
@@ -195,8 +195,8 @@ class System: NSObject
                     
                     if let messageJSON = possibleMessageJSON
                     {
-                        let possibleCommentsJSON = rawPost["comments"]? as [NSDictionary]?
-                        let postID = rawPost["id"] as String
+                        let possibleCommentsJSON = rawPost["comments"] as! [NSDictionary]?
+                        let postID = rawPost["id"] as! String
                         
                         var containsFilters = false
                         var containsTime = true /*= messageJSON.contains(timeTextField.text) || timeTextField.text.isEmpty*/
@@ -216,18 +216,18 @@ class System: NSObject
                         {
                             for commentJSON in commentsJSON
                             {
-                                let messageCommentJSON = commentJSON["message"] as String
+                                let messageCommentJSON = commentJSON["message"] as! String
                                 
                                 if !messageCommentJSON.isEmpty
                                 {
                                     var comment = Comment(comment: messageCommentJSON)
                                     comments.append(comment)
                                     
-                                    let postSenderJSON = rawPost["from"] as NSDictionary!
-                                    let postSenderID = postSenderJSON["id"] as String
+                                    let postSenderJSON = rawPost["from"] as! NSDictionary!
+                                    let postSenderID = postSenderJSON["id"] as! String
                                     
-                                    let commentSenderJSON = commentJSON["from"] as NSDictionary!
-                                    let commentSenderID = commentSenderJSON["id"] as String
+                                    let commentSenderJSON = commentJSON["from"] as! NSDictionary!
+                                    let commentSenderID = commentSenderJSON["id"] as! String
                                     
                                     if commentSenderID == postSenderID
                                     {
@@ -250,10 +250,10 @@ class System: NSObject
                             }
                             else
                             {
-                                let from = rawPost["from"] as NSDictionary!
-                                let senderName = from["name"] as String
-                                let senderID = from["id"] as String
-                                let time = rawPost["createdTime"] as String
+                                let from = rawPost["from"] as! NSDictionary!
+                                let senderName = from["name"] as! String
+                                let senderID = from["id"] as! String
+                                let time = rawPost["createdTime"] as! String
                                 
                                 var post = Post(ID:postID, senderName: senderName, senderID: senderID, post: messageJSON, time:convertServerTimeStringToNSDate(time), full:full)
                                 
@@ -293,19 +293,19 @@ class System: NSObject
         
         if error == nil
         {
-            let postsJSON = result["data"] as Array<AnyObject>
+            let postsJSON = result["data"] as! Array<AnyObject>
             var newPosts = false
             
             for rawPost in postsJSON
             {
                 var comments = [Comment]()
                 
-                let possibleMessageJSON = rawPost["message"] as String?
+                let possibleMessageJSON = rawPost["message"] as! String?
                 
                 if let messageJSON = possibleMessageJSON
                 {
-                    let possibleCommentsJSON = rawPost["comments"]? as FBGraphObject?
-                    let postID = rawPost["id"] as String
+                    let possibleCommentsJSON = rawPost["comments"] as! FBGraphObject?
+                    let postID = rawPost["id"] as! String
                     
                     var containsFilters = false
                     var containsTime = true /*= messageJSON.contains(timeTextField.text) || timeTextField.text.isEmpty*/
@@ -323,20 +323,20 @@ class System: NSObject
                     
                     if let commentsJSON = possibleCommentsJSON
                     {
-                        let dataJSON = commentsJSON["data"] as Array<AnyObject>
+                        let dataJSON = commentsJSON["data"] as! Array<AnyObject>
                         
                         for commentJSON in dataJSON
                         {
-                            let messageCommentJSON = commentJSON["message"] as String
+                            let messageCommentJSON = commentJSON["message"] as! String
                             
                             var comment = Comment(comment: messageCommentJSON)
                             comments.append(comment)
                             
                             let postSenderJSON = rawPost["from"] as AnyObject!
-                            let postSenderID = postSenderJSON["id"] as String
+                            let postSenderID = postSenderJSON["id"] as! String
                             
                             let commentSenderJSON = commentJSON["from"] as AnyObject!
-                            let commentSenderID = commentSenderJSON["id"] as String
+                            let commentSenderID = commentSenderJSON["id"] as! String
                             
                             if commentSenderID == postSenderID
                             {
@@ -358,10 +358,10 @@ class System: NSObject
                         }
                         else
                         {
-                            let from = rawPost["from"] as FBGraphObject
-                            let senderName = from["name"] as String
-                            let senderID = from["id"] as String
-                            let time = rawPost["created_time"] as String
+                            let from = rawPost["from"] as! FBGraphObject
+                            let senderName = from["name"] as! String
+                            let senderID = from["id"] as! String
+                            let time = rawPost["created_time"] as! String
                             
                             var post = Post(ID:postID, senderName: senderName, senderID: senderID, post: messageJSON, time:convertFacebookTimeStringToNSDate(time), full:full)
                             
@@ -439,14 +439,21 @@ class System: NSObject
         checkAfterFilterChangeTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: block, selector: Selector("main"), userInfo: nil, repeats: false)
     }
     
+    func goToPostPageOfPostWithID(ID: String)
+    {
+        UIApplication.sharedApplication().openURL( NSURL(string:"http://facebook.com/"+ID)!)
+    }
+    
     func goToProfilePageOfPersonWithID(ID: String)
     {
-        FBRequestConnection.startWithGraphPath("/?id=http://facebook.com/"+ID, completionHandler: { (connection:FBRequestConnection!, result:AnyObject!, error:NSError!) -> Void in
+        UIApplication.sharedApplication().openURL( NSURL(string:"http://facebook.com/"+ID)!)
+
+        /*FBRequestConnection.startWithGraphPath("/?id=http://facebook.com/"+ID, completionHandler: { (connection:FBRequestConnection!, result:AnyObject!, error:NSError!) -> Void in
             
             if error == nil
             {
-                let ngObject = result["og_object"] as FBGraphObject
-                let profilePageID = ngObject["id"] as String
+                let ngObject = result["og_object"] as! FBGraphObject
+                let profilePageID = ngObject["id"] as! String
                 
                 let facebookURL = NSURL(string:"fb://page?id=" + profilePageID)
                 
@@ -459,7 +466,7 @@ class System: NSObject
                     UIApplication.sharedApplication().openURL( NSURL(string:"http://facebook.com/"+ID)!)
                 }
             }
-        })
+        })*/
     }
     
     func convertFacebookTimeStringToNSDate(time:String) -> NSDate

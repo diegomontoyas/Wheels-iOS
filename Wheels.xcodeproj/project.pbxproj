@@ -11,7 +11,6 @@
 		F114E10119F9C52500259ED5 /* PostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F114E10019F9C52500259ED5 /* PostsViewController.swift */; };
 		F114E10619F9C52500259ED5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F114E10519F9C52500259ED5 /* Images.xcassets */; };
 		F114E10919F9C52500259ED5 /* LaunchScreenOld.xib in Resources */ = {isa = PBXBuildFile; fileRef = F114E10719F9C52500259ED5 /* LaunchScreenOld.xib */; };
-		F114E11519F9C52600259ED5 /* WheelsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F114E11419F9C52600259ED5 /* WheelsTests.swift */; };
 		F114E12119F9C75E00259ED5 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F114E12019F9C75E00259ED5 /* PostCell.swift */; };
 		F11928FE1A2B8565007E37C0 /* RightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11928FD1A2B8565007E37C0 /* RightViewController.swift */; };
 		F1224C591A0282D300AB3A7B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1224C581A0282D300AB3A7B /* LoginViewController.swift */; };
@@ -42,16 +41,6 @@
 		F1D135431A8197BE00ECF105 /* wheelsserver.keystore in Resources */ = {isa = PBXBuildFile; fileRef = F1D135421A8197BE00ECF105 /* wheelsserver.keystore */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		F114E10F19F9C52600259ED5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F114E0F119F9C52500259ED5 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F114E0F819F9C52500259ED5;
-			remoteInfo = Wheels;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		F114E0F919F9C52500259ED5 /* Wheels.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wheels.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F114E0FD19F9C52500259ED5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -59,9 +48,6 @@
 		F114E10019F9C52500259ED5 /* PostsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsViewController.swift; sourceTree = "<group>"; };
 		F114E10519F9C52500259ED5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		F114E10819F9C52500259ED5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreenOld.xib; sourceTree = "<group>"; };
-		F114E10E19F9C52600259ED5 /* WheelsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WheelsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F114E11319F9C52600259ED5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F114E11419F9C52600259ED5 /* WheelsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheelsTests.swift; sourceTree = "<group>"; };
 		F114E12019F9C75E00259ED5 /* PostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		F11928FD1A2B8565007E37C0 /* RightViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RightViewController.swift; sourceTree = "<group>"; };
 		F1224C581A0282D300AB3A7B /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -113,13 +99,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F114E10B19F9C52600259ED5 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -127,7 +106,6 @@
 			isa = PBXGroup;
 			children = (
 				F114E0FB19F9C52500259ED5 /* Wheels */,
-				F114E11119F9C52600259ED5 /* WheelsTests */,
 				F114E0FA19F9C52500259ED5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -136,7 +114,6 @@
 			isa = PBXGroup;
 			children = (
 				F114E0F919F9C52500259ED5 /* Wheels.app */,
-				F114E10E19F9C52600259ED5 /* WheelsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -171,23 +148,6 @@
 				F1AF8DA01A29911F00CBBAD3 /* NSDateTimeAgo.bundle */,
 				F156CBDD19F9CA290028BDA0 /* FacebookSDK.framework */,
 				F114E0FD19F9C52500259ED5 /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		F114E11119F9C52600259ED5 /* WheelsTests */ = {
-			isa = PBXGroup;
-			children = (
-				F114E11419F9C52600259ED5 /* WheelsTests.swift */,
-				F114E11219F9C52600259ED5 /* Supporting Files */,
-			);
-			path = WheelsTests;
-			sourceTree = "<group>";
-		};
-		F114E11219F9C52600259ED5 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				F114E11319F9C52600259ED5 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -295,24 +255,6 @@
 			productReference = F114E0F919F9C52500259ED5 /* Wheels.app */;
 			productType = "com.apple.product-type.application";
 		};
-		F114E10D19F9C52600259ED5 /* WheelsTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = F114E11B19F9C52600259ED5 /* Build configuration list for PBXNativeTarget "WheelsTests" */;
-			buildPhases = (
-				F114E10A19F9C52600259ED5 /* Sources */,
-				F114E10B19F9C52600259ED5 /* Frameworks */,
-				F114E10C19F9C52600259ED5 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				F114E11019F9C52600259ED5 /* PBXTargetDependency */,
-			);
-			name = WheelsTests;
-			productName = WheelsTests;
-			productReference = F114E10E19F9C52600259ED5 /* WheelsTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -331,10 +273,6 @@
 							};
 						};
 					};
-					F114E10D19F9C52600259ED5 = {
-						CreatedOnToolsVersion = 6.0;
-						TestTargetID = F114E0F819F9C52500259ED5;
-					};
 				};
 			};
 			buildConfigurationList = F114E0F419F9C52500259ED5 /* Build configuration list for PBXProject "Wheels" */;
@@ -351,7 +289,6 @@
 			projectRoot = "";
 			targets = (
 				F114E0F819F9C52500259ED5 /* Wheels */,
-				F114E10D19F9C52600259ED5 /* WheelsTests */,
 			);
 		};
 /* End PBXProject section */
@@ -369,13 +306,6 @@
 				F1C8B14D1A6F2938002B4837 /* readme.txt in Resources */,
 				F114E10919F9C52500259ED5 /* LaunchScreenOld.xib in Resources */,
 				F114E10619F9C52500259ED5 /* Images.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F114E10C19F9C52600259ED5 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,23 +342,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F114E10A19F9C52600259ED5 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F114E11519F9C52600259ED5 /* WheelsTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		F114E11019F9C52600259ED5 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F114E0F819F9C52500259ED5 /* Wheels */;
-			targetProxy = F114E10F19F9C52600259ED5 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		F114E10719F9C52500259ED5 /* LaunchScreenOld.xib */ = {
@@ -543,6 +457,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = Wheels;
 				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "Wheels/Bridging-Header.h";
 			};
 			name = Debug;
@@ -563,41 +478,8 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = Wheels;
 				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "Wheels/Bridging-Header.h";
-			};
-			name = Release;
-		};
-		F114E11C19F9C52600259ED5 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = WheelsTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = WheelsTests;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Wheels.app/Wheels";
-			};
-			name = Debug;
-		};
-		F114E11D19F9C52600259ED5 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = WheelsTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = WheelsTests;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Wheels.app/Wheels";
 			};
 			name = Release;
 		};
@@ -618,15 +500,6 @@
 			buildConfigurations = (
 				F114E11919F9C52600259ED5 /* Debug */,
 				F114E11A19F9C52600259ED5 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		F114E11B19F9C52600259ED5 /* Build configuration list for PBXNativeTarget "WheelsTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				F114E11C19F9C52600259ED5 /* Debug */,
-				F114E11D19F9C52600259ED5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
