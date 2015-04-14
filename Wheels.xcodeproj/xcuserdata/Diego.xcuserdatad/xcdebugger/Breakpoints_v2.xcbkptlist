@@ -20,13 +20,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "Yes"
             filePath = "Wheels/System.swift"
-            timestampString = "450725340.694931"
+            timestampString = "450740692.925084"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "207"
-            endingLineNumber = "207"
-            landmarkName = "System"
-            landmarkType = "3">
+            startingLineNumber = "156"
+            endingLineNumber = "156"
+            landmarkName = "reCheckDeletingRecentPosts(_:)"
+            landmarkType = "5">
             <Actions>
                <BreakpointActionProxy
                   ActionExtensionID = "Xcode.BreakpointAction.Log">
@@ -36,6 +36,38 @@
                   </ActionContent>
                </BreakpointActionProxy>
             </Actions>
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Wheels.System.(reCheckDeletingRecentPosts (Wheels.System) -&gt; (Swift.Bool) -&gt; ()).(closure #1).(closure #2).(closure #1).(closure #1)"
+                  moduleName = "Wheels"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Diego/Repositories/wheelsios/Wheels/System.swift"
+                  timestampString = "450740692.966636"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "156"
+                  endingLineNumber = "156"
+                  offsetFromSymbolStart = "5436">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Wheels.System.(reCheckDeletingRecentPosts (Wheels.System) -&gt; (Swift.Bool) -&gt; ()).(closure #1).(closure #2).(closure #1).(closure #1)"
+                  moduleName = "Wheels"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Diego/Repositories/wheelsios/Wheels/System.swift"
+                  timestampString = "450740692.966772"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "156"
+                  endingLineNumber = "156"
+                  offsetFromSymbolStart = "5492">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

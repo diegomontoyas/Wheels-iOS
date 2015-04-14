@@ -30,9 +30,6 @@ let kUseFacebookDeveloperConnection = true
 
 class System: NSObject
 {
-    let processPostsQueuePeriodic = NSOperationQueue()
-    let processPostsQueueUserInvoked = NSOperationQueue()
-    
     let reCheckInterval = 10.0
     
     weak var postsDelegate:PostsDelegate?
@@ -56,12 +53,6 @@ class System: NSObject
     override init()
     {
         super.init()
-        
-        processPostsQueuePeriodic.maxConcurrentOperationCount = 1
-        processPostsQueuePeriodic.qualityOfService = NSQualityOfService.Utility
-        
-        processPostsQueueUserInvoked.maxConcurrentOperationCount = 1
-        processPostsQueueUserInvoked.qualityOfService = NSQualityOfService.UserInitiated
     }
     
     class func S() -> System
@@ -120,19 +111,9 @@ class System: NSObject
                 let JSONResponse = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary!
                 let postsJSON = JSONResponse["data"] as! [AnyObject]
                 
-                if deletingRecentPosts
-                {
-                    self.processPostsQueueUserInvoked.addOperationWithBlock {
-                        
-                        self.receivedFacebookPostsInfoWithJSONData(postsJSON, error: error, deleteRecentPosts:deletingRecentPosts)
-                    }
-                }
-                else
-                {
-                    self.processPostsQueuePeriodic.addOperationWithBlock {
-                        
-                        self.receivedFacebookPostsInfoWithJSONData(postsJSON, error: error, deleteRecentPosts:deletingRecentPosts)
-                    }
+                dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
+                
+                    self.receivedFacebookPostsInfoWithJSONData(postsJSON, error: error, deleteRecentPosts:deletingRecentPosts)
                 }
             }
             else
@@ -181,20 +162,7 @@ class System: NSObject
                                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                             }
                             
-                            if deletingRecentPosts
-                            {
-                                self.processPostsQueueUserInvoked.addOperationWithBlock {
-                                    
-                                    self.receivedFacebookPostsInfoWithJSONData(JSONPosts, error: error, deleteRecentPosts:deletingRecentPosts)
-                                }
-                            }
-                            else
-                            {
-                                self.processPostsQueuePeriodic.addOperationWithBlock {
-                                    
-                                    self.receivedFacebookPostsInfoWithJSONData(JSONPosts, error: error, deleteRecentPosts:deletingRecentPosts)
-                                }
-                            }
+                            self.receivedFacebookPostsInfoWithJSONData(JSONPosts, error: error, deleteRecentPosts:deletingRecentPosts)
                         }
                     })
                     return
@@ -202,117 +170,6 @@ class System: NSObject
             }
         }
     }
-    
-    /*private func receivedFacebookPostsInfoWithResponse(response:NSURLResponse!, JSONResponse:NSDictionary!, error:NSError?, deleteRecentPosts:Bool)
-    {
-        if deleteRecentPosts
-        {
-            self.mutablePosts = []
-            self.postsDictionary = [:]
-        }
-        
-        if error == nil
-        {
-            if JSONResponse != nil
-            {
-                let postsJSON = JSONResponse["data"] as! [NSDictionary]
-                var newPosts = false
-                
-                for rawPost in postsJSON
-                {
-                    var comments = [Comment]()
-                    
-                    let possibleMessageJSON = rawPost["message"] as? String
-                    
-                    if let messageJSON = possibleMessageJSON
-                    {
-                        let possibleCommentsJSON = rawPost["comments"] as! [NSDictionary]?
-                        let postID = rawPost["id"] as! String
-                        
-                        var containsFilters = false
-                        var containsTime = true /*= messageJSON.contains(timeTextField.text) || timeTextField.text.isEmpty*/
-                        
-                        for filter in filters
-                        {
-                            if messageJSON.contains(filter)
-                            {
-                                containsFilters = true
-                                break
-                            }
-                        }
-                        
-                        var full = false
-                        
-                        if let commentsJSON = possibleCommentsJSON
-                        {
-                            for commentJSON in commentsJSON
-                            {
-                                let messageCommentJSON = commentJSON["message"] as! String
-                                
-                                if !messageCommentJSON.isEmpty
-                                {
-                                    var comment = Comment(comment: messageCommentJSON)
-                                    comments.append(comment)
-                                    
-                                    let postSenderJSON = rawPost["from"] as! NSDictionary!
-                                    let postSenderID = postSenderJSON["id"] as! String
-                                    
-                                    let commentSenderJSON = commentJSON["from"] as! NSDictionary!
-                                    let commentSenderID = commentSenderJSON["id"] as! String
-                                    
-                                    if commentSenderID == postSenderID
-                                    {
-                                        if messageCommentJSON.contains("lleno") || messageCommentJSON.contains("llena")
-                                            || ( messageCommentJSON.contains("no") && (messageCommentJSON.contains("quedan") || messageCommentJSON.contains("hay") || messageCommentJSON.contains("tengo")) && messageCommentJSON.contains("cupos") )
-                                        {
-                                            full = true
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        
-                        if containsTime && (containsFilters || filters.isEmpty)
-                        {
-                            if let existingPost = postsDictionary[postID]
-                            {
-                                existingPost.comments = comments
-                                existingPost.full = full
-                            }
-                            else
-                            {
-                                let from = rawPost["from"] as! NSDictionary!
-                                let senderName = from["name"] as! String
-                                let senderID = from["id"] as! String
-                                let time = rawPost["createdTime"] as! String
-                                
-                                var post = Post(ID:postID, senderName: senderName, senderID: senderID, post: messageJSON, time:convertServerTimeStringToNSDate(time), full:full)
-                                
-                                post.comments = comments
-                                mutablePosts.insert(post, atIndex: 0)
-                                postsDictionary[postID] = post
-                                newPosts = true
-                            }
-                        }
-                    }
-                }
-                
-                mutablePosts.sort({ (postA:Post, postB:Post) -> Bool in
-                    
-                    return postA.time?.compare(postB.time!) == NSComparisonResult.OrderedDescending
-                })
-                
-                lastCheckPosts = mutablePosts
-                
-                if !deleteRecentPosts && newPosts
-                {
-                    self.vibrate()
-                }
-                
-                self.postsDelegate?.systemDidReceiveNewPosts()
-            }
-        }
-    }*/
     
     private func receivedFacebookPostsInfoWithJSONData(JSONData: [AnyObject]!, error: NSError!, deleteRecentPosts:Bool)
     {
@@ -364,10 +221,10 @@ class System: NSObject
                             var comment = Comment(comment: messageCommentJSON)
                             comments.append(comment)
                             
-                            let postSenderJSON = rawPost["from"] as AnyObject!
+                            let postSenderJSON = rawPost["from"] as! NSDictionary
                             let postSenderID = postSenderJSON["id"] as! String
                             
-                            let commentSenderJSON = commentJSON["from"] as AnyObject!
+                            let commentSenderJSON = commentJSON["from"] as! NSDictionary
                             let commentSenderID = commentSenderJSON["id"] as! String
                             
                             if commentSenderID == postSenderID
