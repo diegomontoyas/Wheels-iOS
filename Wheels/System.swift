@@ -142,6 +142,23 @@ class System: NSObject
                         
                         println("Didn't receive from backend, received from facebook: \(NSDate())")
                         
+                        let JSONPaging = result["paging"] as! NSDictionary
+                        
+                        /*if let nextPageURLString = JSONPaging["next"] as? String
+                        {
+                            let nextPageURL =  NSURL(string: nextPageURLString)!
+                            var request = NSMutableURLRequest(URL: nextPageURL)
+                            request.HTTPMethod = "GET"
+                            request.timeoutInterval = 2
+
+                            let JSONPagingData = NSURLConnection.sendSynchronousRequest(request, returningResponse: nil, error: nil)
+                            
+                            let JSONPagingResponse = NSJSONSerialization.JSONObjectWithData(JSONPagingData!, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary!
+
+                            let JSONArray = JSONPagingResponse["data"] as! NSArray
+                        
+                        }*/
+                        
                         self.checkOperationCount--
                         
                         if self.checkOperationCount == 0

@@ -83,7 +83,7 @@ class PostsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         view.bringSubviewToFront(grabber)
         
         let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: Selector("didLongPressCell:"))
-        longPressGestureRecognizer.minimumPressDuration = 1.5
+        longPressGestureRecognizer.minimumPressDuration = 0.8
         longPressGestureRecognizer.delegate = self
         tableView.addGestureRecognizer(longPressGestureRecognizer)
         
