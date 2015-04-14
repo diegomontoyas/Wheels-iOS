@@ -117,18 +117,21 @@ class System: NSObject
                     UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 }
                 
+                let JSONResponse = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary!
+                let postsJSON = JSONResponse["data"] as! [AnyObject]
+                
                 if deletingRecentPosts
                 {
                     self.processPostsQueueUserInvoked.addOperationWithBlock {
                         
-                        self.receivedFacebookPostsInfoWithResponse(response, data: data, error: error, deleteRecentPosts:deletingRecentPosts)
+                        self.receivedFacebookPostsInfoWithJSONData(postsJSON, error: error, deleteRecentPosts:deletingRecentPosts)
                     }
                 }
                 else
                 {
                     self.processPostsQueuePeriodic.addOperationWithBlock {
                         
-                        self.receivedFacebookPostsInfoWithResponse(response, data: data, error: error, deleteRecentPosts:deletingRecentPosts)
+                        self.receivedFacebookPostsInfoWithJSONData(postsJSON, error: error, deleteRecentPosts:deletingRecentPosts)
                     }
                 }
             }
@@ -136,28 +139,38 @@ class System: NSObject
             {
                 dispatch_async(dispatch_get_main_queue()){
                     
-                    let limit = deletingRecentPosts ? 200 : 50
+                    let limit = deletingRecentPosts ? 100 : 20
                     
                     FBRequestConnection.startWithGraphPath("\(kWheelsGroupID)/feed?limit=\(limit)", completionHandler: { (connection: FBRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
                         
                         println("Didn't receive from backend, received from facebook: \(NSDate())")
                         
-                        let JSONPaging = result["paging"] as! NSDictionary
+                        var JSONPosts = result["data"] as! [AnyObject]
+
+                        var currentJSONPaging = result["paging"] as! NSDictionary
+                        var currentJSONPagingResponse = result as! NSDictionary
                         
-                        /*if let nextPageURLString = JSONPaging["next"] as? String
+                        while let nextPageURLString = currentJSONPaging["next"] as? String
                         {
                             let nextPageURL =  NSURL(string: nextPageURLString)!
                             var request = NSMutableURLRequest(URL: nextPageURL)
                             request.HTTPMethod = "GET"
                             request.timeoutInterval = 2
 
-                            let JSONPagingData = NSURLConnection.sendSynchronousRequest(request, returningResponse: nil, error: nil)
+                            let pagingData = NSURLConnection.sendSynchronousRequest(request, returningResponse: nil, error: nil)
                             
-                            let JSONPagingResponse = NSJSONSerialization.JSONObjectWithData(JSONPagingData!, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary!
+                            currentJSONPagingResponse = NSJSONSerialization.JSONObjectWithData(pagingData!, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary!
 
-                            let JSONArray = JSONPagingResponse["data"] as! NSArray
-                        
-                        }*/
+                            let JSONArray = currentJSONPagingResponse["data"] as! [AnyObject]
+                            JSONPosts += JSONArray
+                            
+                            if JSONPosts.count >= limit
+                            {
+                                break
+                            }
+                            
+                            currentJSONPaging = currentJSONPagingResponse["paging"] as! NSDictionary
+                        }
                         
                         self.checkOperationCount--
                         
@@ -170,14 +183,14 @@ class System: NSObject
                         {
                             self.processPostsQueueUserInvoked.addOperationWithBlock {
                                 
-                                self.receivedFacebookPostsInfoWithConnection(connection, result: result, error: error, deleteRecentPosts:deletingRecentPosts)
+                                self.receivedFacebookPostsInfoWithJSONData(JSONPosts, error: error, deleteRecentPosts:deletingRecentPosts)
                             }
                         }
                         else
                         {
                             self.processPostsQueuePeriodic.addOperationWithBlock {
                                 
-                                self.receivedFacebookPostsInfoWithConnection(connection, result: result, error: error, deleteRecentPosts:deletingRecentPosts)
+                                self.receivedFacebookPostsInfoWithJSONData(JSONPosts, error: error, deleteRecentPosts:deletingRecentPosts)
                             }
                         }
                     })
@@ -187,7 +200,7 @@ class System: NSObject
         }
     }
     
-    private func receivedFacebookPostsInfoWithResponse(response:NSURLResponse!, data:NSData!, error:NSError?, deleteRecentPosts:Bool)
+    /*private func receivedFacebookPostsInfoWithResponse(response:NSURLResponse!, JSONResponse:NSDictionary!, error:NSError?, deleteRecentPosts:Bool)
     {
         if deleteRecentPosts
         {
@@ -197,8 +210,6 @@ class System: NSObject
         
         if error == nil
         {
-            let JSONResponse = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary!
-            
             if JSONResponse != nil
             {
                 let postsJSON = JSONResponse["data"] as! [NSDictionary]
@@ -298,9 +309,9 @@ class System: NSObject
                 self.postsDelegate?.systemDidReceiveNewPosts()
             }
         }
-    }
+    }*/
     
-    private func receivedFacebookPostsInfoWithConnection(connection: FBRequestConnection!, result: AnyObject!, error: NSError!, deleteRecentPosts:Bool)
+    private func receivedFacebookPostsInfoWithJSONData(JSONData: [AnyObject]!, error: NSError!, deleteRecentPosts:Bool)
     {
         if deleteRecentPosts
         {
@@ -310,7 +321,7 @@ class System: NSObject
         
         if error == nil
         {
-            let postsJSON = result["data"] as! Array<AnyObject>
+            let postsJSON = JSONData
             var newPosts = false
             
             for rawPost in postsJSON
@@ -321,7 +332,7 @@ class System: NSObject
                 
                 if let messageJSON = possibleMessageJSON
                 {
-                    let possibleCommentsJSON = rawPost["comments"] as! FBGraphObject?
+                    let possibleCommentsJSON = rawPost["comments"] as! NSDictionary?
                     let postID = rawPost["id"] as! String
                     
                     var containsFilters = false
@@ -340,9 +351,10 @@ class System: NSObject
                     
                     if let commentsJSON = possibleCommentsJSON
                     {
-                        let dataJSON = commentsJSON["data"] as! Array<AnyObject>
+                        // if Fecebook
+                        let commentDataJSON = commentsJSON["data"] as! [AnyObject]
                         
-                        for commentJSON in dataJSON
+                        for commentJSON in commentDataJSON
                         {
                             let messageCommentJSON = commentJSON["message"] as! String
                             
@@ -375,12 +387,14 @@ class System: NSObject
                         }
                         else
                         {
-                            let from = rawPost["from"] as! FBGraphObject
+                            let from = rawPost["from"] as! NSDictionary
                             let senderName = from["name"] as! String
                             let senderID = from["id"] as! String
                             let time = rawPost["created_time"] as! String
                             
                             var post = Post(ID:postID, senderName: senderName, senderID: senderID, post: messageJSON, time:convertFacebookTimeStringToNSDate(time), full:full)
+                            
+                            /*var post = Post(ID:postID, senderName: senderName, senderID: senderID, post: messageJSON, time:convertServerTimeStringToNSDate(time), full:full)*/
                             
                             post.comments = comments
                             mutablePosts.insert(post, atIndex: 0)
@@ -415,19 +429,7 @@ class System: NSObject
     func notifyPost(post:Post)
     {
         println("new post")
-        
-        /*var notification = UILocalNotification()
-        notification.fireDate = NSDate()
-        notification.alertBody = post.post
-        notification.soundName = UILocalNotificationDefaultSoundName;
-        
-        UIApplication.sharedApplication().scheduleLocalNotification(notification)*/
     }
-    
-    /*func stop()
-    {
-    queue.cancelAllOperations()
-    }*/
     
     func addFilter(filter:String)
     {
