@@ -143,54 +143,57 @@ class System: NSObject
                     
                     FBRequestConnection.startWithGraphPath("\(kWheelsGroupID)/feed?limit=\(limit)", completionHandler: { (connection: FBRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
                         
-                        println("Didn't receive from backend, received from facebook: \(NSDate())")
+                        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
                         
-                        var JSONPosts = result["data"] as! [AnyObject]
-
-                        var currentJSONPaging = result["paging"] as! NSDictionary
-                        var currentJSONPagingResponse = result as! NSDictionary
-                        
-                        while let nextPageURLString = currentJSONPaging["next"] as? String
-                        {
-                            let nextPageURL =  NSURL(string: nextPageURLString)!
-                            var request = NSMutableURLRequest(URL: nextPageURL)
-                            request.HTTPMethod = "GET"
-                            request.timeoutInterval = 2
-
-                            let pagingData = NSURLConnection.sendSynchronousRequest(request, returningResponse: nil, error: nil)
+                            println("Didn't receive from backend, received from facebook: \(NSDate())")
                             
-                            currentJSONPagingResponse = NSJSONSerialization.JSONObjectWithData(pagingData!, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary!
-
-                            let JSONArray = currentJSONPagingResponse["data"] as! [AnyObject]
-                            JSONPosts += JSONArray
+                            var JSONPosts = result["data"] as! [AnyObject]
                             
-                            if JSONPosts.count >= limit
+                            var currentJSONPaging = result["paging"] as! NSDictionary
+                            var currentJSONPagingResponse = result as! NSDictionary
+                            
+                            while let nextPageURLString = currentJSONPaging["next"] as? String
                             {
-                                break
+                                let nextPageURL =  NSURL(string: nextPageURLString)!
+                                var request = NSMutableURLRequest(URL: nextPageURL)
+                                request.HTTPMethod = "GET"
+                                request.timeoutInterval = 2
+                                
+                                let pagingData = NSURLConnection.sendSynchronousRequest(request, returningResponse: nil, error: nil)
+                                
+                                currentJSONPagingResponse = NSJSONSerialization.JSONObjectWithData(pagingData!, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary!
+                                
+                                let JSONArray = currentJSONPagingResponse["data"] as! [AnyObject]
+                                JSONPosts += JSONArray
+                                
+                                if JSONPosts.count >= limit
+                                {
+                                    break
+                                }
+                                
+                                currentJSONPaging = currentJSONPagingResponse["paging"] as! NSDictionary
                             }
                             
-                            currentJSONPaging = currentJSONPagingResponse["paging"] as! NSDictionary
-                        }
-                        
-                        self.checkOperationCount--
-                        
-                        if self.checkOperationCount == 0
-                        {
-                            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                        }
-                        
-                        if deletingRecentPosts
-                        {
-                            self.processPostsQueueUserInvoked.addOperationWithBlock {
-                                
-                                self.receivedFacebookPostsInfoWithJSONData(JSONPosts, error: error, deleteRecentPosts:deletingRecentPosts)
+                            self.checkOperationCount--
+                            
+                            if self.checkOperationCount == 0
+                            {
+                                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                             }
-                        }
-                        else
-                        {
-                            self.processPostsQueuePeriodic.addOperationWithBlock {
-                                
-                                self.receivedFacebookPostsInfoWithJSONData(JSONPosts, error: error, deleteRecentPosts:deletingRecentPosts)
+                            
+                            if deletingRecentPosts
+                            {
+                                self.processPostsQueueUserInvoked.addOperationWithBlock {
+                                    
+                                    self.receivedFacebookPostsInfoWithJSONData(JSONPosts, error: error, deleteRecentPosts:deletingRecentPosts)
+                                }
+                            }
+                            else
+                            {
+                                self.processPostsQueuePeriodic.addOperationWithBlock {
+                                    
+                                    self.receivedFacebookPostsInfoWithJSONData(JSONPosts, error: error, deleteRecentPosts:deletingRecentPosts)
+                                }
                             }
                         }
                     })
