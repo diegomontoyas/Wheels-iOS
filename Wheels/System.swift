@@ -126,43 +126,53 @@ class System: NSObject
                         
                         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
                         
-                            println("Didn't receive from backend, received from facebook: \(NSDate())")
-                            
-                            var JSONPosts = result["data"] as! [AnyObject]
-                            
-                            var currentJSONPaging = result["paging"] as! NSDictionary
-                            var currentJSONPagingResponse = result as! NSDictionary
-                            
-                            while let nextPageURLString = currentJSONPaging["next"] as? String
+                            if error == nil && result != nil
                             {
-                                let nextPageURL =  NSURL(string: nextPageURLString)!
-                                var request = NSMutableURLRequest(URL: nextPageURL)
-                                request.HTTPMethod = "GET"
-                                request.timeoutInterval = 2
+                                println("Didn't receive from backend, received from facebook: \(NSDate())")
                                 
-                                let pagingData = NSURLConnection.sendSynchronousRequest(request, returningResponse: nil, error: nil)
+                                var JSONPosts = result["data"] as! [AnyObject]
                                 
-                                currentJSONPagingResponse = NSJSONSerialization.JSONObjectWithData(pagingData!, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary!
+                                var currentJSONPaging = result["paging"] as! NSDictionary
+                                var currentJSONPagingResponse = result as! NSDictionary
                                 
-                                let JSONArray = currentJSONPagingResponse["data"] as! [AnyObject]
-                                JSONPosts += JSONArray
-                                
-                                if JSONPosts.count >= limit
+                                while let nextPageURLString = currentJSONPaging["next"] as? String
                                 {
-                                    break
+                                    let nextPageURL =  NSURL(string: nextPageURLString)!
+                                    var request = NSMutableURLRequest(URL: nextPageURL)
+                                    request.HTTPMethod = "GET"
+                                    request.timeoutInterval = 2
+                                    
+                                    let pagingData = NSURLConnection.sendSynchronousRequest(request, returningResponse: nil, error: nil)
+                                    
+                                    if pagingData != nil
+                                    {
+                                        currentJSONPagingResponse = NSJSONSerialization.JSONObjectWithData(pagingData!, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary!
+                                        
+                                        let JSONArray = currentJSONPagingResponse["data"] as! [AnyObject]
+                                        JSONPosts += JSONArray
+                                        
+                                        if JSONPosts.count >= limit
+                                        {
+                                            break
+                                        }
+                                        
+                                        currentJSONPaging = currentJSONPagingResponse["paging"] as! NSDictionary
+                                    }
+                                    else
+                                    {
+                                        break
+                                    }
                                 }
                                 
-                                currentJSONPaging = currentJSONPagingResponse["paging"] as! NSDictionary
+                                self.checkOperationCount--
+                                
+                                if self.checkOperationCount == 0
+                                {
+                                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                                }
+                                
+                                self.receivedFacebookPostsInfoWithJSONData(JSONPosts, error: error, deleteRecentPosts:deletingRecentPosts)
                             }
-                            
-                            self.checkOperationCount--
-                            
-                            if self.checkOperationCount == 0
-                            {
-                                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                            }
-                            
-                            self.receivedFacebookPostsInfoWithJSONData(JSONPosts, error: error, deleteRecentPosts:deletingRecentPosts)
                         }
                     })
                     return
